@@ -132,12 +132,11 @@ namespace IT.WPF
 	//	}
 	//}
 
-	/// <summary>
-	/// Класс для удобной работы с выделением элементов списками
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	public class IEnumerablePropertyReadOnly<T> : NotifyPropertyChangedBase
+	public abstract class IEnumerablePropertyBase<TList, T> : NotifyPropertyChangedBase where TList : IEnumerable<T>
 	{
+		private T selectedItem;
+
+
 		/// <summary>
 		/// Возникает при изменении свойчтва
 		/// </summary>
@@ -148,50 +147,66 @@ namespace IT.WPF
 		/// <summary>
 		/// Список
 		/// </summary>
-		public virtual IEnumerable<T> List { get; protected set; }
+		public virtual TList List { get; protected set; }
 
 		/// <summary>
 		/// Текущее значение
 		/// </summary>
 		public virtual T SelectedItem
 		{
-			get { return this._Current; }
-			set { this.SetCurrent(value); }
+			get { return this.selectedItem; }
+			set { this.SelectedItem_Set(value); }
 		}
-		private T _Current;
 
 		/// <summary>
 		/// Выбран ли какой-либо элемент в данный момент
 		/// </summary>
-		public bool HasSelected { get { return this.SelectedItem != null; } }
+		public bool HasSelected => this.SelectedItem != null;
 
 		#endregion
 
-		/// <summary>
-		/// Конструктор
-		/// </summary>
-		protected IEnumerablePropertyReadOnly() { }
+
+		protected IEnumerablePropertyBase() { }
 
 		/// <summary>
-		/// Конструктор
+		/// Привязывает метод к событию
 		/// </summary>
-		/// <param name="list"></param>
-		public IEnumerablePropertyReadOnly(IEnumerable<T> list)
+		/// <param name="selectedChanged">Метод, запускаемый при возникновении события</param>
+		protected IEnumerablePropertyBase(Action<T> selectedChanged)
 		{
-			Contract.Requires<ArgumentException>(list != null, "list");
-			this.List = list;
+			if (selectedChanged != null)
+				this.SelectedChanged += (s, e) => selectedChanged(e.Value);
 		}
+
+
+		/// <summary>
+		/// Поиск по списку
+		/// </summary>
+		/// <param name="pred">Услоаие поиска</param>
+		/// <param name="changeCurrent">Следует ли заполнять результатом свойство Current</param>
+		/// <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
+		/// <returns></returns>
+		public virtual T Select(Predicate<T> pred, bool changeCurrent = false, bool isRaiseEvent = true)
+		{
+			T ret = this.List == null ? default(T) : this.List.FirstOrDefault(i => pred(i));
+			if (changeCurrent)
+			{
+				this.SelectedItem_Set(ret, isRaiseEvent);
+			}
+			return ret;
+		}
+
 
 		/// <summary>
 		/// Устанавливает значение this._Current
 		/// </summary>
 		/// <param name="value">Значение</param>
 		/// <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
-		public virtual void SetCurrent(T value, bool isRaiseEvent = true)
+		protected virtual void SelectedItem_Set(T value, bool isRaiseEvent = true)
 		{
-			if (!object.Equals(this._Current, value))
+			if (!object.Equals(this.selectedItem, value))
 			{
-				this._Current = value;
+				this.selectedItem = value;
 				if (isRaiseEvent)
 					this.OnSelectedChanged(value);
 				else
@@ -203,59 +218,31 @@ namespace IT.WPF
 		}
 
 		/// <summary>
-		/// Поиск по списку
-		/// </summary>
-		/// <param name="pred">Услоаие поиска</param>
-		/// <param name="changeCurrent">Следует ли заполнять результатом свойство Current</param>
-		/// <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
-		/// <returns></returns>
-		public virtual T Select(Predicate<T> pred, bool changeCurrent, bool isRaiseEvent)
-		{
-			T ret = this.List == null ? default(T) : this.List.FirstOrDefault(i => pred(i));
-			if (changeCurrent)
-			{
-				this.SetCurrent(ret, isRaiseEvent);
-			}
-			return ret;
-		}
-
-
-		/// <summary>
 		/// Вызов OnPropertyChanged("Current") и соответствующего события
 		/// </summary>
 		/// <param name="value">Выбор для передачи в событие</param>
 		protected virtual void OnSelectedChanged(T value)
 		{
-			this.OnPropertyChanged("Current");
 			this.OnPropertyChanged("SelectedItem");
-			if (this.SelectedChanged != null)
-				this.SelectedChanged(this, new EventArgs<T>(value));
+			this.SelectedChanged?.Invoke(this, new EventArgs<T>(value));
 		}
-
-		/// <summary>
-		/// Привязывает метод к событию
-		/// </summary>
-		/// <param name="selectedChanged">Метод, запускаемый при возникновении события</param>
-		protected virtual void SetSelectedChanged(Action<T> selectedChanged)
-		{
-			Contract.Requires<ArgumentException>(selectedChanged != null, "selectedChanged");
-			this.SelectedChanged += (s, e) => selectedChanged(e.Value);
-		}
-
 	}
 
 	/// <summary>
 	/// Класс для удобной работы со списками в WPF
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class IEnumerableProperty<T> : IEnumerablePropertyReadOnly<T>
+	public class IEnumerableProperty<TList, T> : IEnumerablePropertyBase<TList, T> where TList : class, IEnumerable<T>
 	{
+		private TList list;
+
+
 		#region Events
 
 		/// <summary>
 		/// Event
 		/// </summary>
-		public event EventHandler<EventArgs<IEnumerable<T>>> ListChanged;
+		public event EventHandler<EventArgs<TList>> ListChanged;
 
 		/// <summary>
 		/// Возникает при смене состояния IsWorking (используется только при асинхронных операциях)
@@ -268,20 +255,19 @@ namespace IT.WPF
 		/// <summary>
 		/// Метод получения списка из конструктора
 		/// </summary>
-		protected Func<IEnumerable<T>> fGetList;
+		protected readonly Func<TList> fGetList;
 
 		/// <summary>
 		/// Метод заполнения списка из конструктора
 		/// </summary>
-		protected Action<Action<IEnumerable<T>>> fGetListAsync;
+		protected readonly Action<Action<TList>> fGetListAsync;
 
 		#region Properties
 
 		/// <summary>
 		/// Список
 		/// </summary>
-		public override IEnumerable<T> List { get { return this._list ?? this.GetList(); } }
-		private IEnumerable<T> _list;
+		public override TList List { get { return this.list ?? this.GetList(); } }
 
 		/// <summary>
 		/// Текущее значение
@@ -300,22 +286,14 @@ namespace IT.WPF
 
 		#endregion
 
-		/// <summary>
-		/// Конструктор
-		/// </summary>
-		protected IEnumerableProperty(Action<T> selectedChanged = null)
-		{
-			if (selectedChanged != null)
-				this.SetSelectedChanged(selectedChanged);
-		}
 
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="getList">Функсия получения списка</param>
 		/// <param name="selectedChanged">Подписчик соответствующего события</param>
-		public IEnumerableProperty(Func<IEnumerable<T>> getList, Action<T> selectedChanged = null)
-			: this(selectedChanged)
+		public IEnumerableProperty(Func<TList> getList, Action<T> selectedChanged = null)
+			: base(selectedChanged)
 		{
 			Contract.Requires<ArgumentException>(getList != null, "getList");
 
@@ -327,26 +305,28 @@ namespace IT.WPF
 		/// </summary>
 		/// <param name="getListAsync">Передает метод (типа SrtData()) для использования при готовности данных</param>
 		/// <param name="selectedChanged">Подписчик соответствующего события</param>
-		public IEnumerableProperty(Action<Action<IEnumerable<T>>> getListAsync, Action<T> selectedChanged = null)
-			: this(selectedChanged)
+		public IEnumerableProperty(Action<Action<TList>> getListAsync, Action<T> selectedChanged = null)
+			: base(selectedChanged)
 		{
-			Contract.Requires<ArgumentException>(getListAsync != null, "getList");
+			Contract.NotNull(getListAsync, "getListAsync");
 
 			this.fGetListAsync = getListAsync;
 		}
+
+		#region reset
 
 		/// <summary>
 		/// Сброс списка в указанное значение
 		/// </summary>
 		/// <param name="data">Данные для списка</param>
-		public virtual void Reset(IEnumerable<T> data)
+		public virtual void Reset(TList data)
 		{
 			try
 			{
 				this.SelectedItem = default(T);
-				this._list = data;
-				var l = this.List;	//	принудительное заполнение списка
-				this.OnListChanged(this._list);
+				this.list = data;
+				var l = this.List;  //	принудительное заполнение списка
+				this.OnListChanged(this.list);
 			}
 			finally
 			{
@@ -355,7 +335,7 @@ namespace IT.WPF
 		}
 
 		/// <summary>
-		/// Сброс списка, и принудительное заполнение из источника (из конструктора)
+		/// Сброс списка, и принудительное заполнение из источника (метод из конструктора)
 		/// </summary>
 		public virtual void Reset()
 		{
@@ -368,26 +348,17 @@ namespace IT.WPF
 		public virtual void ResetAsync()
 		{
 			this.OnIsWorkingChanged(true);
-			System.Threading.ThreadPool.QueueUserWorkItem(o => this.Reset());
+			ThreadPool.QueueUserWorkItem(o => this.Reset());
 		}
 
-		/// <summary>
-		/// Поиск по списку
-		/// </summary>
-		/// <param name="pred">Услоаие поиска</param>
-		/// <param name="changeCurrent">Следует ли заполнять результатом свойство Current</param>
-		/// <returns></returns>
-		public virtual T Select(Predicate<T> pred, bool changeCurrent = false)
-		{
-			return this.Select(pred, changeCurrent, true);
-		}
+		#endregion
 
 
 		/// <summary>
 		/// Создает список для поля List посредством вызова метод из конструктора
 		/// </summary>
 		/// <returns>Результат перегрузки с параметром от метода из конструктора</returns>
-		protected virtual IEnumerable<T> GetListInternal()
+		protected virtual TList GetListInternal()
 		{
 			if (this.fGetList != null)
 			{
@@ -398,7 +369,7 @@ namespace IT.WPF
 			if (this.fGetListAsync != null)
 			{
 				this.OnIsWorkingChanged(true);
-				System.Threading.ThreadPool.QueueUserWorkItem(o => fGetListAsync((Action<IEnumerable<T>>)o), (object)(Action<IEnumerable<T>>)this.Reset);
+				System.Threading.ThreadPool.QueueUserWorkItem(o => fGetListAsync((Action<TList>)o), (object)(Action<TList>)this.Reset);
 			}
 
 			return null;
@@ -408,11 +379,10 @@ namespace IT.WPF
 		/// Вызов OnPropertyChanged("List") и соответствующего события
 		/// </summary>
 		/// <param name="list">Список для передачи в событие</param>
-		protected virtual void OnListChanged(IEnumerable<T> list)
+		protected virtual void OnListChanged(TList list)
 		{
 			this.OnPropertyChanged("List");
-			if (this.ListChanged != null)
-				this.ListChanged(this, new EventArgs<IEnumerable<T>>(list));
+			this.ListChanged?.Invoke(this, new EventArgs<TList>(list));
 		}
 
 		/// <summary>
@@ -427,33 +397,24 @@ namespace IT.WPF
 				this.IsWorkingChanged(this, EventArgs.Empty);
 		}
 
-		/// <summary>
-		/// Вызов OnPropertyChanged("Current") и соответствующего события
-		/// </summary>
-		/// <param name="value">Выбор для передачи в событие</param>
-		protected override void OnSelectedChanged(T value)
-		{
-			base.OnSelectedChanged(value);
-			this.OnPropertyChanged("Current");
-		}
 
 		/// <summary>
 		/// Запускается исключительно из свойства List + запуск событий
 		/// </summary>
 		/// <returns></returns>
-		private IEnumerable<T> GetList()
+		private TList GetList()
 		{
-			IEnumerable<T> l = null;
+			TList l = null;
 #if !SILVERLIGHT
 			this.Debug("()");
 			try
 			{
 #endif
 				l = this.GetListInternal();
-				if (!object.Equals(this._list, l))
+				if (!object.Equals(this.list, l))
 				{
-					this._list = l;
-					this.OnListChanged(this._list);
+					this.list = l;
+					this.OnListChanged(this.list);
 				}
 #if !SILVERLIGHT
 			}
@@ -463,56 +424,39 @@ namespace IT.WPF
 			}
 #endif
 
-			return this._list;
+			return this.list;
 		}
-
 	}
+
 
 	/// <summary>
-	/// Класс для удобной работы со списками в WPF + Caption
+	/// Класс для удобной работы с выделением элементов списками
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class IEnumerablePropertyEx<T> : IEnumerableProperty<T>
+	public class IEnumerablePropertyReadOnly<T> : IEnumerablePropertyBase<IEnumerable<T>, T>
 	{
-
 		/// <summary>
-		/// Заголовок свойства
+		/// Конструктор
 		/// </summary>
-		public virtual string Caption { get; protected set; }
+		protected IEnumerablePropertyReadOnly() { }
 
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="caption">Заголовок</param>
-		protected IEnumerablePropertyEx(string caption)
+		/// <param name="list"></param>
+		public IEnumerablePropertyReadOnly(IEnumerable<T> list)
 		{
-			this.Caption = caption;
+			Contract.NotNull(list, "list");
+			this.List = list;
 		}
+	}
 
-
-		/// <summary>
-		/// Конструктор
-		/// </summary>
-		/// <param name="caption">Заголовок</param>
-		/// <param name="getList">Метод для получения записей</param>
-		/// <param name="selectedChanged"></param>
-		public IEnumerablePropertyEx(string caption, Func<IEnumerable<T>> getList, Action<T> selectedChanged = null)
+	public class IEnumerableProperty<T> : IEnumerableProperty<IEnumerable<T>, T>
+	{
+		public IEnumerableProperty(Func<IEnumerable<T>> getList, Action<T> selectedChanged = null)
 			: base(getList, selectedChanged)
 		{
-			this.Caption = caption;
 		}
-
-		/// <summary>
-		/// Конструктор
-		/// </summary>
-		/// <param name="caption">Заголовок</param>
-		/// <param name="getListAsync">Передает метод (типа SrtData()) для использования при готовности данных</param>
-		/// <param name="selectedChanged">Подписчик соответствующего события</param>
-		public IEnumerablePropertyEx(string caption, Action<Action<IEnumerable<T>>> getListAsync, Action<T> selectedChanged = null)
-			: base(getListAsync, selectedChanged)
-		{
-			this.Caption = caption;
-		}
-
 	}
+
 }

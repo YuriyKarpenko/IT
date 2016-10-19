@@ -59,13 +59,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>..\..\Release\</OutputPath>
+    <OutputPath>..\Release\</OutputPath>
     <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>..\..\Release\</OutputPath>
-    <DocumentationFile>..\..\Release\IT.XML</DocumentationFile>
+    <OutputPath>..\Release\</OutputPath>
+    <DocumentationFile>..\Release\IT.XML</DocumentationFile>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>true</Optimize>
@@ -120,12 +120,6 @@
     <Compile Include="WPF\MonitoredProperty.cs" />
     <Compile Include="WPF\WPF_Extentions.cs" />
     <Compile Include="Zip.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\NLog.config">
-      <Link>NLog.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -19,25 +19,6 @@ namespace IT
 	public static class Utils
 	{
 		/// <summary>
-		/// Преобразование списка в строку с указанным разделителем
-		/// </summary>
-		/// <param name="list"></param>
-		/// <param name="separator"></param>
-		/// <returns></returns>
-		public static string List2String(IEnumerable list, string separator = ", ")
-		{
-			return string.Join(separator, list.Cast<object>().ToArray());
-			string ret = string.Empty;
-
-			foreach (var s in list)
-			{
-				ret += (ret.Length == 0 ? string.Empty : separator) + s.ToString();
-			}
-
-			return ret;
-		}
-
-		/// <summary>
 		/// Сравнивает версию (диапазон версий) с верией клиента
 		/// </summary>
 		/// <param name="workingVersion"></param>

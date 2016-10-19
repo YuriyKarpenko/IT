@@ -33,16 +33,6 @@ namespace IT.Log
 		/// <summary>
 		/// Следует ли в лог влючать Ip данного компьютера в каждое сообщение лога
 		/// </summary>
-		[Obsolete("Include_Ip")]
-		public static bool IncludeIpInLog
-		{
-			get { return Include_Ip; }
-			set { Include_Ip = value; }
-		}
-
-		/// <summary>
-		/// Следует ли в лог влючать Ip данного компьютера в каждое сообщение лога
-		/// </summary>
 		[DefaultValue(true)]
 		public static bool Include_Ip { get; set; }
 
@@ -161,6 +151,9 @@ namespace IT.Log
 						break;
 					case TraceLevel.Info:
 						Trace.TraceInformation(msg);
+						break;
+					case TraceLevel.Verbose:
+						Trace.Write(msg, "Verbose");
 						//TraceSource.
 						//TraceEventType;
 						//TraceLevel + SourceLevels

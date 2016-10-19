@@ -474,10 +474,13 @@ namespace IT.Data
 
 				using (var dr = cmd.ExecuteReader())
 				{
-					result = dr.NextResult();
-					if(result)
-					while (dr.Read() && readRecord(dr))
+					result = dr.Read();
+					while (result && readRecord(dr) && dr.Read())
 						;
+					//result = dr.NextResult();
+					//if(result)
+					//while (result = dr.Read() && readRecord(dr))
+					//	;
 				}
 			}, externalTran, isNeedTransaction);
 
@@ -561,7 +564,9 @@ namespace IT.Data
 		{
 			//Logger.ToLogFmt(null, TraceLevel.Verbose, null, "()");
 
-			var ps = typeof(T).GetProperties().ToDictionary(i => i, i => -1);
+			var ps = typeof(T).GetProperties()
+				.Where(i => i.CanWrite)
+				.ToDictionary(i => i, i => -1);
 
 			var ret = new List<T>();
 

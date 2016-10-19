@@ -95,8 +95,8 @@ namespace IT
 		[MethodImpl(MethodImplOptions.NoInlining)]
 		public static string Trace(this ILog obj, string formatStr, params object[] args)
 		{
-			return string.Format(formatStr, args);
-			var s = LogFmt(obj, TraceLevel.Verbose, null, string.Format(formatStr, args));
+			var s = string.Format(formatStr, args);
+			//s = LogFmt(obj, TraceLevel.Verbose, null, string.Format(formatStr, args));
 			return s;
 		}
 	}
