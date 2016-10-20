@@ -14,11 +14,47 @@ using IT;
 
 namespace IT.WPF
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	public class DataGridBehaviour
 	{
 		#region ScrollToView
 
 		//private static SelectedCellsChangedEventHandler _scrollToViewEventHandler = new SelectedCellsChangedEventHandler(OnScrollToView);
+
+		public static readonly DependencyProperty ScrollToViewProperty =
+			DependencyProperty.RegisterAttached("ScrollToView",
+					typeof(bool),
+					typeof(DataGridBehaviour),
+					new FrameworkPropertyMetadata(false,
+						(d, e) =>
+						{
+							//DependencyObject d, DependencyPropertyChangedEventArgs e
+							var u = (System.Windows.Controls.DataGrid)d;
+							if ((bool)e.OldValue && !(bool)e.NewValue)
+							{
+								// remove handlers
+								u.SelectedCellsChanged -= OnScrollToView;// _scrollToViewEventHandler;
+							}
+
+							if (!(bool)e.OldValue && (bool)e.NewValue)
+							{
+								// add handlers
+								u.SelectedCellsChanged += OnScrollToView;// _scrollToViewEventHandler;
+							}
+						}));
+
+		public static bool GetScrollToView(DependencyObject element)
+		{
+			return (bool)element.GetValue(ScrollToViewProperty);
+		}
+
+		public static void SetScrollToView(DependencyObject element, bool value)
+		{
+			element.SetValue(ScrollToViewProperty, value);
+		}
+
 		private static void OnScrollToView(object sender, SelectedCellsChangedEventArgs e)
 		{
 			if (sender is DataGrid)
@@ -58,39 +94,9 @@ namespace IT.WPF
 			}
 		}
 
-		public static readonly DependencyProperty ScrollToViewProperty =
-			DependencyProperty.RegisterAttached("ScrollToView",
-					typeof(bool),
-					typeof(DataGridBehaviour),
-					new FrameworkPropertyMetadata(false,
-						(d, e) =>
-						{
-							//DependencyObject d, DependencyPropertyChangedEventArgs e
-							var u = (System.Windows.Controls.DataGrid)d;
-							if ((bool)e.OldValue && !(bool)e.NewValue)
-							{
-								// remove handlers
-								u.SelectedCellsChanged -= OnScrollToView;// _scrollToViewEventHandler;
-							}
-
-							if (!(bool)e.OldValue && (bool)e.NewValue)
-							{
-								// add handlers
-								u.SelectedCellsChanged += OnScrollToView;// _scrollToViewEventHandler;
-							}
-						}));
-
-		public static bool GetScrollToView(DependencyObject element)
-		{
-			return (bool)element.GetValue(ScrollToViewProperty);
-		}
-
-		public static void SetScrollToView(DependencyObject element, bool value)
-		{
-			element.SetValue(ScrollToViewProperty, value);
-		}
-
 		#endregion
+
+		#region SetKeyboardFocusOnScrollToView
 
 		public static readonly DependencyProperty SetKeyboardFocusOnScrollToViewProperty =
 			DependencyProperty.RegisterAttached("SetKeyboardFocusOnScrollToView", typeof(bool), typeof(DataGridBehaviour));
@@ -104,6 +110,8 @@ namespace IT.WPF
 		{
 			element.SetValue(SetKeyboardFocusOnScrollToViewProperty, value);
 		}
+
+		#endregion
 
 		#region FilteredColumns (on Autogenerate)
 

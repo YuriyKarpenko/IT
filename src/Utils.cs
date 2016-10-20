@@ -526,7 +526,7 @@ namespace IT
 		/// <returns></returns>
 		public static object GetFieldValue(object obj, string propertyPath)
 		{
-			Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(propertyPath), "propertyPath");
+			Contract.NotIsNullOrEmpty(propertyPath, "propertyPath");
 			if (obj != null)
 			{
 				var pName = propertyPath.Split('.')[0];
@@ -556,7 +556,7 @@ namespace IT
 		/// <param name="propertyPath">Название свойства или путь</param>
 		public static object GetPropertyValue(object obj, string propertyPath)
 		{
-			Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(propertyPath), "propertyPath");
+			Contract.NotIsNullOrEmpty(propertyPath, "propertyPath");
 			if (obj != null)
 			{
 				var pName = propertyPath.Split('.')[0];
@@ -587,7 +587,7 @@ namespace IT
 		/// <param name="value">Знсчение</param>
 		public static void SetPropertyValue(object obj, string propertyPath, object value)
 		{
-			Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(propertyPath), "propertyPath");
+			Contract.NotIsNullOrEmpty(propertyPath, "propertyPath");
 			if (obj != null)
 			{
 				var pName = propertyPath.Split('.')[0];
@@ -616,8 +616,9 @@ namespace IT
 		/// <param name="methodName">Название метода</param>
 		/// <param name="args">Параметры метода (при использовании параметров out следует передавать реальный массив и потом из него читоать нужные элементы)</param>
 		/// <returns></returns>
-		public static T ExecStaticMethod<T>(Type typ, string methodName, params object[] args) where T : struct
+		public static T ExecStaticMethod<T>(Type typ, string methodName, params object[] args) //where T : struct
 		{
+			Contract.NotIsNullOrEmpty(methodName, "methodName");
 			Type t = typ;
 			var mm = t.GetMethods().Where(i => i.Name == methodName && i.GetParameters().Length == args.Length).ToArray();
 			//var methodInfo = t.GetMethod(methodName);
@@ -625,7 +626,7 @@ namespace IT
 			{
 				MethodInfo methodInfo = mm[0];
 
-				if (methodInfo != null && methodInfo.IsStatic)
+				if (methodInfo?.IsStatic ?? false)
 				{
 					return (T)methodInfo.Invoke(null, args);
 				}
@@ -642,7 +643,7 @@ namespace IT
 		/// <returns></returns>
 		public static object ExecMethod(object obj, string methodName, params object[] args)
 		{
-			Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(methodName), "methodName");
+			Contract.NotIsNullOrEmpty(methodName, "methodName");
 			if (obj != null)
 			{
 				var mi = obj.GetType().GetMethod(methodName);
@@ -664,7 +665,7 @@ namespace IT
 		/// <returns></returns>
 		public static T ExecMethod<T>(object obj, string methodName, params object[] args)
 		{
-			Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(methodName), "methodName");
+			Contract.NotIsNullOrEmpty(methodName, "methodName");
 			if (obj != null)
 			{
 				var mi = obj.GetType().GetMethod(methodName);
