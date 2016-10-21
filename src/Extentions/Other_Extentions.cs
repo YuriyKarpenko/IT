@@ -165,6 +165,7 @@ namespace IT
 		/// <typeparam name="R">Тип результата</typeparam>
 		/// <param name="pd">Расширяемый экземпляр</param>
 		/// <param name="expression">Функция получения результата</param>
+		/// <param name="def">Значение по умолчанию</param>
 		/// <returns></returns>
 		public static R GetAttributeValue<Tatr, R>(this MemberDescriptor pd, Func<Tatr, R> expression, R def = default(R))
 			where Tatr : Attribute
@@ -172,6 +173,15 @@ namespace IT
 			var attr = pd.Attributes[typeof(Tatr)] as Tatr;
 			return attr == null ? def : expression(attr);
 		}
+		/// <summary>
+		/// Получение строкового значения атрибута указанного типа
+		/// </summary>
+		/// <typeparam name="Tatr">Тип атрибута</typeparam>
+		/// <typeparam name="R">Тип результата</typeparam>
+		/// <param name="pd">Расширяемый экземпляр</param>
+		/// <param name="expression">Функция получения результата</param>
+		/// <param name="def">Значение по умолчанию</param>
+		/// <returns></returns>
 		public static string GetAttributeValueStr<Tatr>(this MemberDescriptor pd, Func<Tatr, string> expression, string def = null)
 			where Tatr : Attribute
 		{
@@ -182,12 +192,13 @@ namespace IT
 #endif
 
 		/// <summary>
-		/// Получение значения атрибута указанного типа из масива атрибуктов
+		/// Получение значения атрибута указанного типа
 		/// </summary>
 		/// <typeparam name="Tatr">Тип атрибута</typeparam>
 		/// <typeparam name="R">Тип результата</typeparam>
 		/// <param name="apr">Расширяемый экземпляр</param>
 		/// <param name="expression">Функция получения результата</param>
+		/// <param name="def">Значение по умолчанию</param>
 		/// <returns></returns>
 		public static R GetAttributeValue<Tatr, R>(this ICustomAttributeProvider apr, Func<Tatr, R> expression, R def = default(R))
 			where Tatr : Attribute
@@ -195,12 +206,40 @@ namespace IT
 			var attribute = apr.GetCustomAttributes(typeof(Tatr), true)?.OfType<Tatr>()?.FirstOrDefault();
 			return attribute == null ? def : expression(attribute);
 		}
+
+		/// <summary>
+		/// Получение строкового значения атрибута указанного типа
+		/// </summary>
+		/// <typeparam name="Tatr">Тип атрибута</typeparam>
+		/// <typeparam name="R">Тип результата</typeparam>
+		/// <param name="apr">Расширяемый экземпляр</param>
+		/// <param name="expression">Функция получения результата</param>
+		/// <param name="def">Значение по умолчанию</param>
+		/// <returns></returns>
 		public static string GetAttributeValueStr<Tatr>(this ICustomAttributeProvider apr, Func<Tatr, string> expression, string def = null)
 			where Tatr : Attribute
 		{
 			var res = GetAttributeValue<Tatr, string>(apr, expression, def);
 			return (string.IsNullOrEmpty(res) ? def : res);
 		}
+
+		/// <summary>
+		/// Попытка получить значения атрибутов : Display.Name, Display.ShortName, Display.Description, DisplayName.DisplayName, Description.Description
+		/// </summary>
+		/// <param name="apr"></param>
+		/// <param name="def"></param>
+		/// <returns></returns>
+		public static string GetNameFromAttributes(this ICustomAttributeProvider apr, string def = null)
+		{
+			return null
+				?? apr.GetAttributeValueStr<System.ComponentModel.DataAnnotations.DisplayAttribute>(a => a.Name)
+				?? apr.GetAttributeValueStr<System.ComponentModel.DataAnnotations.DisplayAttribute>(a => a.ShortName)
+				?? apr.GetAttributeValueStr<System.ComponentModel.DataAnnotations.DisplayAttribute>(a => a.Description)
+				?? apr.GetAttributeValueStr<DisplayNameAttribute>(a => a.DisplayName)
+				?? apr.GetAttributeValueStr<DescriptionAttribute>(a => a.Description)
+				?? def;
+		}
+
 
 		/// <summary>
 		/// Привычное преобразование перечисленя
