@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -288,16 +287,8 @@ namespace IT
 		{
 			if (this.ItemPropertyes.Length == 0)
 				return "value";
-			else return this.UsingProps(p =>
-				{
-					var o = null
-						//?? p.GetAttributeValue<DisplayAttribute, string>(a => a.ShortName)
-						?? p.GetAttributeValue<DisplayAttribute, string>(a => a.Name)
-						?? p.GetAttributeValue<DisplayNameAttribute, string>(a => a.DisplayName)
-						?? p.GetAttributeValue<DescriptionAttribute, string>(a => a.Description);
-					return string.IsNullOrEmpty(o) ? p.Name : o;
-				}
-			);
+			else
+				return this.UsingProps(p => p.GetNameFromAttributes(p.Name));
 		}
 
 		/// <summary>
