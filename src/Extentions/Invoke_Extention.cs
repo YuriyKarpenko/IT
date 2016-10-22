@@ -10,8 +10,14 @@ namespace IT
 	/// </summary>
 	public interface IInvoke : ILog { }
 
+	/// <summary>
+	/// Extentions class to IInvoke
+	/// </summary>
 	public static class IInvoke_Extention
 	{
+		/// <summary>
+		/// Presumably context for UI
+		/// </summary>
 		public static SynchronizationContext Context { get; set; }
 
 		static IInvoke_Extention()
@@ -245,9 +251,9 @@ namespace IT
 		/// <summary>
 		/// Выполняет метод act в указанном контексте, если указан
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
 		/// <param name="context"></param>
 		/// <param name="act"></param>
+		/// <param name="isAsysnc"></param>
 		public static void Exec(this SynchronizationContext context, Action act, bool isAsysnc = true)
 		{
 			if (context == null)
@@ -268,6 +274,7 @@ namespace IT
 		/// <param name="context"></param>
 		/// <param name="act"></param>
 		/// <param name="value"></param>
+		/// <param name="isAsysnc"></param>
 		public static void Exec<T>(this SynchronizationContext context, Action<T> act, T value, bool isAsysnc = true)
 		{
 			if (context == null)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -78,7 +77,6 @@ namespace IT.Data
 		/// <param name="type">тип запроса</param>
 		/// <param name="parameters">Набор имен нетипизированых параметров</param>
 		/// <returns>Заполненая соответствующими параметрами DbCommand</returns>
-		[SuppressMessage("Microsoft.Security", "CA2100:Проверка запросов SQL на уязвимости безопасности")]
 		public static IDbCommand CreateCommand(this IDbConnection Connection, string sql, CommandType type = CommandType.Text, params string[] parameters)
 		{
 			Logger.ToLogFmt(null, TraceLevel.Verbose, null, "({0})", sql);
@@ -357,10 +355,10 @@ namespace IT.Data
 			var pp = paramName.Split(StringSplitOptions.RemoveEmptyEntries, ' ', ',');
 			switch (pp.Length)
 			{
-				case 1:	//	Default
+				case 1: //	Default
 					break;
 
-				case 2:	//	Direction
+				case 2: //	Direction
 					switch (pp[0].ToLower())
 					{
 						case "in":
@@ -647,51 +645,64 @@ namespace IT.Data
 		//	return ret;
 		//}
 
-		public static T Get<T>(this IDataReader dr, int ordinal, T def = default(T))
+		/// <summary>
+		/// Returns the value of the specified field or defaultValue, converted to the specified type
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="dr"></param>
+		/// <param name="ordinal">The index of the field</param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public static T Get<T>(this IDataReader dr, int ordinal, T defaultValue = default(T))
 		{
 			try
 			{
 				if (dr.IsDBNull(ordinal))
-					return def;
-				return To(dr[ordinal], def);
+					return defaultValue;
+				return To(dr[ordinal], defaultValue);
 			}
 			catch (Exception ex)
 			{
-				Logger.ToLogFmt(dr, TraceLevel.Error, ex, "({0}, {1})", ordinal, def);
+				Logger.ToLogFmt(dr, TraceLevel.Error, ex, "({0}, {1})", ordinal, defaultValue);
 			}
-			return def;
+			return defaultValue;
 		}
 
-		public static T Get<T>(this IDataReader dr, string paramName, T def = default(T))
+		/// <summary>
+		/// Returns the value of the specified field or defaultValue, converted to the specified type
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="dr"></param>
+		/// <param name="paramName">The name of the field</param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public static T Get<T>(this IDataReader dr, string paramName, T defaultValue = default(T))
 		{
-			try
-			{
-				var ordinal = dr.GetOrdinal(paramName);
-				if (dr.IsDBNull(ordinal))
-					return def;
-				return To(dr[paramName], def);
-			}
-			catch (Exception ex)
-			{
-				Logger.ToLogFmt(dr, TraceLevel.Error, ex, "({0}, {1})", paramName, def);
-			}
-			return def;
+			var ordinal = dr.GetOrdinal(paramName);
+			return dr.Get<T>(ordinal, defaultValue);
 		}
 
-		public static T To<T>(this object value, T def = default(T))
+		/// <summary>
+		/// Trying to return the value of the specified type, or defaultValue
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="value"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public static T To<T>(this object value, T defaultValue = default(T))
 		{
 			try
 			{
 				var s = (value == null || value == DBNull.Value) ? null : value.ToString();
-				if (def is string)
+				if (defaultValue is string)
 					return (T)(object)s;
-				return String_Extentions.To<T>(s, def);
+				return String_Extentions.To<T>(s, defaultValue);
 			}
 			catch (Exception ex)
 			{
-				Logger.ToLogFmt(value, TraceLevel.Error, ex, "({0})", def);
+				Logger.ToLogFmt(value, TraceLevel.Error, ex, "({0})", defaultValue);
 			}
-			return def;
+			return defaultValue;
 		}
 
 		#endregion

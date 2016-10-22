@@ -157,6 +157,9 @@ namespace IT
 		}
 
 #if DEBUG
+		/// <summary>
+		/// Destructor
+		/// </summary>
 		~NotifyPropertyChangedBaseEx()
 		{
 			string msg = string.Format("{0} ({1}) Finalized", this.GetType().Name, this.GetHashCode());

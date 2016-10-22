@@ -80,8 +80,7 @@ namespace IT.Log
 		/// <summary>
 		/// Получает StackFrame и дополняет сообщение на онове информации StackFrame 
 		/// </summary>
-		/// <param name="formatStr"></param>
-		/// <param name="args"></param>
+		/// <param name="msg"></param>
 		/// <returns></returns>
 		public static string GetMsg_Ext(string msg)
 		{
@@ -124,9 +123,7 @@ namespace IT.Log
 			{
 				msg = $"{DateTime.Now.ToLongTimeString()} : {level} : {msg} [{source}]";
 
-				System.Diagnostics.Debug.WriteLine(msg, Ap.ProductName);
-
-				if (Logger.MinLevel > level)
+				if (Logger.MinLevel < level)
 					return msg;
 
 				//	отправка сообщения подписчикам
@@ -140,28 +137,30 @@ namespace IT.Log
 				if (ex != null)
 					msg = string.Format("{0}\r\n{1}", msg, ex);
 
-#if !SILVERLIGHT
-				switch (level)
-				{
-					case TraceLevel.Error:
-						Trace.TraceError(msg);
-						break;
-					case TraceLevel.Warning:
-						Trace.TraceWarning(msg);
-						break;
-					case TraceLevel.Info:
-						Trace.TraceInformation(msg);
-						break;
-					case TraceLevel.Verbose:
-						Trace.Write(msg, "Verbose");
-						//TraceSource.
-						//TraceEventType;
-						//TraceLevel + SourceLevels
-						//TraceOptions
-						//SourceLevels
-						break;
-				}
-#endif
+				Debug.WriteLine(msg, Ap.ProductName);
+
+//#if !SILVERLIGHT
+//				switch (level)
+//				{
+//					case TraceLevel.Error:
+//						Trace.TraceError(msg);
+//						break;
+//					case TraceLevel.Warning:
+//						Trace.TraceWarning(msg);
+//						break;
+//					case TraceLevel.Info:
+//						Trace.TraceInformation(msg);
+//						break;
+//					case TraceLevel.Verbose:
+//						Trace.WriteLine(msg, Ap.ProductName);
+//						//TraceSource.
+//						//TraceEventType;
+//						//TraceLevel + SourceLevels
+//						//TraceOptions
+//						//SourceLevels
+//						break;
+//				}
+//#endif
 			}
 			catch (Exception exc)
 			{
@@ -175,8 +174,7 @@ namespace IT.Log
 		/// Дополняет сообщение на онове информации StackFrame 
 		/// </summary>
 		/// <param name="sf"></param>
-		/// <param name="formatStr"></param>
-		/// <param name="args"></param>
+		/// <param name="msg"></param>
 		/// <returns></returns>
 		private static string GetMsg_Method(StackFrame sf, string msg)
 		{

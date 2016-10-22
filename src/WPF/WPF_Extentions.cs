@@ -6,10 +6,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using System.Windows.Data;
 
 namespace IT.WPF
 {
@@ -173,7 +173,6 @@ namespace IT.WPF
 		/// <summary>
 		/// Получение ячейки
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
 		/// <param name="dg"></param>
 		/// <param name="item"></param>
 		/// <param name="colIndex"></param>
@@ -249,7 +248,7 @@ namespace IT.WPF
 		/// <summary>
 		/// Пытается вернуть название поля привязки
 		/// </summary>
-		/// <param name="header"></param>
+		/// <param name="col"></param>
 		/// <returns></returns>
 		public static string GetFieldName(this DataGridBoundColumn col)
 		{
@@ -434,7 +433,13 @@ namespace System.Collections.ObjectModel
 	/// <typeparam name="T"></typeparam>
 	public class ObservableCollectionEx<T> : ObservableCollection<T>
 	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
 		public ObservableCollectionEx() { }
+		/// <summary>
+		/// Constructor
+		/// </summary>
 		public ObservableCollectionEx(IEnumerable<T> collection) : base(collection) { }
 
 		/// <summary>

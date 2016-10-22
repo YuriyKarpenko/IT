@@ -1,24 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-
-using IT;
 
 namespace IT.WPF
 {
+	/// <summary>
+	/// Behaviour class for DataGrid
+	/// </summary>
 	public class DataGridBehaviour
 	{
 		#region ScrollToView
 
 		//private static SelectedCellsChangedEventHandler _scrollToViewEventHandler = new SelectedCellsChangedEventHandler(OnScrollToView);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public static readonly DependencyProperty ScrollToViewProperty = DependencyProperty.RegisterAttached(
+			"ScrollToView", typeof(bool), typeof(DataGridBehaviour), new FrameworkPropertyMetadata(false, (d, e) =>
+						{
+							//DependencyObject d, DependencyPropertyChangedEventArgs e
+							var u = (System.Windows.Controls.DataGrid)d;
+							if ((bool)e.OldValue && !(bool)e.NewValue)
+							{
+								// remove handlers
+								u.SelectedCellsChanged -= OnScrollToView;// _scrollToViewEventHandler;
+							}
+
+							if (!(bool)e.OldValue && (bool)e.NewValue)
+							{
+								// add handlers
+								u.SelectedCellsChanged += OnScrollToView;// _scrollToViewEventHandler;
+							}
+						}));
+
+		/// <summary>
+		/// Retun current value of a ScrollToView
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public static bool GetScrollToView(DependencyObject element)
+		{
+			return (bool)element.GetValue(ScrollToViewProperty);
+		}
+
+		/// <summary>
+		/// Set the value of a ScrollToView
+		/// </summary>
+		/// <param name="element"></param>
+		/// <param name="value"></param>
+		public static void SetScrollToView(DependencyObject element, bool value)
+		{
+			element.SetValue(ScrollToViewProperty, value);
+		}
+
 		private static void OnScrollToView(object sender, SelectedCellsChangedEventArgs e)
 		{
 			if (sender is DataGrid)
@@ -58,52 +99,37 @@ namespace IT.WPF
 			}
 		}
 
-		public static readonly DependencyProperty ScrollToViewProperty =
-			DependencyProperty.RegisterAttached("ScrollToView",
-					typeof(bool),
-					typeof(DataGridBehaviour),
-					new FrameworkPropertyMetadata(false,
-						(d, e) =>
-						{
-							//DependencyObject d, DependencyPropertyChangedEventArgs e
-							var u = (System.Windows.Controls.DataGrid)d;
-							if ((bool)e.OldValue && !(bool)e.NewValue)
-							{
-								// remove handlers
-								u.SelectedCellsChanged -= OnScrollToView;// _scrollToViewEventHandler;
-							}
-
-							if (!(bool)e.OldValue && (bool)e.NewValue)
-							{
-								// add handlers
-								u.SelectedCellsChanged += OnScrollToView;// _scrollToViewEventHandler;
-							}
-						}));
-
-		public static bool GetScrollToView(DependencyObject element)
-		{
-			return (bool)element.GetValue(ScrollToViewProperty);
-		}
-
-		public static void SetScrollToView(DependencyObject element, bool value)
-		{
-			element.SetValue(ScrollToViewProperty, value);
-		}
-
 		#endregion
 
-		public static readonly DependencyProperty SetKeyboardFocusOnScrollToViewProperty =
-			DependencyProperty.RegisterAttached("SetKeyboardFocusOnScrollToView", typeof(bool), typeof(DataGridBehaviour));
+		#region SetKeyboardFocusOnScrollToView
 
+		/// <summary>
+		/// 
+		/// </summary>
+		public static readonly DependencyProperty SetKeyboardFocusOnScrollToViewProperty = DependencyProperty.RegisterAttached(
+			"SetKeyboardFocusOnScrollToView", typeof(bool), typeof(DataGridBehaviour));
+
+		/// <summary>
+		/// Retun current value of a SetKeyboardFocusOnScrollToView
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
 		public static bool GetSetKeyboardFocusOnScrollToView(DependencyObject element)
 		{
 			return (bool)element.GetValue(SetKeyboardFocusOnScrollToViewProperty);
 		}
 
+		/// <summary>
+		/// Set the value of a SetKeyboardFocusOnScrollToView
+		/// </summary>
+		/// <param name="element"></param>
+		/// <param name="value"></param>
 		public static void SetSetKeyboardFocusOnScrollToView(DependencyObject element, bool value)
 		{
 			element.SetValue(SetKeyboardFocusOnScrollToViewProperty, value);
 		}
+
+		#endregion
 
 		#region FilteredColumns (on Autogenerate)
 
@@ -113,47 +139,50 @@ namespace IT.WPF
 		/// по атрибуту EditableAttribute определяется свойство IsReadOnly
 		/// вытаскивание имени столбца из атрибутов DisplayAttribute и DisplayNameAttribute
 		/// </summary>
-		public static readonly DependencyProperty FilteredColumnsProperty =
-			DependencyProperty.RegisterAttached("FilteredColumns", typeof(bool), typeof(DataGridBehaviour), new PropertyMetadata(false, FilteredColumnsChangedCallback));
+		public static readonly DependencyProperty FilteredColumnsProperty = DependencyProperty.RegisterAttached(
+			"FilteredColumns", typeof(bool), typeof(DataGridBehaviour), new PropertyMetadata(false, FilteredColumnsChangedCallback));
 
+		/// <summary>
+		/// Retun current value of a FilteredColumns
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
 		public static bool GetFilteredColumns(DependencyObject element)
 		{
 			return (bool)element.GetValue(FilteredColumnsProperty);
 		}
 
+		/// <summary>
+		/// Set the value of a FilteredColumns
+		/// </summary>
+		/// <param name="element"></param>
+		/// <param name="value"></param>
 		public static void SetFilteredColumns(DependencyObject element, bool value)
 		{
 			element.SetValue(FilteredColumnsProperty, value);
 		}
 
-		static void FilteredColumnsChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private static void FilteredColumnsChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var dg = d as DataGrid;
 			if ((bool)e.NewValue)
 			{
 				dg.AutoGeneratingColumn += dg_AutoGeneratingColumn;
-				dg.AutoGeneratedColumns += Dg_AutoGeneratedColumns;
 			}
 			else
 			{
 				dg.AutoGeneratingColumn -= dg_AutoGeneratingColumn;
-				dg.AutoGeneratedColumns -= Dg_AutoGeneratedColumns;
 			}
 		}
 
-		private static void Dg_AutoGeneratedColumns(object sender, EventArgs e)
-		{
-
-		}
-
-		static void dg_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+		private static void dg_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
 		{
 			var pd = (PropertyDescriptor)e.PropertyDescriptor;
-			if (pd.GetAttributeValue<BrowsableAttribute, bool>(a => a.Browsable, true))
+			if (pd.Attributes.OfType<BrowsableAttribute>()?.SingleOrDefault()?.Browsable ?? true)
 			{
 				var txtCol = e.Column as DataGridTextColumn;
 
-				var enumType = pd.GetAttributeValue<EnumDataTypeAttribute, Type>(a => a.EnumType, null);
+				var enumType = pd.Attributes.OfType<EnumDataTypeAttribute>()?.SingleOrDefault()?.EnumType;
 				if (enumType != null && txtCol != null)
 				{
 					var cbCol = e.Column as DataGridComboBoxColumn;
@@ -171,15 +200,15 @@ namespace IT.WPF
 					e.Column = cbCol;
 				}
 
-				e.Column.IsReadOnly = !pd.GetAttributeValue<EditableAttribute, bool>(a => a.AllowEdit, true);
+				e.Column.IsReadOnly = !(pd.Attributes.OfType<EditableAttribute>()?.SingleOrDefault()?.AllowEdit ?? true);
 				var attr = pd.Attributes.OfType<DisplayAttribute>().FirstOrDefault();
 				if (attr != null)
 				{
-					e.Column.Header = attr.ShortName ?? attr.Name ?? e.PropertyName;
+					e.Column.Header = attr.ShortName ?? attr.Name ?? attr.Description ?? e.PropertyName;
 				}
 				else
 				{
-					e.Column.Header = pd.GetAttributeValueStr<DisplayNameAttribute>(a => a.DisplayName) ?? e.PropertyName;
+					e.Column.Header = pd.Attributes.OfType<DisplayNameAttribute>()?.SingleOrDefault()?.DisplayName ?? e.PropertyName;
 				}
 			}
 			else
@@ -192,17 +221,27 @@ namespace IT.WPF
 
 		#region Columns
 
-		public static readonly DependencyProperty ColumnsProperty =
-		DependencyProperty.RegisterAttached("Columns",
-											typeof(IEnumerable<DataGridColumn>),
-											typeof(DataGridBehaviour),
-											new UIPropertyMetadata(null, ColumnsPropertyChanged));
+		/// <summary>
+		/// It allows you to bind a collection of columns
+		/// </summary>
+		public static readonly DependencyProperty ColumnsProperty = DependencyProperty.RegisterAttached(
+			"Columns", typeof(IEnumerable<DataGridColumn>), typeof(DataGridBehaviour), new UIPropertyMetadata(null, ColumnsPropertyChanged));
 
+		/// <summary>
+		/// Retun current value of a Columns
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
 		public static ObservableCollection<DataGridColumn> GetColumns(DependencyObject element)
 		{
 			return (ObservableCollection<DataGridColumn>)element.GetValue(ColumnsProperty);
 		}
 
+		/// <summary>
+		/// Set the value of a Columns
+		/// </summary>
+		/// <param name="element"></param>
+		/// <param name="value"></param>
 		public static void SetColumns(DependencyObject element, ObservableCollection<DataGridColumn> value)
 		{
 			element.SetValue(ColumnsProperty, value);
