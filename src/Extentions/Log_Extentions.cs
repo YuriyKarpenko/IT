@@ -22,8 +22,7 @@ namespace IT
 		/// <param name="obj"></param>
 		/// <param name="level"></param>
 		/// <param name="ex"></param>
-		/// <param name="formatStr"></param>
-		/// <param name="args"></param>
+		/// <param name="msg"></param>
 		/// <returns></returns>
 		[MethodImpl(MethodImplOptions.NoInlining)]
 		public static string LogFmt(this ILog obj, TraceLevel level, Exception ex, string msg)

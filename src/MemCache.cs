@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IT {
+namespace IT
+{
 	/// <summary>
 	/// Удобный справочник, который не ругается на ключи
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
+	/// <typeparam name="TValue"></typeparam>
 	[Serializable]
 	public class MemCache<TKey, TValue> : Dictionary<TKey, TValue> {
 		static TKey BAD_KEY = default(TKey);
@@ -22,7 +24,7 @@ namespace IT {
 		}
 
 		/// <summary>
-		/// Позволяет создать значение указанного ключа из <see cref="getValue"/>
+		/// Позволяет создать значение указанного ключа из getValue/>
 		/// </summary>
 		/// <param name="key">Ключ</param>
 		/// <param name="getValue">Метод получения значения</param>

@@ -132,6 +132,11 @@ namespace IT.WPF
 	//	}
 	//}
 
+	/// <summary>
+	/// The base class for easy work with lists in WPF
+	/// </summary>
+	/// <typeparam name="TList"></typeparam>
+	/// <typeparam name="T"></typeparam>
 	public abstract class IEnumerablePropertyBase<TList, T> : NotifyPropertyChangedBase where TList : IEnumerable<T>
 	{
 		private T selectedItem;
@@ -165,11 +170,13 @@ namespace IT.WPF
 
 		#endregion
 
-
+		/// <summary>
+		/// Constructor, only for heirs
+		/// </summary>
 		protected IEnumerablePropertyBase() { }
 
 		/// <summary>
-		/// Привязывает метод к событию
+		/// constructor, only for heirs. Bind a method to an event
 		/// </summary>
 		/// <param name="selectedChanged">Метод, запускаемый при возникновении события</param>
 		protected IEnumerablePropertyBase(Action<T> selectedChanged)
@@ -229,8 +236,9 @@ namespace IT.WPF
 	}
 
 	/// <summary>
-	/// Класс для удобной работы со списками в WPF
+	/// class for easy work with lists in WPF
 	/// </summary>
+	/// <typeparam name="TList"></typeparam>
 	/// <typeparam name="T"></typeparam>
 	public class IEnumerableProperty<TList, T> : IEnumerablePropertyBase<TList, T> where TList : class, IEnumerable<T>
 	{
@@ -444,15 +452,25 @@ namespace IT.WPF
 		/// Конструктор
 		/// </summary>
 		/// <param name="list"></param>
-		public IEnumerablePropertyReadOnly(IEnumerable<T> list)
+		/// <param name="onSelectedChanged"></param>
+		public IEnumerablePropertyReadOnly(IEnumerable<T> list, Action<T> onSelectedChanged = null) : base(onSelectedChanged)
 		{
 			Contract.NotNull(list, "list");
 			this.List = list;
 		}
 	}
 
+	/// <summary>
+	/// Класс для удобной работы с выделением элементов списками
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class IEnumerableProperty<T> : IEnumerableProperty<IEnumerable<T>, T>
 	{
+		/// <summary>
+		/// constructor
+		/// </summary>
+		/// <param name="getList"></param>
+		/// <param name="selectedChanged"></param>
 		public IEnumerableProperty(Func<IEnumerable<T>> getList, Action<T> selectedChanged = null)
 			: base(getList, selectedChanged)
 		{

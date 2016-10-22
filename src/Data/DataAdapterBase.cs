@@ -5,7 +5,7 @@ namespace IT.Data
 {
 
 	/// <summary>
-	/// Класс, ипользующий одно соединение, который предоставляет метод для кеширования DbCommand <see cref="Сmd"/>
+	/// Класс, ипользующий одно соединение, который предоставляет метод для кеширования DbCommand : Сmd()/>
 	/// </summary>
 	public class DataAdapterBase : Disposable
 	{

@@ -8,6 +8,9 @@ using IT.Log;
 
 namespace IT
 {
+	/// <summary>
+	/// Extention methods for Assembly
+	/// </summary>
 	public static class Assembly_Extention
 	{
 		/// <summary>
@@ -181,6 +184,13 @@ namespace IT
 			}, "GetStrProductVersion");
 		}
 
+		/// <summary>
+		/// It provides for the use of checked object
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="act"></param>
+		/// <param name="methodName"></param>
+		/// <returns></returns>
 		public static T UsingAssembly<T>(Func<Assembly, T> act, string methodName = "UsingAssembly")
 		{
 			//Logger.ToLogFmt(null, LogLevel.Debug, null, "({0}, ,{1})", a, methodName);	
