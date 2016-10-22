@@ -1,0 +1,2708 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IT</name>
+    </assembly>
+    <members>
+        <member name="T:IT.Ap">
+            <summary>
+            Основные методы и свойства из класса System.Windows.Forms.Application + некоторые свои
+            </summary>
+        </member>
+        <member name="P:IT.Ap.AppFolder">
+            <summary>
+            Папка с выполняемым файлом
+            </summary>
+        </member>
+        <member name="P:IT.Ap.AppCaption">
+            <summary>
+            Заголовок программы
+            </summary>
+        </member>
+        <member name="P:IT.Ap.CurAssembly">
+            <summary>
+            Возвращает процесс, исполняемый в домене приложения по умолчанию.В других
+            доменах приложений это первый исполняемый процесс, который был выполнен методом
+            System.AppDomain.ExecuteAssembly(System.String).
+            </summary>
+        </member>
+        <member name="P:IT.Ap.HostName">
+            <summary>
+            Название этого компьютера
+            </summary>
+        </member>
+        <member name="P:IT.Ap.IPAddress">
+            <summary>
+            IP-адрес этого компьютера
+            </summary>
+        </member>
+        <member name="P:IT.Ap.IPAddressV6">
+            <summary>
+            IP-адрес v6 этого компьютера
+            </summary>
+        </member>
+        <member name="P:IT.Ap.ProductName">
+            <summary>
+            Название программы
+            </summary>
+        </member>
+        <member name="P:IT.Ap.TitleName">
+            <summary>
+            Название программы альтернативное
+            </summary>
+        </member>
+        <member name="P:IT.Ap.AppFileVersionInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IT.Ap.StrProductVersion">
+            <summary>
+            Версия программы
+            </summary>
+        </member>
+        <member name="P:IT.Ap.ExecutablePath">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IT.Ap.ProductVersion">
+            <summary>
+            Версия программы
+            </summary>
+        </member>
+        <member name="T:IT.CsvBase`2">
+            <summary>
+            Базовый класс для работы с основными операциями формата Csv
+            </summary>
+            <typeparam name="TItemProperty">Тип свойств полей, как правило <see cref="T:System.Reflection.PropertyInfo"/> или <see cref="T:System.ComponentModel.PropertyDescriptor"/> </typeparam>
+            <typeparam name="T">Тип обрабатываемых данных</typeparam>
+        </member>
+        <member name="F:IT.CsvBase`2.DEFAULT_SEPARATOR">
+            <summary>
+            Дефолтный разделитель полей
+            </summary>
+        </member>
+        <member name="P:IT.CsvBase`2.Separator">
+            <summary>
+            Разделитель полей
+            </summary>
+        </member>
+        <member name="P:IT.CsvBase`2.ItemPropertyes">
+            <summary>
+            Набор свойств указанного типа
+            </summary>
+        </member>
+        <member name="M:IT.CsvBase`2.#ctor(`0[])">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="itemPropertyes">Набор свойств указанного типа</param>
+        </member>
+        <member name="M:IT.CsvBase`2.GetHeader">
+            <summary>
+            Метод получения заголовка
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IT.CsvBase`2.GetRow(`1)">
+            <summary>
+            Метод получения строки данных указанного объекта
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.CsvBase`2.Write(System.Collections.Generic.IEnumerable{`1},System.IO.TextWriter,System.Boolean)">
+            <summary>
+            Метод запиви набора данных в выходной потокововый объект
+            </summary>
+            <param name="list">Исходный набор данных</param>
+            <param name="tw"></param>
+            <param name="includeHeader">Записывать ли заголовок</param>
+        </member>
+        <member name="M:IT.CsvBase`2.UsingProps(System.Func{`0,System.String})">
+            <summary>
+            Вспомогательный метод получения строки из предоставляемых полей
+            </summary>
+            <param name="getPropertyValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.CsvBase`2.GetHeaderCore">
+            <summary>
+            Метод получения заголовка
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IT.CsvBase`2.GetRowCore(`1)">
+            <summary>
+            Метод получения строки данных указанного объекта
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Csv`1">
+            <summary>
+            Класс для работы с основными операциями формата Csv. Понимает атрибуты DisplayNameAttribute и DescriptionAttribute
+            </summary>
+            <typeparam name="T">Тип обрабатываемых данных</typeparam>
+        </member>
+        <member name="M:IT.Csv`1.Create(System.String[])">
+            <summary>
+            Создает Csv с указанными полями (пересечение) и порядком следования
+            </summary>
+            <param name="fields"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Csv`1.UsingCsv(System.Action{IT.Csv{`0}},IT.Csv{`0})">
+            <summary>
+            Предоставляет готовый экземпляр для удобной работы с ним
+            </summary>
+            <param name="act"></param>
+            <param name="existingItem"></param>
+        </member>
+        <member name="M:IT.Csv`1.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:IT.Csv`1.#ctor(System.Reflection.PropertyInfo[],System.Func{`0,System.String})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="pis">Набор свойств указанного типа</param>
+            <param name="getRow">Метод получения строки данных указанного объекта</param>
+        </member>
+        <member name="M:IT.Csv`1.#ctor(System.Func{`0,System.String})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="getRow">Метод получения строки данных указанного объекта</param>
+        </member>
+        <member name="M:IT.Csv`1.Serialize(System.Collections.Generic.IEnumerable{`0},System.IO.Stream,System.Boolean)">
+            <summary>
+            Метод запиви набора данных в выходной потокововый объект
+            </summary>
+            <param name="list">Исходный набор данных</param>
+            <param name="outStream"></param>
+            <param name="includeHeader"></param>
+        </member>
+        <member name="M:IT.Csv`1.ToStream(System.Collections.Generic.IEnumerable{`0},System.Boolean)">
+            <summary>
+            Создает и заполняет MemoryStream
+            </summary>
+            <param name="list"></param>
+            <param name="includeHeader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Csv`1.GetHeaderCore">
+            <summary>
+            Метод получения заголовка
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Csv`1.GetRowCore(`0)">
+            <summary>
+            Метод получения строки данных указанного объекта
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Data.DataAdapterBase">
+            <summary>
+            Класс, ипользующий одно соединение, который предоставляет метод для кеширования DbCommand : Сmd()/>
+            </summary>
+        </member>
+        <member name="F:IT.Data.DataAdapterBase._cmdCache">
+            <summary>
+            Кэш команд
+            </summary>
+        </member>
+        <member name="P:IT.Data.DataAdapterBase.Connection">
+            <summary>
+            Реализация интерфейса IDataAdapterBase
+            </summary>
+        </member>
+        <member name="M:IT.Data.DataAdapterBase.Cmd(System.String,System.Data.CommandType,System.String[])">
+            <summary>
+            Получение/создание кешированного DbCommand (параметры не должны вызывать затруднений ;)
+            </summary>
+            <param name="sql"></param>
+            <param name="type"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Data.DataAdapterBase.#ctor(System.Data.IDbConnection)">
+            <summary>
+            ctor
+            </summary>
+            <param name="conn">Соединение для создания комманд</param>
+        </member>
+        <member name="M:IT.Data.DataAdapterBase.Dispose(System.Boolean)">
+            <summary>
+            Реализация интерфейса IDisposable
+            </summary>
+        </member>
+        <member name="T:IT.Data.Db_Extentions">
+            <summary>
+            Расширения для некоторых классов пространства имен System.Data.Common
+            </summary>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.IsActive(System.Data.IDbConnection)">
+            <summary>
+            Показывает состояние соединения
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.CloseIfNotClosed(System.Data.IDbConnection)">
+            <summary>
+            Проверяет состояние соединения и, если не закрыто, то закрывает его
+            </summary>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.OpenIfClosed(System.Data.IDbConnection)">
+            <summary>
+            Проверяет состояние соединения и, если не открыто, то открывает его
+            </summary>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.CreateCommand(System.Data.IDbConnection,System.String,System.Data.CommandType,System.String[])">
+            <summary>
+            Создает объект DbCommand из данного соединения
+            </summary>
+            <param name="Connection">Расширяемый экземпляр</param>
+            <param name="sql">Текст запорса</param>
+            <param name="type">тип запроса</param>
+            <param name="parameters">Набор имен нетипизированых параметров</param>
+            <returns>Заполненая соответствующими параметрами DbCommand</returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.DoWork(System.Data.IDbConnection,System.Action{System.Data.IDbConnection})">
+            <summary>
+            Предоставляет открытое соединение, если до этого соединение было закрыто - закрывает его после работы
+            Исключения НЕ обрабатываются
+            </summary>
+            <param name="conn">Расширяемый экземпляр</param>
+            <param name="OpenedConnection"></param>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.DoWork``1(System.Data.IDbConnection,System.Func{System.Data.IDbConnection,``0})">
+            <summary>
+            Предоставляет открытое соединение, если до этого соединение было закрыто - закрывает его после работы
+            Исключения НЕ обрабатываются
+            </summary>
+            <param name="conn">Расширяемый экземпляр</param>
+            <param name="OpenedConnection"></param>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.DoWorkInTran(System.Data.IDbConnection,System.Action{System.Data.IDbTransaction},System.Data.IDbTransaction,System.Boolean)">
+            <summary>
+            Предоставляет работу внутри транзакции (и открытое соединение). Возвращает успех транзакции.
+            с externalTran никаких действий не производится, передается как есть.
+            </summary>
+            <param name="conn">Расширяемый экземпляр</param>
+            <param name="usingTran"></param>
+            <param name="externalTran">Внешняя транзакция</param>
+            <param name="isNeedTransaction">Следует ли создавать отдельную транзакцию (актуально при transaction == null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.DoWorkInTran``1(System.Data.IDbConnection,System.Func{System.Data.IDbTransaction,``0},System.Data.IDbTransaction,System.Boolean)">
+            <summary>
+            Предоставляет работу внутри транзакции (и открытое соединение). Возвращает успех транзакции.
+            с externalTran никаких действий не производится, передается как есть.
+            </summary>
+            <param name="Connection">Расширяемый экземпляр</param>
+            <param name="usingTran"></param>
+            <param name="externalTran">Внешняя транзакция</param>
+            <param name="isNeedTransaction">Следует ли создавать отдельную транзакцию (актуально при transaction == null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.ExecuteScalarInTran(System.Data.IDbConnection,System.String,System.Data.IDbTransaction,System.Boolean)">
+            <summary>
+            Выполняет команду в контексте указанной транзакции
+            При этом открывается соединение, и закрывается (если до этого было закрыто)
+            </summary>
+            <param name="con">Расширяемый экземпляр</param>
+            <param name="sql">Текст команды</param>
+            <param name="transaction">Транзакция, в контесте которой выполняется команда</param>
+            <param name="isNeedTransaction">Следует ли создавать отдельную транзакцию (актуально при transaction == null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.SetParameter(System.Data.IDbCommand,System.String,System.Object)">
+            <summary>
+            Добавляет нетипизированый параметр, и возвращает его для указания прочих свойств
+            </summary>
+            <param name="cmd">Расширяемый экземпляр</param>
+            <param name="paramName">Наименование параметра (допускается впереди указать направление как [ in, Input, inout, InputOutput, out, Output, ret, ReturnValue ] без учета регистра)</param>
+            <param name="value">value</param>
+            <returns>Привязаный к команде параметр</returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.AppendParam(System.Data.IDbCommand,System.String)">
+            <summary>
+            Добавляет нетипизированый параметр, и возвращает его для указания прочих свойств
+            </summary>
+            <param name="cmd">Расширяемый экземпляр</param>
+            <param name="paramName">Наименование параметра (допускается впереди указать направление как [ in, Input, inout, InputOutput, out, Output, ret, ReturnValue ] без учета регистра)</param>
+            <returns>Привязаный к команде параметр</returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.ExecuteNonQueryInTran(System.Data.IDbCommand,System.Data.IDbTransaction,System.Boolean)">
+            <summary>
+            Выполняет команду в контексте указанной транзакции
+            При этом открывается соединение, и закрывается (если до этого было закрыто)
+            </summary>
+            <param name="cmd">Расширяемый экземпляр</param>
+            <param name="externalTran">Транзакция, в контесте которой выполняется команда</param>
+            <param name="isNeedTransaction">Следует ли создавать отдельную транзакцию (актуально при transaction == null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.ExecuteNonQueryInTran(System.Data.IDbCommand,System.TimeSpan@,System.Data.IDbTransaction,System.Boolean)">
+            <summary>
+            Выполняет команду в контексте указанной транзакции
+            При этом открывается соединение, и закрывается (если до этого было закрыто)
+            </summary>
+            <param name="cmd">Расширяемый экземпляр</param>
+            <param name="ts">Время выполнения команды</param>
+            <param name="externalTran">Транзакция, в контесте которой выполняется команда</param>
+            <param name="isNeedTransaction">Следует ли создавать отдельную транзакцию (актуально при transaction == null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.ExecuteReaderInTran(System.Data.IDbCommand,System.Predicate{System.Data.IDataReader},System.Data.IDbTransaction,System.Boolean)">
+            <summary>
+            Выполняет команду в контексте указанной транзакции
+            При этом открывается соединение, и закрывается (если до этого было закрыто)
+            Возврвщает были ли записи в наборе
+            </summary>
+            <param name="cmd">Расширяемый экземпляр</param>
+            <param name="readRecord">Метод, использующий каждую запись DbDataReader. Выполняется, пока не вернет false или DbDataReader достигнет конца</param>
+            <param name="externalTran">Транзакция, в контесте которой выполняется команда</param>
+            <param name="isNeedTransaction">Следует ли создавать отдельную транзакцию (актуально при transaction == null)</param>
+            <returns>Были ли записи в наборе</returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.ExecuteScalarInTran(System.Data.IDbCommand,System.Data.IDbTransaction,System.Boolean)">
+            <summary>
+            Выполняет команду в контексте указанной транзакции
+            При этом открывается соединение, и закрывается (если до этого было закрыто)
+            </summary>
+            <param name="cmd">Расширяемый экземпляр</param>
+            <param name="externalTran">Транзакция, в контесте которой выполняется команда</param>
+            <param name="isNeedTransaction">Следует ли создавать отдельную транзакцию (актуально при transaction == null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.ExecuteListReflection``1(System.Data.IDbCommand,System.Data.IDbTransaction,System.Boolean)">
+            <summary>
+            Выполняя ExecuteReaderInTran() вычитывает все записи в результат.
+            Возвращает заполненный список записей
+            </summary>
+            <typeparam name="T">IDtoBase_Reader, new()</typeparam>
+            <param name="cmd">Расширяемый экземпляр</param>
+            <param name="externalTran">Транзакция, в контесте которой выполняется команда</param>
+            <param name="isNeedTransaction">Следует ли создавать отдельную транзакцию (актуально при transaction == null)</param>
+            <returns>Заполненный список записей</returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.Get``1(System.Data.IDataReader,System.Int32,``0)">
+            <summary>
+            Returns the value of the specified field or defaultValue, converted to the specified type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dr"></param>
+            <param name="ordinal">The index of the field</param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.Get``1(System.Data.IDataReader,System.String,``0)">
+            <summary>
+            Returns the value of the specified field or defaultValue, converted to the specified type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dr"></param>
+            <param name="paramName">The name of the field</param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Data.Db_Extentions.To``1(System.Object,``0)">
+            <summary>
+            Trying to return the value of the specified type, or defaultValue
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Data.Dto_Base">
+            <summary>
+            Стандартный справочник
+            </summary>
+        </member>
+        <member name="P:IT.Data.Dto_Base.RowState">
+            <summary>
+            Состояние записи
+            </summary>
+        </member>
+        <member name="P:IT.Data.Dto_Base.Id">
+            <summary>
+            Ключ, Browsable(false)
+            </summary>
+        </member>
+        <member name="P:IT.Data.Dto_Base.Name">
+            <summary>
+            Значение
+            </summary>
+        </member>
+        <member name="M:IT.Data.Dto_Base.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:IT.Data.Dto_Base.Init(System.Data.IDataReader)">
+            <summary>
+            Реализация интерфейса IDtoBase_Reader
+            </summary>
+            <param name="dr"></param>
+        </member>
+        <member name="M:IT.Data.Dto_Base.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Data.IDto_Reader">
+            <summary>
+            Интерфейс, используемый для расширения  List%3CT%3E ExecuteList%3CT%3E(this DbCommand cmd, DbTransaction transaction = null) where T : IDtoBase_Reader, new()'
+            </summary>
+        </member>
+        <member name="M:IT.Data.IDto_Reader.Init(System.Data.IDataReader)">
+            <summary>
+            Заполняет себя данными из DbDataReader
+            </summary>
+            <param name="dr">Открытый и готовый для считывания одной записи DbDataReader</param>
+        </member>
+        <member name="T:IT.Data.IDto_RowState">
+            <summary>
+            Сущность имеет стстояние записи
+            </summary>
+        </member>
+        <member name="P:IT.Data.IDto_RowState.RowState">
+            <summary>
+            Состояние записи
+            </summary>
+        </member>
+        <member name="T:IT.IInvoke">
+            <summary>
+            Интерфейс для расширения возможностей класса за счет IInvoke_Extention
+            (AppInvoke(), AppBeginInvoke(), GoAsynk(), ActionDelay()
+            </summary>
+        </member>
+        <member name="T:IT.IInvoke_Extention">
+            <summary>
+            Extentions class to IInvoke
+            </summary>
+        </member>
+        <member name="P:IT.IInvoke_Extention.Context">
+            <summary>
+            Presumably context for UI
+            </summary>
+        </member>
+        <member name="M:IT.IInvoke_Extention.AppInvoke(IT.IInvoke,System.Action,System.Action{System.Exception})">
+            <summary>
+            Выполнение act в главном потоке 
+            </summary>
+            <param name="sender">Расширяемый интерфейс</param>
+            <param name="act">Действие</param>
+            <param name="onError">Метод обработки исключений</param>
+        </member>
+        <member name="M:IT.IInvoke_Extention.GoAsync(IT.IInvoke,System.Action,System.Action{System.TimeSpan},System.Action{System.Exception})">
+            <summary>
+            Выполнение задачи в ThreadPool с подсчетом времени, запускат onFynally/onError в контексте вызывавшего потока
+            </summary>
+            <param name="sender">Расширяемый интерфейс</param>
+            <param name="doWork">Метод, выполняющий полезную работу</param>
+            <param name="onError">Метод, вызываемый при ошибке</param>
+            <param name="onFynally"></param>
+        </member>
+        <member name="M:IT.IInvoke_Extention.GoAsync``1(IT.IInvoke,System.Func{``0},System.Action{``0},System.Action{System.TimeSpan},System.Action{System.Exception})">
+            <summary>
+            Выполнение задачи в ThreadPool с подсчетом времени, запускат onFynally/onError в контексте вызывавшего потока
+            Выполнение задачи в Task с подсчетом времени
+            </summary>
+            <param name="sender">Расширяемый интерфейс</param>
+            <param name="doWork"></param>
+            <param name="onComplete"></param>
+            <param name="onError"></param>
+            <param name="onFynally"></param>
+        </member>
+        <member name="M:IT.IInvoke_Extention.ActionDelay(IT.IInvoke,System.Action,System.Int32)">
+            <summary>
+            Выполняет указанное действие по истечению указанного времени
+            </summary>
+            <param name="sender">Расширяемый интерфейс</param>
+            <param name="action"></param>
+            <param name="delaySecond"></param>
+        </member>
+        <member name="M:IT.IInvoke_Extention.Exec(System.Threading.SynchronizationContext,System.Action,System.Boolean)">
+            <summary>
+            Выполняет метод act в указанном контексте, если указан
+            </summary>
+            <param name="context"></param>
+            <param name="act"></param>
+            <param name="isAsysnc"></param>
+        </member>
+        <member name="M:IT.IInvoke_Extention.Exec``1(System.Threading.SynchronizationContext,System.Action{``0},``0,System.Boolean)">
+            <summary>
+            Выполняет метод act в указанном контексте, если указан
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="context"></param>
+            <param name="act"></param>
+            <param name="value"></param>
+            <param name="isAsysnc"></param>
+        </member>
+        <member name="T:IT.MemCache`2">
+            <summary>
+            Удобный справочник, который не ругается на ключи
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="P:IT.MemCache`2.Item(`0)">
+            <summary>
+            Не ругается на запрос отсутствующего ключа
+            </summary>
+            <param name="key">Ключ</param>
+            <returns></returns>
+        </member>
+        <member name="P:IT.MemCache`2.Item(`0,System.Func{`1})">
+            <summary>
+            Позволяет создать значение указанного ключа из getValue/>
+            </summary>
+            <param name="key">Ключ</param>
+            <param name="getValue">Метод получения значения</param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Assembly_Extention">
+            <summary>
+            Extention methods for Assembly
+            </summary>
+        </member>
+        <member name="M:IT.Assembly_Extention.GetCustomAttributes``1(System.Reflection.Assembly)">
+            <summary>
+            Получение всех TAttribute из атрибутов сборки
+            </summary>
+            <param name="asm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Assembly_Extention.GetCustomAttribute``1(System.Reflection.Assembly)">
+            <summary>
+            Получение TAttribute из атрибутов сборки
+            </summary>
+            <param name="asm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Assembly_Extention.GetAppFileVersionInfo(System.Reflection.Assembly)">
+            <summary>
+            
+            </summary>
+            <param name="asm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Assembly_Extention.GetInformationalVersionAttribute(System.Reflection.Assembly)">
+            <summary>
+            Возвращает значение атрибута из AssemblyInfo.cs
+            </summary>
+            <param name="asm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Assembly_Extention.GetExecutablePath(System.Reflection.Assembly)">
+            <summary>
+            
+            </summary>
+            <param name="asm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Assembly_Extention.GetProductAttribute(System.Reflection.Assembly)">
+            <summary>
+            Возвращает значение атрибута из AssemblyInfo.cs
+            </summary>
+            <param name="asm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Assembly_Extention.GetTitleAttribute(System.Reflection.Assembly)">
+            <summary>
+            Возвращает значение атрибута из AssemblyInfo.cs
+            </summary>
+            <param name="asm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Assembly_Extention.GetProductName(System.Reflection.Assembly)">
+            <summary>
+            Вычисление ProductName 3-мя способами
+            </summary>
+            <param name="asm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Assembly_Extention.GetStrProductVersion(System.Reflection.Assembly)">
+            <summary>
+            Вычисление Productversion 2-мя способами
+            </summary>
+            <param name="asm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Assembly_Extention.UsingAssembly``1(System.Func{System.Reflection.Assembly,``0},System.String)">
+            <summary>
+            It provides for the use of checked object
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="act"></param>
+            <param name="methodName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.String_Extentions">
+            <summary>
+            Расширения для string
+            </summary>
+        </member>
+        <member name="F:IT.String_Extentions.TRUE_WORDS">
+            <summary>
+            Варианты строк в нижнем регистре, обозначающие позитивное значение bool
+            </summary>
+        </member>
+        <member name="F:IT.String_Extentions.DecimalSeparator">
+            <summary>
+            Разделитель целой и дробной части, используемые в системе
+            </summary>
+        </member>
+        <member name="M:IT.String_Extentions.ReplaceDecimalSeparator(System.String)">
+            <summary>
+            Замена символов '.' и ',' на  System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator
+            </summary>
+            <param name="s">Расширяемый экземпляр</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.String_Extentions.To``1(System.String)">
+            <summary>
+            Применяет "TryParse" для указанного типа
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.String_Extentions.TryParse``1(System.String,``0@)">
+            <summary>
+            Пытаерся применить typeof(T).TryParse()
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="s"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.String_Extentions.To``1(System.String,``0)">
+            <summary>
+            Применяет "TryParse" (если есть) для указанного типа
+            инче возвращает default(T)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="s"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.String_Extentions.ToDef``1(System.String)">
+            <summary>
+            Применяет "TryParse" (если есть) для указанного типа
+            инче возвращает default(T)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.String_Extentions.ToBool(System.String,System.Boolean)">
+            <summary>
+            Как правило актуально для импорта
+            </summary>
+            <param name="s"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.String_Extentions.Split(System.String,System.StringSplitOptions,System.Char[])">
+            <summary>
+            Возвращает строковый массив, содержащий подстроки данной строки, разделенные
+            элементами заданного массива знаков Юникода.Параметр указывает, следует ли
+            возвращать пустые элементы массива.
+            </summary>
+            <param name="s">Расширяемый экземпляр</param>
+            <param name="options">System.StringSplitOptions.RemoveEmptyEntries, чтобы исключить пустые элементы из возвращаемого массива; или System.StringSplitOptions.None для включения пустых элементов в возвращаемый массив.</param>
+            <param name="separator">Массив знаков Юникода, разделяющих подстроки в данной строке, пустой массив, не содержащий разделителей, или null.</param>
+            <returns>Массив, элементы которого содержат подстроки данной строки, разделенные одним или более знаками из separator.Дополнительные сведения см. в разделе "Примечания".</returns>
+        </member>
+        <member name="M:IT.String_Extentions.ToTranslit(System.String)">
+            <summary>
+            Перевод русского текста в латиницу + ToUpper()
+            </summary>
+            <param name="s">Исходная строка</param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Type_Extention">
+            <summary>
+            Extention methods for Type
+            </summary>
+        </member>
+        <member name="M:IT.Type_Extention.FromNullable(System.Type)">
+            <summary>
+            Type extracts from Nullable of Type
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Type_Extention.GetPropertiesI(System.Type)">
+            <summary>
+            PropertyInfo extracts from Type (include interaces)
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.NotifyPropertyChangedOnly">
+            <summary>
+            Простая реализация INotifyPropertyChanged
+            </summary>
+        </member>
+        <member name="E:IT.NotifyPropertyChangedOnly.PropertyChanged">
+            <summary>
+            INotifyPropertyChanged
+            </summary>
+        </member>
+        <member name="M:IT.NotifyPropertyChangedOnly.OnPropertyChanged(System.String)">
+            <summary>
+            Упрощение вызова для наследников
+            </summary>
+            <param name="propertyName">Имя изменяемого свойства</param>
+        </member>
+        <member name="E:IT.NotifyPropertyChangedOnly.PropertyChanging">
+            <summary>
+            INotifyPropertyChanging
+            </summary>
+        </member>
+        <member name="M:IT.NotifyPropertyChangedOnly.OnPropertyChanging(System.String)">
+            <summary>
+            Упрощение вызова для наследников
+            </summary>
+            <param name="propertyName">Имя изменяемого свойства</param>
+        </member>
+        <member name="T:IT.NotifyPropertyChangedBase">
+            <summary>
+            Простая реализация INotifyPropertyChanged, наследуется от Disposable
+            </summary>
+        </member>
+        <member name="E:IT.NotifyPropertyChangedBase.PropertyChanged">
+            <summary>
+            INotifyPropertyChanged
+            </summary>
+        </member>
+        <member name="M:IT.NotifyPropertyChangedBase.OnPropertyChanged(System.String)">
+            <summary>
+            Упрощение вызова для наследников
+            </summary>
+            <param name="propertyName">Имя изменяемого свойства</param>
+        </member>
+        <member name="E:IT.NotifyPropertyChangedBase.PropertyChanging">
+            <summary>
+            INotifyPropertyChanging
+            </summary>
+        </member>
+        <member name="M:IT.NotifyPropertyChangedBase.OnPropertyChanging(System.String)">
+            <summary>
+            Упрощение вызова для наследников
+            </summary>
+            <param name="propertyName">Имя изменяемого свойства</param>
+        </member>
+        <member name="T:IT.NotifyPropertyChangedBaseEx">
+            <summary>
+            NotifyPropertyChangedBase + проверку наличия изменяемого свойства
+            </summary>
+        </member>
+        <member name="P:IT.NotifyPropertyChangedBaseEx.SelfProperties">
+            <summary>
+            Все свойства данного класса
+            </summary>
+        </member>
+        <member name="P:IT.NotifyPropertyChangedBaseEx.ThrowOnInvalidPropertyName">
+            <summary>
+            Выполнять ли проверку наличия изменяемого свойства
+            </summary>
+        </member>
+        <member name="M:IT.NotifyPropertyChangedBaseEx.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:IT.NotifyPropertyChangedBaseEx.VerifyPropertyName(System.String)">
+            <summary>
+            Проверка наличия свойства
+            </summary>
+            <param name="propertyName">Имя проверяемого свойства</param>
+        </member>
+        <member name="M:IT.NotifyPropertyChangedBaseEx.Finalize">
+            <summary>
+            Destructor
+            </summary>
+        </member>
+        <member name="M:IT.NotifyPropertyChangedBaseEx.ToString">
+            <summary>
+            Возвращает короткое имя типа
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IT.NotifyPropertyChangedBaseEx.OnPropertyChanged(System.String)">
+            <summary>
+            Упрощение вызова для наследников
+            </summary>
+            <param name="propertyName">Имя изменяемого свойства</param>
+        </member>
+        <member name="M:IT.NotifyPropertyChangedBaseEx.OnPropertyChanging(System.String)">
+            <summary>
+            Упрощение вызова для наследников
+            </summary>
+            <param name="propertyName">Имя изменяемого свойства</param>
+        </member>
+        <member name="T:IT.Serializer_Json">
+            <summary>
+            Скриализатор в/из вайлов фрмата json
+            </summary>
+        </member>
+        <member name="F:IT.Serializer_Json.KnownTypes">
+            <summary>
+            изначально известные сложные типы
+            </summary>
+        </member>
+        <member name="M:IT.Serializer_Json.SerializeDataContract(System.Object,System.IO.Stream,System.Type[])">
+            <summary>
+            Метод сериализации в поток
+            </summary>
+            <param name="item"></param>
+            <param name="stream"></param>
+            <param name="knownTypes"></param>
+        </member>
+        <member name="M:IT.Serializer_Json.Serialize_ToFile(System.Object,System.String,System.Type[])">
+            <summary>
+            Сериализация посредством DataContractJsonSerializer
+            </summary>
+            <param name="item"></param>
+            <param name="file"></param>
+            <param name="knownTypes"></param>
+        </member>
+        <member name="M:IT.Serializer_Json.Serialize_ToStream(System.Object,System.Type[])">
+            <summary>
+            Сериализация посредством DataContractJsonSerializer
+            </summary>
+            <param name="item"></param>
+            <param name="knownTypes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Serializer_Json.Deserialize``1(System.IO.Stream,System.Type[])">
+            <summary>
+            Метод десериализации из файла
+            </summary>
+            <typeparam name="R"></typeparam>
+            <param name="stream"></param>
+            <param name="knownTypes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Serializer_Json.Deserialize``1(System.String,System.Type[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="R"></typeparam>
+            <param name="file"></param>
+            <param name="knownTypes"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Serializer">
+            <summary>
+            Сериализация объектов
+            </summary>
+        </member>
+        <member name="M:IT.Serializer.From(System.IO.Stream,System.Runtime.Serialization.IFormatter)">
+            <summary>
+            Десериализация обекта из потока
+            </summary>
+            <param name="str">Входной поток</param>
+            <param name="formater"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Serializer.From``1(System.IO.Stream,System.Runtime.Serialization.IFormatter)">
+            <summary>
+            Десериализация обекта из потока
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="str">Входной поток</param>
+            <param name="formater"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Serializer.To(System.Object,System.IO.Stream,System.Runtime.Serialization.IFormatter)">
+            <summary>
+            Сериализация объекта в поток
+            </summary>
+            <param name="data"></param>
+            <param name="str"></param>
+            <param name="formater"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Disposable">
+            <summary>
+            Заготовка для упрщенной реализации IDisposable ( void Dispose(bool disposing) + bool IsDisposed + void VerifyDisposed() + логирование)
+            </summary>
+        </member>
+        <member name="P:IT.Disposable.IsDisposed">
+            <summary>
+            Признак уничтожения обЪекта
+            </summary>
+        </member>
+        <member name="M:IT.Disposable.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:IT.Disposable.Dispose(System.Boolean)">
+            <summary>
+            Метод интерфейса для перекрытия
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:IT.Disposable.Dispose">
+            <summary>
+            Реализзация интерфейса
+            </summary>
+        </member>
+        <member name="M:IT.Disposable.VerifyDisposed">
+            <summary>
+            Если объект уже уничтожен - запускает исключение ObjectDisposedException()
+            </summary>
+        </member>
+        <member name="T:IT.WPF.ValueWrapper`1">
+            <summary>
+            Обертка для удобного манипулирования объектами в списочных элементах управления
+            </summary>
+            <typeparam name="T">Тип перечисления</typeparam>
+        </member>
+        <member name="E:IT.WPF.ValueWrapper`1.IsCheckedChanged">
+            <summary>
+            No Coment
+            </summary>
+        </member>
+        <member name="M:IT.WPF.ValueWrapper`1.Set_IsChecked(System.Boolean)">
+            <summary>
+            Метод установки значения + вызов события
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="E:IT.WPF.ValueWrapper`1.IsEnabledChanged">
+            <summary>
+            No Coment
+            </summary>
+        </member>
+        <member name="M:IT.WPF.ValueWrapper`1.Set_IsEnabled(System.Boolean)">
+            <summary>
+            Метод установки значения + вызов события
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="P:IT.WPF.ValueWrapper`1.Key">
+            <summary>
+            Собственно значение
+            </summary>
+        </member>
+        <member name="P:IT.WPF.ValueWrapper`1.Caption">
+            <summary>
+            return this.ToString();
+            </summary>
+        </member>
+        <member name="P:IT.WPF.ValueWrapper`1.IsChecked">
+            <summary>
+            Для возможности выбирать в списке
+            </summary>
+        </member>
+        <member name="P:IT.WPF.ValueWrapper`1.IsEnabled">
+            <summary>
+            Для возможности отключения
+            </summary>
+        </member>
+        <member name="M:IT.WPF.ValueWrapper`1.#ctor(`0,System.String,System.EventHandler{IT.EventArgs{System.Boolean}})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="key"></param>
+            <param name="caption"></param>
+            <param name="isCheckedChanged"></param>
+        </member>
+        <member name="M:IT.WPF.ValueWrapper`1.ToString">
+            <summary>
+            No Coment
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:IT.WPF.EnumWrapper`1">
+            <summary>
+            Обертка для удобного использования Enum со списками
+            </summary>
+            <typeparam name="T">Тип перечисления</typeparam>
+        </member>
+        <member name="M:IT.WPF.EnumWrapper`1.CreateFromEnumType">
+            <summary>
+            return Enum.GetValues(typeof(T)).Cast&lt;T>().Select(i => new EnumWrapper&lt;T>(i));
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.EnumWrapper`1.CreateFromEnumType(System.EventHandler{IT.EventArgs{System.Boolean}})">
+            <summary>
+            return Enum.GetValues(typeof(T)).Cast&lt;T>().Select(i => new EnumWrapper&lt;T>(i, isCheckedChanged));
+            </summary>
+            <param name="isCheckedChanged"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.EnumWrapper`1.#ctor(`0,System.EventHandler{IT.EventArgs{System.Boolean}})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="key"></param>
+            <param name="isCheckedChanged"></param>
+        </member>
+        <member name="M:IT.WPF.EnumWrapper`1.Equals(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.EnumWrapper`1.GetHashCode">
+            <summary>
+            Возвращает хеш-код данного экземпляра
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.EnumWrapper`1.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:IT.WPF.GroupCheckAdapter`1">
+            <summary>
+            Класс для управления группой переключателей
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="E:IT.WPF.GroupCheckAdapter`1.ValueChanged">
+            <summary>
+            Возникает при изменении какого-либо переключателя
+            </summary>
+        </member>
+        <member name="M:IT.WPF.GroupCheckAdapter`1.OnValueChanged(IT.WPF.ValueWrapper{`0})">
+            <summary>
+            Вызывает соответствующее событие
+            </summary>
+            <param name="value">Изменившийся переключатель</param>
+        </member>
+        <member name="P:IT.WPF.GroupCheckAdapter`1.List">
+            <summary>
+            Весь список переключателей
+            </summary>
+        </member>
+        <member name="P:IT.WPF.GroupCheckAdapter`1.Selected">
+            <summary>
+            Выбранные переключатели
+            </summary>
+        </member>
+        <member name="M:IT.WPF.GroupCheckAdapter`1.#ctor(IT.WPF.ValueWrapper{`0}[],System.EventHandler{IT.EventArgs{IT.WPF.ValueWrapper{`0}}})">
+            <summary>
+            ctor
+            </summary>
+            <param name="fullArray">Весь список переключателей</param>
+            <param name="onValueChanged">Вызывает соответствующее событие</param>
+        </member>
+        <member name="M:IT.WPF.GroupCheckAdapter`1.#ctor(System.Func{IT.WPF.ValueWrapper{`0}[]},System.EventHandler{IT.EventArgs{IT.WPF.ValueWrapper{`0}}})">
+            <summary>
+            ctor
+            </summary>
+            <param name="getFullArray">Метод получения списка переключателей</param>
+            <param name="onValueChanged">Вызывает соответствующее событие</param>
+        </member>
+        <member name="M:IT.WPF.GroupCheckAdapter`1.Dispose(System.Boolean)">
+            <summary>
+            Деструктор, отвязывает события
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:IT.WPF.GroupCheckAdapter`1.Clear">
+            <summary>
+            Очистка значений переклюсателей
+            </summary>
+        </member>
+        <member name="M:IT.WPF.GroupCheckAdapter`1.Reset(IT.WPF.ValueWrapper{`0}[])">
+            <summary>
+            Заново заполняет this.List
+            </summary>
+        </member>
+        <member name="M:IT.WPF.GroupCheckAdapter`1.Reset">
+            <summary>
+            Заново заполняет (this.List = this.getFullArray())
+            </summary>
+        </member>
+        <member name="M:IT.WPF.GroupCheckAdapter`1.Flag_Changed(System.Object,IT.EventArgs{System.Boolean})">
+            <summary>
+            Вызывается при смене состояния переключателя
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:IT.WPF.GroupCheckAdapter`1.Init_List">
+            <summary>
+            Привязка событий IsCheckedChanged для каждого элемента списка
+            </summary>
+        </member>
+        <member name="T:IT.WPF.CommandBehavior">
+            <summary>
+            Defines the attached properties to create a CommandBehaviorBinding
+            </summary>
+        </member>
+        <member name="F:IT.WPF.CommandBehavior.BehaviorProperty">
+            <summary>
+            Behavior Attached Dependency Property
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.GetBehavior(System.Windows.DependencyObject)">
+            <summary>
+            Gets the Behavior property. 
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.SetBehavior(System.Windows.DependencyObject,IT.WPF.CommandBehavior.CommandBehaviorBinding)">
+            <summary>
+            Sets the Behavior property.  
+            </summary>
+        </member>
+        <member name="F:IT.WPF.CommandBehavior.CommandProperty">
+            <summary>
+            Command Attached Dependency Property
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.GetCommand(System.Windows.DependencyObject)">
+            <summary>
+            Gets the Command property.  
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.SetCommand(System.Windows.DependencyObject,System.Windows.Input.ICommand)">
+            <summary>
+            Sets the Command property. 
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.OnCommandChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Одна из точек входа
+            </summary>
+        </member>
+        <member name="F:IT.WPF.CommandBehavior.CommandParameterProperty">
+            <summary>
+            CommandParameter Attached Dependency Property
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.GetCommandParameter(System.Windows.DependencyObject)">
+            <summary>
+            Gets the CommandParameter property.  
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.SetCommandParameter(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Sets the CommandParameter property. 
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.OnCommandParameterChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Одна из точек входа
+            </summary>
+        </member>
+        <member name="F:IT.WPF.CommandBehavior.EventProperty">
+            <summary>
+            Event Attached Dependency Property
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.GetEvent(System.Windows.DependencyObject)">
+            <summary>
+            Gets the Event property.  This dependency property 
+            indicates ....
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.SetEvent(System.Windows.DependencyObject,System.String)">
+            <summary>
+            Sets the Event property.  This dependency property 
+            indicates ....
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.OnEventChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Главная точка входа
+            </summary>
+        </member>
+        <member name="T:IT.WPF.CommandBehavior.CommandBehaviorBinding">
+            <summary>
+            Defines the command behavior binding
+            </summary>
+        </member>
+        <member name="P:IT.WPF.CommandBehavior.CommandBehaviorBinding.Owner">
+            <summary>
+            Get the owner of the CommandBinding ex: a Button
+            This property can only be set from the BindEvent Method
+            </summary>
+        </member>
+        <member name="P:IT.WPF.CommandBehavior.CommandBehaviorBinding.Command">
+            <summary>
+            The command to execute when the specified event is raised
+            </summary>
+        </member>
+        <member name="P:IT.WPF.CommandBehavior.CommandBehaviorBinding.CommandParameter">
+            <summary>
+            Gets or sets a CommandParameter
+            </summary>
+        </member>
+        <member name="P:IT.WPF.CommandBehavior.CommandBehaviorBinding.EventName">
+            <summary>
+            Имя события для подключения
+            Это свойство может быть задано только из метода BindEvent
+            </summary>
+        </member>
+        <member name="P:IT.WPF.CommandBehavior.CommandBehaviorBinding.Event">
+            <summary>
+            The event info of the event
+            Для создания обработчика события
+            </summary>
+        </member>
+        <member name="P:IT.WPF.CommandBehavior.CommandBehaviorBinding.EventHandler">
+            <summary>
+            Gets the EventHandler for the binding with the event
+            Обработчик данного события
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.CommandBehaviorBinding.ExecuteCommand2(System.EventArgs)">
+            <summary>
+            Выполняет комманду, если CommandParameter не указан, то передает EventArgs
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.CommandBehaviorBinding.ExecuteCommand">
+            <summary>
+            Выполняет комманду
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.CommandBehaviorBinding.Dispose">
+            <summary>
+            Unregisters the EventHandler from the Event
+            </summary>
+        </member>
+        <member name="M:IT.WPF.CommandBehavior.CommandBehaviorBinding.CreateDelegate(System.Type,System.Reflection.MethodInfo,System.Object)">
+            <summary>
+            Generates a delegate with a matching signature of the supplied eventHandlerType
+            This method only supports Events that have a delegate of type void
+            </summary>
+            <param name="eventHandlerType">тип делегата, который надо построить. Note that this must always be a void delegate</param>
+            <param name="methodToInvoke">The method to invoke</param>
+            <param name="methodInvoker">The object where the method resides</param>
+            <returns>Returns a delegate with the same signature as eventHandlerType that calls the methodToInvoke inside</returns>
+        </member>
+        <member name="T:IT.WPF.DataGridBehaviour">
+            <summary>
+            Behaviour class for DataGrid
+            </summary>
+        </member>
+        <member name="F:IT.WPF.DataGridBehaviour.ScrollToViewProperty">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IT.WPF.DataGridBehaviour.GetScrollToView(System.Windows.DependencyObject)">
+            <summary>
+            Retun current value of a ScrollToView
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.DataGridBehaviour.SetScrollToView(System.Windows.DependencyObject,System.Boolean)">
+            <summary>
+            Set the value of a ScrollToView
+            </summary>
+            <param name="element"></param>
+            <param name="value"></param>
+        </member>
+        <member name="F:IT.WPF.DataGridBehaviour.SetKeyboardFocusOnScrollToViewProperty">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IT.WPF.DataGridBehaviour.GetSetKeyboardFocusOnScrollToView(System.Windows.DependencyObject)">
+            <summary>
+            Retun current value of a SetKeyboardFocusOnScrollToView
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.DataGridBehaviour.SetSetKeyboardFocusOnScrollToView(System.Windows.DependencyObject,System.Boolean)">
+            <summary>
+            Set the value of a SetKeyboardFocusOnScrollToView
+            </summary>
+            <param name="element"></param>
+            <param name="value"></param>
+        </member>
+        <member name="F:IT.WPF.DataGridBehaviour.FilteredColumnsProperty">
+            <summary>
+            Фильтрация столбцов во атрибуту BrowsableAttribute, 
+            для EnumDataTypeAttribute создает DataGridComboBoxColumn, 
+            по атрибуту EditableAttribute определяется свойство IsReadOnly
+            вытаскивание имени столбца из атрибутов DisplayAttribute и DisplayNameAttribute
+            </summary>
+        </member>
+        <member name="M:IT.WPF.DataGridBehaviour.GetFilteredColumns(System.Windows.DependencyObject)">
+            <summary>
+            Retun current value of a FilteredColumns
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.DataGridBehaviour.SetFilteredColumns(System.Windows.DependencyObject,System.Boolean)">
+            <summary>
+            Set the value of a FilteredColumns
+            </summary>
+            <param name="element"></param>
+            <param name="value"></param>
+        </member>
+        <member name="F:IT.WPF.DataGridBehaviour.ColumnsProperty">
+            <summary>
+            It allows you to bind a collection of columns
+            </summary>
+        </member>
+        <member name="M:IT.WPF.DataGridBehaviour.GetColumns(System.Windows.DependencyObject)">
+            <summary>
+            Retun current value of a Columns
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.DataGridBehaviour.SetColumns(System.Windows.DependencyObject,System.Collections.ObjectModel.ObservableCollection{System.Windows.Controls.DataGridColumn})">
+            <summary>
+            Set the value of a Columns
+            </summary>
+            <param name="element"></param>
+            <param name="value"></param>
+        </member>
+        <member name="T:IT.WPF.IEnumerablePropertyBase`2">
+            <summary>
+            The base class for easy work with lists in WPF
+            </summary>
+            <typeparam name="TList"></typeparam>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="E:IT.WPF.IEnumerablePropertyBase`2.SelectedChanged">
+            <summary>
+            Возникает при изменении свойчтва
+            </summary>
+        </member>
+        <member name="P:IT.WPF.IEnumerablePropertyBase`2.List">
+            <summary>
+            Список
+            </summary>
+        </member>
+        <member name="P:IT.WPF.IEnumerablePropertyBase`2.SelectedItem">
+            <summary>
+            Текущее значение
+            </summary>
+        </member>
+        <member name="P:IT.WPF.IEnumerablePropertyBase`2.HasSelected">
+            <summary>
+            Выбран ли какой-либо элемент в данный момент
+            </summary>
+        </member>
+        <member name="M:IT.WPF.IEnumerablePropertyBase`2.#ctor">
+            <summary>
+            Constructor, only for heirs
+            </summary>
+        </member>
+        <member name="M:IT.WPF.IEnumerablePropertyBase`2.#ctor(System.Action{`1})">
+            <summary>
+            constructor, only for heirs. Bind a method to an event
+            </summary>
+            <param name="selectedChanged">Метод, запускаемый при возникновении события</param>
+        </member>
+        <member name="M:IT.WPF.IEnumerablePropertyBase`2.Select(System.Predicate{`1},System.Boolean,System.Boolean)">
+            <summary>
+            Поиск по списку
+            </summary>
+            <param name="pred">Услоаие поиска</param>
+            <param name="changeCurrent">Следует ли заполнять результатом свойство Current</param>
+            <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.IEnumerablePropertyBase`2.SelectedItem_Set(`1,System.Boolean)">
+            <summary>
+            Устанавливает значение this._Current
+            </summary>
+            <param name="value">Значение</param>
+            <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
+        </member>
+        <member name="M:IT.WPF.IEnumerablePropertyBase`2.OnSelectedChanged(`1)">
+            <summary>
+            Вызов OnPropertyChanged("Current") и соответствующего события
+            </summary>
+            <param name="value">Выбор для передачи в событие</param>
+        </member>
+        <member name="T:IT.WPF.IEnumerableProperty`2">
+            <summary>
+            class for easy work with lists in WPF
+            </summary>
+            <typeparam name="TList"></typeparam>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="E:IT.WPF.IEnumerableProperty`2.ListChanged">
+            <summary>
+            Event
+            </summary>
+        </member>
+        <member name="E:IT.WPF.IEnumerableProperty`2.IsWorkingChanged">
+            <summary>
+            Возникает при смене состояния IsWorking (используется только при асинхронных операциях)
+            </summary>
+        </member>
+        <member name="F:IT.WPF.IEnumerableProperty`2.fGetList">
+            <summary>
+            Метод получения списка из конструктора
+            </summary>
+        </member>
+        <member name="F:IT.WPF.IEnumerableProperty`2.fGetListAsync">
+            <summary>
+            Метод заполнения списка из конструктора
+            </summary>
+        </member>
+        <member name="P:IT.WPF.IEnumerableProperty`2.List">
+            <summary>
+            Список
+            </summary>
+        </member>
+        <member name="P:IT.WPF.IEnumerableProperty`2.Current">
+            <summary>
+            Текущее значение
+            </summary>
+        </member>
+        <member name="P:IT.WPF.IEnumerableProperty`2.IsWorking">
+            <summary>
+            Признак работы в асинхронном режиме
+            </summary>
+        </member>
+        <member name="M:IT.WPF.IEnumerableProperty`2.#ctor(System.Func{`0},System.Action{`1})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="getList">Функсия получения списка</param>
+            <param name="selectedChanged">Подписчик соответствующего события</param>
+        </member>
+        <member name="M:IT.WPF.IEnumerableProperty`2.#ctor(System.Action{System.Action{`0}},System.Action{`1})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="getListAsync">Передает метод (типа SrtData()) для использования при готовности данных</param>
+            <param name="selectedChanged">Подписчик соответствующего события</param>
+        </member>
+        <member name="M:IT.WPF.IEnumerableProperty`2.Reset(`0)">
+            <summary>
+            Сброс списка в указанное значение
+            </summary>
+            <param name="data">Данные для списка</param>
+        </member>
+        <member name="M:IT.WPF.IEnumerableProperty`2.Reset">
+            <summary>
+            Сброс списка, и принудительное заполнение из источника (метод из конструктора)
+            </summary>
+        </member>
+        <member name="M:IT.WPF.IEnumerableProperty`2.ResetAsync">
+            <summary>
+            Сброс списка, и принудительное заполнение из источника (из конструктора) в другом потоке
+            </summary>
+        </member>
+        <member name="M:IT.WPF.IEnumerableProperty`2.GetListInternal">
+            <summary>
+            Создает список для поля List посредством вызова метод из конструктора
+            </summary>
+            <returns>Результат перегрузки с параметром от метода из конструктора</returns>
+        </member>
+        <member name="M:IT.WPF.IEnumerableProperty`2.OnListChanged(`0)">
+            <summary>
+            Вызов OnPropertyChanged("List") и соответствующего события
+            </summary>
+            <param name="list">Список для передачи в событие</param>
+        </member>
+        <member name="M:IT.WPF.IEnumerableProperty`2.OnIsWorkingChanged(System.Boolean)">
+            <summary>
+            Установка значения IsWorking и вызов сопутствующих методов
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IT.WPF.IEnumerableProperty`2.GetList">
+            <summary>
+            Запускается исключительно из свойства List + запуск событий
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:IT.WPF.IEnumerablePropertyReadOnly`1">
+            <summary>
+            Класс для удобной работы с выделением элементов списками
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:IT.WPF.IEnumerablePropertyReadOnly`1.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:IT.WPF.IEnumerablePropertyReadOnly`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Action{`0})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="list"></param>
+            <param name="onSelectedChanged"></param>
+        </member>
+        <member name="T:IT.WPF.IEnumerableProperty`1">
+            <summary>
+            Класс для удобной работы с выделением элементов списками
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:IT.WPF.IEnumerableProperty`1.#ctor(System.Func{System.Collections.Generic.IEnumerable{`0}},System.Action{`0})">
+            <summary>
+            constructor
+            </summary>
+            <param name="getList"></param>
+            <param name="selectedChanged"></param>
+        </member>
+        <member name="T:IT.WPF.MonitoredProperty`1">
+            <summary>
+            Класс-обертка для свойств, которай отслеживает изменение свойства
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="E:IT.WPF.MonitoredProperty`1.ValueChanged">
+            <summary>
+            Срабатывает при изменении значения
+            </summary>
+        </member>
+        <member name="P:IT.WPF.MonitoredProperty`1.Value">
+            <summary>
+            Значение свойства
+            </summary>
+        </member>
+        <member name="M:IT.WPF.MonitoredProperty`1.#ctor(System.EventHandler{IT.EventArgs{`0}})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="valueChanged">Вызывается после изменения свойства</param>
+        </member>
+        <member name="M:IT.WPF.MonitoredProperty`1.#ctor(System.Action{`0})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="valueChanged">Вызывается после изменения свойства</param>
+        </member>
+        <member name="M:IT.WPF.MonitoredProperty`1.OnValueChanged(`0)">
+            <summary>
+            Вызывается после изменения свойства
+            </summary>
+            <param name="v">Новое значение</param>
+        </member>
+        <member name="M:IT.WPF.MonitoredProperty`1.ToString">
+            <summary>
+            Вывод значения
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:IT.WPF.WPF_Extentions">
+            <summary>
+            Методы расширения
+            </summary>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.ShowDialog(System.Windows.Window,System.Object,System.Windows.Window,System.Boolean)">
+            <summary>
+            При отображении окна : 
+            <para>1 задает ShowInTaskbar = false</para>
+            <para>2 назначает Owner (если null, то Application.Current.MainWindow)</para>
+            </summary>
+            <param name="dialog">Расширяемый экземпляр</param>
+            <param name="dataContext">Если не null, то присваивается dialog.DataContext</param>
+            <param name="owner">Окно - владелец модального окна</param>
+            <param name="showInTaskbar">Показывать ли окно в панели задач</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.Add(System.Windows.Input.CommandBindingCollection,System.Windows.Input.ICommand,System.Windows.Input.ExecutedRoutedEventHandler,System.Windows.Input.CanExecuteRoutedEventHandler)">
+            <summary>
+            Добавление CommandBinding по его параметрам.
+            Возвращает созданный CommandBinding
+            </summary>
+            <param name="cbs">Расширяемый объект</param>
+            <param name="cmd">Комманда</param>
+            <param name="exec">Метод спабатывания</param>
+            <param name="canExec">Метод проверки доступности</param>
+            <returns>Созданный CommandBinding</returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.Add(System.Windows.Input.CommandBindingCollection,System.Windows.Input.ICommand,System.Action{System.Windows.Input.ExecutedRoutedEventArgs},System.Action{System.Windows.Input.CanExecuteRoutedEventArgs})">
+            <summary>
+            Добавление CommandBinding по его параметрам.
+            Возвращает созданный CommandBinding
+            </summary>
+            <param name="cbs">Расширяемый объект</param>
+            <param name="cmd">Комманда</param>
+            <param name="exec">Метод спабатывания</param>
+            <param name="canExec">Метод проверки доступности</param>
+            <returns>Созданный CommandBinding</returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.Add(System.Windows.Input.CommandBindingCollection,System.Windows.Input.ICommand,System.Action,System.Func{System.Boolean})">
+            <summary>
+            Добавление CommandBinding по его параметрам.
+            Возвращает созданный CommandBinding
+            </summary>
+            <param name="cbs">Расширяемый объект</param>
+            <param name="cmd">Комманда</param>
+            <param name="exec">Метод спабатывания</param>
+            <param name="canExec">Метод проверки доступности</param>
+            <returns>Созданный CommandBinding</returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.Append(System.Windows.Input.CommandBindingCollection,System.Windows.Input.ICommand,System.Windows.Input.ExecutedRoutedEventHandler,System.Windows.Input.CanExecuteRoutedEventHandler)">
+            <summary>
+            Добавление CommandBinding по его параметрам.
+            Возвращает созданный CommandBinding
+            </summary>
+            <param name="cbs">Расширяемый объект</param>
+            <param name="cmd">Комманда</param>
+            <param name="exec">Метод спабатывания</param>
+            <param name="canExec">Метод проверки доступности</param>
+            <returns>Созданный CommandBinding</returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.Append(System.Windows.Input.CommandBindingCollection,System.Windows.Input.ICommand,System.Action{System.Windows.Input.ExecutedRoutedEventArgs},System.Action{System.Windows.Input.CanExecuteRoutedEventArgs})">
+            <summary>
+            Добавление CommandBinding по его параметрам.
+            Возвращает созданный CommandBinding
+            </summary>
+            <param name="cbs">Расширяемый объект</param>
+            <param name="cmd">Комманда</param>
+            <param name="exec">Метод спабатывания</param>
+            <param name="canExec">Метод проверки доступности</param>
+            <returns>Созданный CommandBinding</returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.ReAdd(System.Windows.Input.CommandBindingCollection,System.Windows.Input.ICommand,System.Windows.Input.ExecutedRoutedEventHandler,System.Windows.Input.CanExecuteRoutedEventHandler)">
+            <summary>
+            Добавление CommandBinding по его параметрам при этом удаляет существующие привязки к командам.
+            Возвращает созданный CommandBinding
+            </summary>
+            <param name="cbs">Расширяемый объект</param>
+            <param name="cmd">Комманда</param>
+            <param name="exec">Метод спабатывания</param>
+            <param name="canExec">Метод проверки доступности</param>
+            <returns>Созданный CommandBinding</returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.ReAdd(System.Windows.Input.CommandBindingCollection,System.Windows.Input.ICommand,System.Action{System.Windows.Input.ExecutedRoutedEventArgs},System.Action{System.Windows.Input.CanExecuteRoutedEventArgs})">
+            <summary>
+            Добавление CommandBinding по его параметрам.
+            Возвращает созданный CommandBinding
+            </summary>
+            <param name="cbs">Расширяемый объект</param>
+            <param name="cmd">Комманда</param>
+            <param name="exec">Метод спабатывания</param>
+            <param name="canExec">Метод проверки доступности</param>
+            <returns>Созданный CommandBinding</returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.GetCall(System.Windows.Controls.DataGrid,System.Object,System.Int32)">
+            <summary>
+            Получение ячейки
+            </summary>
+            <param name="dg"></param>
+            <param name="item"></param>
+            <param name="colIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.Edit(System.Windows.Controls.DataGridCell,System.Predicate{System.Windows.FrameworkElement})">
+            <summary>
+            Переводит ячейку в режим редвктирования, предоставляет контрол режима редактирования. Возвращает успех редактирования
+            </summary>
+            <param name="cell"></param>
+            <param name="editControl">Контрол режима редактирования (из GetCellContent())</param>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.EditCommit(System.Windows.Controls.DataGridCell,System.Predicate{System.Windows.FrameworkElement})">
+            <summary>
+            Переводит ячейку в режим редвктирования, предоставляет контрол режима редактирования. По окончании делает BindingGroup.CommitEdit() и выходит из режима редактирования; Возвращает успех редактирования
+            </summary>
+            <param name="cell"></param>
+            <param name="editControl">Контрол режима редактирования (из GetCellContent())</param>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.GetFieldName(System.Windows.Controls.DataGridBoundColumn)">
+            <summary>
+            Пытается вернуть название поля привязки
+            </summary>
+            <param name="col"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.GetFieldName(System.Windows.Controls.Primitives.DataGridColumnHeader)">
+            <summary>
+            Пытается вернуть название поля привязки
+            </summary>
+            <param name="header"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.GetFieldName(System.Windows.Controls.GridViewColumnHeader)">
+            <summary>
+            Пытается вернуть название поля привязки
+            </summary>
+            <param name="header"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.GetVisualChildren``1(System.Windows.DependencyObject)">
+            <summary>
+            Получение дочерних визуальных объектов указанного типа
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="parent">Расширяемый объект</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.GetVisualParent``1(System.Windows.DependencyObject)">
+            <summary>
+            Помск визуального родителя
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.ScrollToCenterOfView(System.Windows.Controls.ItemsControl,System.Object)">
+            <summary>
+            Прокрутка скрола
+            </summary>
+            <param name="itemsControl">Что прокрутить</param>
+            <param name="item">Куда прокрутить</param>
+        </member>
+        <member name="T:IT.Other_Extentions">
+            <summary>
+            Расширения для простых типов
+            </summary>
+        </member>
+        <member name="M:IT.Other_Extentions.AddRange(System.Collections.IList,System.Collections.IEnumerable)">
+            <summary>
+            No coment
+            </summary>
+            <param name="collection"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:IT.Other_Extentions.AddRange``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            No coment
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="collection"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:IT.Other_Extentions.GetValue``1(System.Nullable{``0},``0)">
+            <summary>
+            При отсутствии значения возвращает def
+            </summary>
+            <typeparam name="T">Тип расширения</typeparam>
+            <param name="obj">Расширяемый объект</param>
+            <param name="def">Значение по умолчанию</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Other_Extentions.ClonePropertyTo(System.Object,System.Object,System.Boolean)">
+            <summary>
+            Пытается заполнить свойства переданного объекта собственными значениями соответствующих свойств
+            используя PropertyInfo
+            </summary>
+            <param name="source">Расширяемый экземпляр</param>
+            <param name="dest">Объект для заполнения соответствующих свойств</param>
+            <param name="isIcgnoreCase">Параметр сравнения наименованй свойств</param>
+            <returns>Объект с заполнеными соответствующими свойствами</returns>
+        </member>
+        <member name="T:IT.EnumExtention">
+            <summary>
+            расширения для перечислений
+            </summary>
+        </member>
+        <member name="M:IT.EnumExtention.GetAttributeValue``2(System.Reflection.ICustomAttributeProvider,System.Func{``0,``1},``1)">
+            <summary>
+            Получение значения атрибута указанного типа
+            </summary>
+            <typeparam name="Tattr">Тип атрибута</typeparam>
+            <typeparam name="R">Тип результата</typeparam>
+            <param name="aPr">Расширяемый экземпляр</param>
+            <param name="expression">Функция получения результата</param>
+            <param name="defaultValue">Значение по умолчанию</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.EnumExtention.GetAttributeValueStr``1(System.Reflection.ICustomAttributeProvider,System.Func{``0,System.String},System.String)">
+            <summary>
+            Получение строкового значения атрибута указанного типа
+            </summary>
+            <typeparam name="Tattr">Тип атрибута</typeparam>
+            <param name="aPr">Расширяемый экземпляр</param>
+            <param name="expression">Функция получения результата</param>
+            <param name="defaultValue">Значение по умолчанию</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.EnumExtention.GetNameFromAttributes(System.Reflection.ICustomAttributeProvider,System.String)">
+            <summary>
+            Попытка получить значения атрибутов : Display.Name, Display.ShortName, Display.Description, DisplayName.DisplayName, Description.Description
+            </summary>
+            <param name="aPr"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.EnumExtention.ToArray(System.Enum)">
+            <summary>
+            Привычное преобразование перечисленя
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.EnumExtention.GetAttributeValue``2(System.Enum,System.Func{``0,``1},``1)">
+            <summary>
+            Получение значения атрибута перечисления
+            </summary>
+            <typeparam name="Tattr">Тип атрибута</typeparam>
+            <typeparam name="R">Тип результата</typeparam>
+            <param name="enumValue">Расширяемый экземпляр</param>
+            <param name="expression">Функция получения результата</param>
+            <param name="defaultValue">Функция получения результата</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.EnumExtention.GetDescription(System.Enum)">
+            <summary>
+            Получение значения атрибута DescriptionAttribute
+            </summary>
+            <param name="enumValue">Расширяемый экземпляр</param>
+            <returns>Значение атрибута DescriptionAttribute</returns>
+        </member>
+        <member name="T:IT.ILog">
+            <summary>
+            Интерфейс для возможности расширения других классов методами логирования
+            </summary>
+        </member>
+        <member name="T:IT.LogExtentions">
+            <summary>
+            Класс расширения методов логирования
+            </summary>
+        </member>
+        <member name="M:IT.LogExtentions.LogFmt(IT.ILog,System.Diagnostics.TraceLevel,System.Exception,System.String)">
+            <summary>
+            Формирует сообщение
+            </summary>
+            <param name="obj"></param>
+            <param name="level"></param>
+            <param name="ex"></param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.LogExtentions.Error(IT.ILog,System.Exception,System.String,System.Object[])">
+            <summary>
+            Логирование соответствующего уровня
+            </summary>
+            <param name="obj"></param>
+            <param name="ex"></param>
+            <param name="formatStr"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:IT.LogExtentions.Warn(IT.ILog,System.Exception,System.String,System.Object[])">
+            <summary>
+            Логирование соответствующего уровня
+            </summary>
+            <param name="obj"></param>
+            <param name="ex"></param>
+            <param name="formatStr"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:IT.LogExtentions.Info(IT.ILog,System.String,System.Object[])">
+            <summary>
+            Логирование соответствующего уровня
+            </summary>
+            <param name="obj"></param>
+            <param name="formatStr"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:IT.LogExtentions.Debug(IT.ILog,System.String,System.Object[])">
+            <summary>
+            Логирование соответствующего уровня
+            </summary>
+            <param name="obj"></param>
+            <param name="formatStr"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:IT.LogExtentions.Trace(IT.ILog,System.String,System.Object[])">
+            <summary>
+            Логирование соответствующего уровня
+            </summary>
+            <param name="obj"></param>
+            <param name="formatStr"></param>
+            <param name="args"></param>
+        </member>
+        <member name="T:IT.Contract">
+            <summary>
+            замена System.Diagnostics.Contracts
+            </summary>
+        </member>
+        <member name="M:IT.Contract.Requires``1(System.Boolean,System.Object[])">
+            <summary>
+            замена System.Diagnostics.Contracts.Contract.Requires()
+            if(!conditions) - создание исключения TException
+            </summary>
+            <typeparam name="TException">Тип мсключения, при негативном "conditions" </typeparam>
+            <param name="conditions">Условие НЕ создания исключения</param>
+            <param name="args">Параметры конструктора исключения "conditions"</param>
+        </member>
+        <member name="M:IT.Contract.Requires(System.Boolean,System.String)">
+            <summary>
+            замена System.Diagnostics.Contracts.Contract.Requires()
+            if(!conditions) - создание исключения ArgumentException
+            </summary>
+            <param name="conditions">Условие НЕ создания исключения</param>
+            <param name="msg">Параметр конструктора исключения "conditions"</param>
+        </member>
+        <member name="M:IT.Contract.NotIsNullOrEmpty(System.String,System.String)">
+            <summary>
+            NotNull(value, parameterName) + проверка на нулевую длину, при успехе вызывает ArgumentException("'{0}' не может быть пустой строкой")
+            </summary>
+            <param name="value"></param>
+            <param name="parameterName"></param>
+        </member>
+        <member name="M:IT.Contract.NotNull(System.Object,System.String)">
+            <summary>
+            Проверка на null, при успехе вызывает ArgumentNullException
+            </summary>
+            <param name="value">Проверяемый параметр</param>
+            <param name="parameterName">Имя параметра</param>
+        </member>
+        <member name="T:IT.ISettingsBase">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IT.ISettingsBase.GetValue(System.String)">
+            <summary>
+            Без коментариев, default = null
+            </summary>
+            <param name="key">Ключ параметра (можно null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.ISettingsBase.GetConnectionStringSettings(System.String)">
+            <summary>
+            Получение ConnectionStringSettings с указанным ключем
+            </summary>
+            <param name="key">Ключ</param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.SettingsBase">
+            <summary>
+            Класс для облегчения управления настройками программы. 
+            </summary>
+        </member>
+        <member name="F:IT.SettingsBase.valueCache">
+            <summary>
+            Кешированные значения ключей
+            </summary>
+        </member>
+        <member name="M:IT.SettingsBase.GetValue(System.String)">
+            <summary>
+            Без коментариев, default = null
+            </summary>
+            <param name="key">Ключ параметра (можно null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.SettingsBase.GetConnectionStringSettings(System.String)">
+            <summary>
+            Получение ConnectionStringSettings с указанным ключем
+            </summary>
+            <param name="key">Ключ</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.SettingsBase.GetValueArray(System.String,System.String)">
+            <summary>
+            Получение массива значений из строки.
+            Разделитель = new char[] { ';', '|', ' ', ',' }
+            </summary>
+            <param name="key">Ключ параметра (можно null)</param>
+            <param name="defValue">Дефолтное значение</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.SettingsBase.GetValueArray(System.String,System.Char[],System.String)">
+            <summary>
+            Получение массива значений из строки с указанными разделителями
+            </summary>
+            <param name="key">Ключ параметра (можно null)</param>
+            <param name="separators">Разделитель значений</param>
+            <param name="defValue">Дефолтное значение</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.SettingsBase.GetValueInt(System.String,System.Int32)">
+            <summary>
+            Без коментариев, default = 0
+            </summary>
+        </member>
+        <member name="M:IT.SettingsBase.GetValueBool(System.String,System.Boolean)">
+            <summary>
+            Без коментариев, default = false
+            </summary>
+        </member>
+        <member name="M:IT.SettingsBase.GetConnectionString(System.String,System.String)">
+            <summary>
+            Получение свойства ConnectionString из ConnectionStringSettings с указанным ключем
+            </summary>
+            <param name="key">Ключ</param>
+            <param name="defValue">Значение по умолчанию</param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.SettingsBase`1">
+            <summary>
+            Инкапсуляция свойства Def
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:IT.SettingsBase`1.Def">
+            <summary>
+            Гарантированный экземпляр
+            </summary>
+        </member>
+        <member name="T:IT.SettingsBaseSaved">
+            <summary>
+            Класс для облегчения управления настройками программы. 
+            <para>public static Settings Def { get { return _defaultInstancef ?? (_defaultInstancef = new Settings()); } }</para>
+            <para>private static Settings _defaultInstancef = null;</para>
+            </summary>
+        </member>
+        <member name="P:IT.SettingsBaseSaved.Cfg">
+            <summary>
+            Без коментариев
+            </summary>
+        </member>
+        <member name="M:IT.SettingsBaseSaved.Init(System.Configuration.Configuration)">
+            <summary>
+            Для задания конфигурации из другого файла
+            </summary>
+            <param name="cfg">Новая конфигурация</param>
+        </member>
+        <member name="M:IT.SettingsBaseSaved.GetValue(System.String)">
+            <summary>
+            Без коментариев, default = null
+            </summary>
+            <param name="key">Ключ параметра (можно null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.SettingsBaseSaved.GetConnectionStringSettings(System.String)">
+            <summary>
+            Получение ConnectionStringSettings с указанным ключем
+            </summary>
+            <param name="key">Ключ</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.SettingsBaseSaved.SetValue(System.String,System.String)">
+            <summary>
+            Без коментариев
+            </summary>
+            <param name="key">Ключ параметра</param>
+            <param name="value">Значение</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.SettingsBaseSaved.Save(System.Configuration.ConfigurationSaveMode)">
+            <summary>
+            Без коментариев
+            </summary>
+        </member>
+        <member name="T:IT.SettingsBaseSaved`1">
+            <summary>
+            Инкапсуляция свойства Def
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:IT.SettingsBaseSaved`1.Def">
+            <summary>
+            Гарантированный экземпляр
+            </summary>
+        </member>
+        <member name="T:IT.EventArgs`1">
+            <summary>
+            Для передачи параметра типа T
+            </summary>
+        </member>
+        <member name="P:IT.EventArgs`1.Value">
+            <summary>
+            Собственно параметр
+            </summary>
+        </member>
+        <member name="M:IT.EventArgs`1.#ctor(`0)">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="value">Передаваемый параметр</param>
+        </member>
+        <member name="T:IT.EventArgs`2">
+            <summary>
+            Для передачи параметра типа T1, T2
+            </summary>
+        </member>
+        <member name="P:IT.EventArgs`2.Value1">
+            <summary>
+            Собственно параметр 1
+            </summary>
+        </member>
+        <member name="P:IT.EventArgs`2.Value2">
+            <summary>
+            Собственно параметр 2
+            </summary>
+        </member>
+        <member name="M:IT.EventArgs`2.#ctor(`0,`1)">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="value1">Передаваемый параметр 1</param>
+            <param name="value2">Передаваемый параметр 2</param>
+        </member>
+        <member name="T:IT.EventArgs`3">
+            <summary>
+            Для передачи параметра типа T1, T2
+            </summary>
+        </member>
+        <member name="P:IT.EventArgs`3.Value3">
+            <summary>
+            Собственно параметр 2
+            </summary>
+        </member>
+        <member name="M:IT.EventArgs`3.#ctor(`0,`1,`2)">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="value1">Передаваемый параметр 1</param>
+            <param name="value2">Передаваемый параметр 2</param>
+            <param name="value3">Передаваемый параметр 2</param>
+        </member>
+        <member name="T:IT.TreeNode_Base">
+            <summary>
+            Заготовка для использования в деревьях (только базовые свойтва и события)
+            </summary>
+        </member>
+        <member name="E:IT.TreeNode_Base.IsCheckedChanged">
+            <summary>
+            Срабатывает при выборе узла
+            </summary>
+        </member>
+        <member name="E:IT.TreeNode_Base.IsExpandedChanged">
+            <summary>
+            Срабатывает при раскрытии узла
+            </summary>
+        </member>
+        <member name="E:IT.TreeNode_Base.IsSelectedChanged">
+            <summary>
+            Срабатывает при выборе узла
+            </summary>
+        </member>
+        <member name="P:IT.TreeNode_Base.IsChecked">
+            <summary>
+            Для возможности выбора
+            </summary>
+        </member>
+        <member name="P:IT.TreeNode_Base.IsExpanded">
+            <summary>
+            Индикатор состояния узла (binding)
+            </summary>
+        </member>
+        <member name="P:IT.TreeNode_Base.IsSelected">
+            <summary>
+            Индикатор состояния узла  (binding)
+            </summary>
+        </member>
+        <member name="P:IT.TreeNode_Base.Image">
+            <summary>
+            Позволяет использовать картинку
+            </summary>
+        </member>
+        <member name="M:IT.TreeNode_Base.SetIsChecked(System.Nullable{System.Boolean},System.Boolean)">
+            <summary>
+            установка дочерних IsChecked, установка данного IsChecked, вызов IsCheckedChanged
+            </summary>
+            <param name="value"></param>
+            <param name="isRiseEvent"></param>
+        </member>
+        <member name="M:IT.TreeNode_Base.SetIsExpanded(System.Boolean)">
+            <summary>
+            Позволяет переназначить действие при паскрытии узла
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IT.TreeNode_Base.SetIsSelected(System.Boolean)">
+            <summary>
+            Позволяет переназначить действие при выборе узла
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IT.TreeNode_Base.SetImage(System.Object)">
+            <summary>
+            Позволяет применить картинку
+            </summary>
+            <param name="image"></param>
+        </member>
+        <member name="T:IT.TreeNode_Base`1">
+            <summary>
+            Заготовка для использования в деревьях
+            </summary>
+            <typeparam name="TNode">Тип класса-наследника</typeparam>
+        </member>
+        <member name="M:IT.TreeNode_Base`1.SetIsCheckedByChilds(IT.TreeNode_Base{`0})">
+            <summary>
+            Вычисляет и устанавливает IsChecked в зависимости от состояния IsChecked дочерних элементов
+            </summary>
+            <param name="node"></param>
+        </member>
+        <member name="P:IT.TreeNode_Base`1.Parent">
+            <summary>
+            Родительский узел
+            </summary>
+        </member>
+        <member name="P:IT.TreeNode_Base`1.Childs">
+            <summary>
+            Список дочерних узлов
+            </summary>
+        </member>
+        <member name="P:IT.TreeNode_Base`1.Level">
+            <summary>
+            Уровень вложенности
+            </summary>
+        </member>
+        <member name="M:IT.TreeNode_Base`1.#ctor(`0)">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="parent"></param>
+        </member>
+        <member name="M:IT.TreeNode_Base`1.GetRoot">
+            <summary>
+            Получение верхнего узла данной ветки
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IT.TreeNode_Base`1.SetIsChecked(System.Nullable{System.Boolean},System.Boolean)">
+            <summary>
+            установка дочерних IsCheckedб установка данного IsChecked, вызов IsCheckedChanged
+            </summary>
+            <param name="value"></param>
+            <param name="isRiseEvent"></param>
+        </member>
+        <member name="M:IT.TreeNode_Base`1.SetIsSelected(System.Boolean)">
+            <summary>
+            Позволяет переназначить действие при выборе узла
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IT.TreeNode_Base`1.ClearSelected">
+            <summary>
+            Очистка IsSelected данного узла и всех дочерних
+            </summary>
+        </member>
+        <member name="M:IT.TreeNode_Base`1.CreateChilds">
+            <summary>
+            При переопределении в наследнике позволяет указать другой класс соллекции
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:IT.TreeNode`2">
+            <summary>
+            Заготовка для использования в деревьях (в основном методы для работы с T)
+            </summary>
+            <typeparam name="TNode">Тип класса-наследника</typeparam>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:IT.TreeNode`2.Value">
+            <summary>
+            Значение узла
+            </summary>
+        </member>
+        <member name="M:IT.TreeNode`2.#ctor(IT.TreeNode{`0,`1},`1)">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="parent">Родительский узел</param>
+            <param name="value">Значение узла</param>
+        </member>
+        <member name="M:IT.TreeNode`2.Add(`1)">
+            <summary>
+            Формирует + добавляет дочерний узел и возвращает его
+            </summary>
+            <param name="item">Значение нового узла</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.TreeNode`2.CreateChild(`1)">
+            <summary>
+            Позволяет наследникам контрольровать процесс создания экземпляра
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.TreeNode`2.Contains(`1)">
+            <summary>
+            Проверяет наличие значения в узле и всех дочерних узлах
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.TreeNode`2.Find(System.Predicate{`0})">
+            <summary>
+            Поиск первого узла по критерию в узле и всех дочерних узлах
+            </summary>
+            <param name="criteria"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.TreeNode`2.FindListNode(System.Func{`0,System.Boolean})">
+            <summary>
+            Поиск всех узлов по критерию в узле и всех дочерних узлах
+            </summary>
+            <param name="criteria"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.TreeNode`2.ToString">
+            <summary>
+            Позволяет выводить дерево родителей + себя
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Utils">
+            <summary>
+            Полезные утилиты
+            </summary>
+        </member>
+        <member name="M:IT.Utils.CheckVersion(System.String,System.Version)">
+            <summary>
+            Сравнивает версию (диапазон версий) с верией клиента
+            </summary>
+            <param name="workingVersion"></param>
+            <param name="clientVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Utils.Execute(System.String,System.String,System.String)">
+            <summary>
+            Выполняет filePath из workDir с параметрами args
+            </summary>
+            <param name="filePath">Запускаемый файл</param>
+            <param name="workDir">Рабочая папка (если надо)</param>
+            <param name="args">Параметры командной строки (если надо)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Utils.CreateComObject(System.String,System.String)">
+            <summary>
+            Пытается создать ActiveX объект по его appId
+            </summary>
+            <param name="appId">Зарегистрированное имя ActiveX</param>
+            <param name="registerPath">Путь к файлу (.bat) регристрации ActiveX</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Utils.CreateBakFile(System.String)">
+            <summary>
+            Если файл присутствует, создает файл вида : [name]_bak[i].[ext] посредством увеличения [i]
+            </summary>
+            <param name="filePath">Проверяемый путь</param>
+        </member>
+        <member name="M:IT.Utils.Encrypt(System.String)">
+            <summary>
+            Шифрует параметры запуска для программ "Центра запуска"
+            </summary>
+            <param name="InString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Utils.Decrypt(System.String@)">
+            <summary>
+            Дешифрует параметры запуска, полученные из "Центра запуска"
+            </summary>
+            <param name="InString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Utils.DecryptXML(System.String)">
+            <summary>
+            Дешифрует параметры запуска, полученные из "Центра запуска" в виде XML
+            </summary>
+            <param name="xmlContent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Utils.CheckLoginForCrypt(System.String@,System.String@)">
+            <summary>
+            Проверка на шифрование и (если нодо) дешифрует
+            </summary>
+            <param name="login"></param>
+            <param name="pwd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Utils.CheckArgsForProgramManager(System.String[],System.String@,System.String@)">
+            <summary>
+            Проверяет число параметров (если мало, то throw new Exception("Программа должна запускаться из центра запуска!"))
+            возврашает результат CheckLoginForCrypt()
+            </summary>
+            <param name="args">Входные параметры программы</param>
+            <param name="login">Готовый к применению</param>
+            <param name="pwd">Готовый к применению</param>
+            <returns>Результат CheckLoginForCrypt()</returns>
+        </member>
+        <member name="M:IT.Utils.SizeToString(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            Формирование строки размера (файла)
+            </summary>
+            <param name="valueBytes"></param>
+            <param name="criteriaCompare"></param>
+            <param name="precision"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Utils.SizeFromString(System.String)">
+            <summary>
+            Преобразование размера в байтах из строки размера (из SizeToString)
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Utils.UsingExclusive(System.Action)">
+            <summary>
+            Using Monitor to execute the act
+            </summary>
+            <param name="act"></param>
+        </member>
+        <member name="T:IT.UtilsReflection">
+            <summary>
+            Методы для упрощения работы с отражением
+            </summary>
+        </member>
+        <member name="M:IT.UtilsReflection.GetFieldValue(System.Type,System.String)">
+            <summary>
+            Получает значение static поля (в том числе сложного)
+            </summary>
+            <param name="typ">Тип-владелец статического поля</param>
+            <param name="propertyPath">Название свойства или путь</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.UtilsReflection.GetFieldValue(System.Object,System.String)">
+            <summary>
+            Получает значение поля (в том числе сложного)
+            </summary>
+            <param name="obj">Расширяемый объект</param>
+            <param name="propertyPath">Название свойства или путь</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.UtilsReflection.GetPropertyValue(System.Object,System.String)">
+            <summary>
+            Получает значение свойства (в том числе сложного)
+            </summary>
+            <param name="obj">Расширяемый объект</param>
+            <param name="propertyPath">Название свойства или путь</param>
+        </member>
+        <member name="M:IT.UtilsReflection.SetPropertyValue(System.Object,System.String,System.Object)">
+            <summary>
+            Устанавливаен значение свойства (в том числе сложного)
+            </summary>
+            <param name="obj">Расширяемый объект</param>
+            <param name="propertyPath">Название свойства или путь</param>
+            <param name="value">Знсчение</param>
+        </member>
+        <member name="M:IT.UtilsReflection.ExecStaticMethod``1(System.Type,System.String,System.Object[])">
+            <summary>
+            Выполняет статический метод из типа typ
+            </summary>
+            <typeparam name="T">Возвращаемое методом значение</typeparam>
+            <param name="typ">Расширяемый тип</param>
+            <param name="methodName">Название метода</param>
+            <param name="args">Параметры метода (при использовании параметров out следует передавать реальный массив и потом из него читоать нужные элементы)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.UtilsReflection.ExecMethod(System.Object,System.String,System.Object[])">
+            <summary>
+            Выполняет метод
+            </summary>
+            <param name="obj">Расширяемый объект</param>
+            <param name="methodName">Название емтода</param>
+            <param name="args">Параметры метода</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.UtilsReflection.ExecMethod``1(System.Object,System.String,System.Object[])">
+            <summary>
+            Выполняет метод
+            </summary>
+            <typeparam name="T">Тип результата</typeparam>
+            <param name="obj">Расширяемый объект</param>
+            <param name="methodName">Название емтода</param>
+            <param name="args">Параметры метода</param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.UtilsReflection.ClonePropertyTo_PD(System.Object,System.Object,System.Boolean)">
+            <summary>
+            Пытается заполнить свойства переданного объекта собственными значениями соответствующих свойств
+            используя PropertyDescription (уиитываются атрибуты : ReadOnly(), ...)
+            </summary>
+            <param name="source">Расширяемый экземпляр</param>
+            <param name="dest">Объект для заполнения соответствующих свойств</param>
+            <param name="isIcgnoreCase">Параметр сравнения наименованй свойств</param>
+            <returns>Объект с заполнеными соответствующими свойствами</returns>
+        </member>
+        <member name="M:IT.UtilsReflection.ClonePropertyTo(System.Object,System.Object,System.Boolean)">
+            <summary>
+            Пытается заполнить свойства переданного объекта значениями source соответствующих свойств используя PropertyInfo
+            (без рекурсии, т.е. сложные объекты могут иметь одинаковые ссылки на свойства) 
+            </summary>
+            <param name="source">Расширяемый экземпляр</param>
+            <param name="dest">Объект для заполнения соответствующих свойств</param>
+            <param name="isIcgnoreCase">Параметр сравнения наименованй свойств</param>
+            <returns>Объект с заполнеными соответствующими свойствами</returns>
+        </member>
+        <member name="M:IT.UtilsReflection.CloneObject(System.Object,System.Func{System.Object})">
+            <summary>
+            Клонирует заданный объект используя указанный конструктор, так же учитывает ICloneable
+            (внетренние объекты должны иметь конструкторы без параметров!)
+            </summary>
+            <param name="source"></param>
+            <param name="constructor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.UtilsReflection.CloneObject``1(``0)">
+            <summary>
+            Клонирует заданный объект используя конструктор без параметров
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Log.Logger">
+            <summary>
+            Вспомогательный класс для логирования
+            получение методов - дорогое удовольствие : https://rsdn.ru/forum/dotnet/3309060.flat	
+            </summary>
+        </member>
+        <member name="E:IT.Log.Logger.MessageSmall">
+            <summary>
+            Сообщение о возникновении записи в логе (не требует ссылки на NLog.dll) ASYNC !!!
+            </summary>
+        </member>
+        <member name="P:IT.Log.Logger.MinLevel">
+            <summary>
+            Минимальный уровень срабатывания Logger
+            </summary>
+        </member>
+        <member name="P:IT.Log.Logger.Include_Ip">
+            <summary>
+            Следует ли в лог влючать Ip данного компьютера в каждое сообщение лога
+            </summary>
+        </member>
+        <member name="P:IT.Log.Logger.Include_ThreadId">
+            <summary>
+            Включать id потока
+            </summary>
+        </member>
+        <member name="P:IT.Log.Logger.Include_Line">
+            <summary>
+            Включать № строки в исходном файле
+            </summary>
+        </member>
+        <member name="P:IT.Log.Logger.Include_Method">
+            <summary>
+            Включать название метода
+            </summary>
+        </member>
+        <member name="M:IT.Log.Logger.GetMsg_Ext(System.String)">
+            <summary>
+            Получает StackFrame и дополняет сообщение на онове информации StackFrame 
+            </summary>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Log.Logger.ToLogFmt(System.Object,System.Diagnostics.TraceLevel,System.Exception,System.String,System.Object[])">
+            <summary>
+            Асинхронная отправка сообщений подписчикам + непосредственно запись в NLogger
+            </summary>
+            <param name="source">Класс-источник логирования</param>
+            <param name="level"></param>
+            <param name="ex"></param>
+            <param name="formatStr"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:IT.Log.Logger.ToLog(System.Object,System.Diagnostics.TraceLevel,System.String,System.Exception)">
+            <summary>
+            Асинхронная отправка сообщений подписчикам + запись в System.Diagnostics.Debug
+            </summary>
+            <param name="source">Класс-источник логирования</param>
+            <param name="level"></param>
+            <param name="msg"></param>
+            <param name="ex"></param>
+        </member>
+        <member name="M:IT.Log.Logger.GetMsg_Method(System.Diagnostics.StackFrame,System.String)">
+            <summary>
+            Дополняет сообщение на онове информации StackFrame 
+            </summary>
+            <param name="sf"></param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Log.Logger.GetMsgInternal(System.String)">
+            <summary>
+            окончательное формирование сообщения
+            </summary>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.Zip">
+            <summary>
+            Расширения для сжатия
+            </summary>
+        </member>
+        <member name="M:IT.Zip.FromGZip(System.IO.Stream)">
+            <summary>
+            Распаковка потока посредством GZip в новый MemoryStream
+            </summary>
+            <param name="inStr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Zip.ToGZip(System.IO.Stream)">
+            <summary>
+            Упаковка потока посредством GZip в новый MemoryStream
+            </summary>
+            <param name="inStr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Zip.GZip(System.IO.Stream,System.IO.Stream,System.IO.Compression.CompressionMode)">
+            <summary>
+            Работа с потоками посредством GZip + outStr.Position = 0
+            </summary>
+            <param name="inStr"></param>
+            <param name="outStr"></param>
+            <param name="mode"></param>
+        </member>
+        <member name="T:System.Collections.ObjectModel.ObservableCollectionEx`1">
+            <summary>
+            Исправленная ObservableCollection
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:System.Collections.ObjectModel.ObservableCollectionEx`1.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:System.Collections.ObjectModel.ObservableCollectionEx`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="E:System.Collections.ObjectModel.ObservableCollectionEx`1.CollectionChanged">
+            <summary>
+            Перекрытое Событие
+            </summary>
+        </member>
+        <member name="M:System.Collections.ObjectModel.ObservableCollectionEx`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Запист события
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.Collections.ObjectModel.ObservableCollectionEx`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Добавляет несколько объектов в конец System.Collections.ObjectModel.Collection&lt;T>
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:System.Collections.ObjectModel.ObservableCollectionEx`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <param name="collection"></param>
+        </member>
+        <member name="M:System.Collections.ObjectModel.ObservableCollectionEx`1.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <param name="count"></param>
+        </member>
+    </members>
+</doc>

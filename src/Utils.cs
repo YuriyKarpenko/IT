@@ -465,10 +465,14 @@ namespace IT
 			return (long)res;
 		}
 
-
-		public static void UsingExclusive(Action act)
+		/// <summary>
+		/// Using Monitor to execute the act
+		/// </summary>
+		/// <param name="act"></param>
+		public static bool UsingExclusive(Action act)
 		{
-			if (Monitor.TryEnter(act, 1))
+			var res = Monitor.TryEnter(act, 1);
+			if (res)
 			try
 			{
 				act();
@@ -477,6 +481,7 @@ namespace IT
 			{
 				Monitor.Exit(act);
 			}
+			return res;
 		}
 
 	}

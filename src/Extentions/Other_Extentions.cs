@@ -108,47 +108,6 @@ namespace IT
 			}
 #endif
 		}
-
-#if !SILVERLIGHT
-		/// <summary>
-		/// Пытается заполнить свойства переданного объекта собственными значениями соответствующих свойств
-		/// используя PropertyDescription (уиитываются атрибуты : ReadOnly(), ...)
-		/// </summary>
-		/// <param name="source">Расширяемый экземпляр</param>
-		/// <param name="dest">Объект для заполнения соответствующих свойств</param>
-		/// <param name="isIcgnoreCase">Параметр сравнения наименованй свойств</param>
-		/// <returns>Объект с заполнеными соответствующими свойствами</returns>
-		[Obsolete]
-		public static object ClonePropertyTo_PD(object source, object dest, bool isIcgnoreCase = false)
-		{
-			try
-			{
-				var pds = TypeDescriptor.GetProperties(dest);
-				var sourPds = TypeDescriptor.GetProperties(source);
-
-				foreach (PropertyDescriptor pd in pds)
-				{
-					if (!pd.IsReadOnly)
-					{
-						var sourPd = sourPds.Find(pd.Name, isIcgnoreCase);
-
-						if (sourPd != null)
-						{
-							var o = sourPd.GetValue(source);
-							pd.SetValue(dest, o);
-						}
-					}
-				}
-
-				return dest;
-			}
-			catch (Exception ex)
-			{
-				Logger.ToLogFmt(null, TraceLevel.Error, ex, "()");
-				throw;
-			}
-		}
-#endif
 	}
 
 
@@ -157,87 +116,85 @@ namespace IT
 	/// </summary>
 	public static class EnumExtention
 	{
-#if !SILVERLIGHT
-		/// <summary>
-		/// Получение значения атрибута 
-		/// </summary>
-		/// <typeparam name="Tatr">Тип атрибута</typeparam>
-		/// <typeparam name="R">Тип результата</typeparam>
-		/// <param name="pd">Расширяемый экземпляр</param>
-		/// <param name="expression">Функция получения результата</param>
-		/// <param name="def">Значение по умолчанию</param>
-		/// <returns></returns>
-		public static R GetAttributeValue<Tatr, R>(this MemberDescriptor pd, Func<Tatr, R> expression, R def = default(R))
-			where Tatr : Attribute
-		{
-			var attr = pd.Attributes[typeof(Tatr)] as Tatr;
-			return attr == null ? def : expression(attr);
-		}
-		/// <summary>
-		/// Получение строкового значения атрибута указанного типа
-		/// </summary>
-		/// <typeparam name="Tatr">Тип атрибута</typeparam>
-		/// <typeparam name="R">Тип результата</typeparam>
-		/// <param name="pd">Расширяемый экземпляр</param>
-		/// <param name="expression">Функция получения результата</param>
-		/// <param name="def">Значение по умолчанию</param>
-		/// <returns></returns>
-		public static string GetAttributeValueStr<Tatr>(this MemberDescriptor pd, Func<Tatr, string> expression, string def = null)
-			where Tatr : Attribute
-		{
-			var attr = pd.Attributes[typeof(Tatr)] as Tatr;
-			var res = attr == null ? def : expression(attr);
-			return (string.IsNullOrEmpty(res) ? def : res);
-		}
-#endif
+//#if !SILVERLIGHT
+//		/// <summary>
+//		/// Получение значения атрибута 
+//		/// </summary>
+//		/// <typeparam name="Tattr">Тип атрибута</typeparam>
+//		/// <typeparam name="R">Тип результата</typeparam>
+//		/// <param name="pd">Расширяемый экземпляр</param>
+//		/// <param name="expression">Функция получения результата</param>
+//		/// <param name="defaultValue">Значение по умолчанию</param>
+//		/// <returns></returns>
+//		public static R GetAttributeValue<Tattr, R>(this MemberDescriptor pd, Func<Tattr, R> expression, R defaultValue = default(R))
+//			where Tattr : Attribute
+//		{
+//			var attr = pd.Attributes[typeof(Tattr)] as Tattr;
+//			return attr == null ? defaultValue : expression(attr);
+//		}
+//		/// <summary>
+//		/// Получение строкового значения атрибута указанного типа
+//		/// </summary>
+//		/// <typeparam name="Tattr">Тип атрибута</typeparam>
+//		/// <param name="pd">Расширяемый экземпляр</param>
+//		/// <param name="expression">Функция получения результата</param>
+//		/// <param name="defaultValue">Значение по умолчанию</param>
+//		/// <returns></returns>
+//		public static string GetAttributeValueStr<Tattr>(this MemberDescriptor pd, Func<Tattr, string> expression, string defaultValue = null)
+//			where Tattr : Attribute
+//		{
+//			var attr = pd.Attributes[typeof(Tattr)] as Tattr;
+//			var res = attr == null ? defaultValue : expression(attr);
+//			return (string.IsNullOrEmpty(res) ? defaultValue : res);
+//		}
+//#endif
 
 		/// <summary>
 		/// Получение значения атрибута указанного типа
 		/// </summary>
-		/// <typeparam name="Tatr">Тип атрибута</typeparam>
+		/// <typeparam name="Tattr">Тип атрибута</typeparam>
 		/// <typeparam name="R">Тип результата</typeparam>
-		/// <param name="apr">Расширяемый экземпляр</param>
+		/// <param name="aPr">Расширяемый экземпляр</param>
 		/// <param name="expression">Функция получения результата</param>
-		/// <param name="def">Значение по умолчанию</param>
+		/// <param name="defaultValue">Значение по умолчанию</param>
 		/// <returns></returns>
-		public static R GetAttributeValue<Tatr, R>(this ICustomAttributeProvider apr, Func<Tatr, R> expression, R def = default(R))
-			where Tatr : Attribute
+		public static R GetAttributeValue<Tattr, R>(this ICustomAttributeProvider aPr, Func<Tattr, R> expression, R defaultValue = default(R))
+			where Tattr : Attribute
 		{
-			var attribute = apr.GetCustomAttributes(typeof(Tatr), true)?.OfType<Tatr>()?.FirstOrDefault();
-			return attribute == null ? def : expression(attribute);
+			var attribute = aPr.GetCustomAttributes(typeof(Tattr), true)?.OfType<Tattr>()?.FirstOrDefault();
+			return attribute == null ? defaultValue : expression(attribute);
 		}
 
 		/// <summary>
 		/// Получение строкового значения атрибута указанного типа
 		/// </summary>
-		/// <typeparam name="Tatr">Тип атрибута</typeparam>
-		/// <typeparam name="R">Тип результата</typeparam>
-		/// <param name="apr">Расширяемый экземпляр</param>
+		/// <typeparam name="Tattr">Тип атрибута</typeparam>
+		/// <param name="aPr">Расширяемый экземпляр</param>
 		/// <param name="expression">Функция получения результата</param>
-		/// <param name="def">Значение по умолчанию</param>
+		/// <param name="defaultValue">Значение по умолчанию</param>
 		/// <returns></returns>
-		public static string GetAttributeValueStr<Tatr>(this ICustomAttributeProvider apr, Func<Tatr, string> expression, string def = null)
-			where Tatr : Attribute
+		public static string GetAttributeValueStr<Tattr>(this ICustomAttributeProvider aPr, Func<Tattr, string> expression, string defaultValue = null)
+			where Tattr : Attribute
 		{
-			var res = GetAttributeValue<Tatr, string>(apr, expression, def);
-			return (string.IsNullOrEmpty(res) ? def : res);
+			var res = GetAttributeValue<Tattr, string>(aPr, expression, defaultValue);
+			return (string.IsNullOrEmpty(res) ? defaultValue : res);
 		}
 
 		/// <summary>
 		/// Попытка получить значения атрибутов : Display.Name, Display.ShortName, Display.Description, DisplayName.DisplayName, Description.Description
 		/// </summary>
-		/// <param name="apr"></param>
-		/// <param name="def"></param>
+		/// <param name="aPr"></param>
+		/// <param name="defaultValue"></param>
 		/// <returns></returns>
-		public static string GetNameFromAttributes(this ICustomAttributeProvider apr, string def = null)
+		public static string GetNameFromAttributes(this ICustomAttributeProvider aPr, string defaultValue = null)
 		{
 			return null
-				?? apr.GetAttributeValueStr<System.ComponentModel.DataAnnotations.DisplayAttribute>(a => a.Name)
-				?? apr.GetAttributeValueStr<System.ComponentModel.DataAnnotations.DisplayAttribute>(a => a.ShortName)
-				?? apr.GetAttributeValueStr<System.ComponentModel.DataAnnotations.DisplayAttribute>(a => a.Description)
-				?? apr.GetAttributeValueStr<DisplayNameAttribute>(a => a.DisplayName)
-				?? apr.GetAttributeValueStr<DescriptionAttribute>(a => a.Description)
-				?? def;
+				?? aPr.GetAttributeValueStr<System.ComponentModel.DataAnnotations.DisplayAttribute>(a => a.Name)
+				?? aPr.GetAttributeValueStr<System.ComponentModel.DataAnnotations.DisplayAttribute>(a => a.ShortName)
+				?? aPr.GetAttributeValueStr<System.ComponentModel.DataAnnotations.DisplayAttribute>(a => a.Description)
+				?? aPr.GetAttributeValueStr<DisplayNameAttribute>(a => a.DisplayName)
+				?? aPr.GetAttributeValueStr<DescriptionAttribute>(a => a.Description)
+				?? defaultValue;
 		}
 
 
@@ -254,23 +211,24 @@ namespace IT
 		/// <summary>
 		/// Получение значения атрибута перечисления
 		/// </summary>
-		/// <typeparam name="Tatr">Тип атрибута</typeparam>
+		/// <typeparam name="Tattr">Тип атрибута</typeparam>
 		/// <typeparam name="R">Тип результата</typeparam>
 		/// <param name="enumValue">Расширяемый экземпляр</param>
 		/// <param name="expression">Функция получения результата</param>
+		/// <param name="defaultValue">Функция получения результата</param>
 		/// <returns></returns>
-		public static R GetAttributeValue<Tatr, R>(this Enum enumValue, Func<Tatr, R> expression, R def = default(R))
-			where Tatr : Attribute
+		public static R GetAttributeValue<Tattr, R>(this Enum enumValue, Func<Tattr, R> expression, R defaultValue = default(R))
+			where Tattr : Attribute
 		{
 			var mi = enumValue.GetType()
 				.GetMember(enumValue.ToString())?
 				.FirstOrDefault();
 			if (mi != null)
 			{
-				return mi.GetAttributeValue(expression, def);
+				return mi.GetAttributeValue(expression, defaultValue);
 			}
 
-			return def;
+			return defaultValue;
 		}
 
 		/// <summary>
@@ -282,11 +240,6 @@ namespace IT
 		{
 			return enumValue.GetAttributeValue<DescriptionAttribute, string>(a => a.Description);
 		}
-
-		//public static override string ToString(this Enum enumValue)
-		//{
-		//    return enumValue.GetAttributeValue<DescriptionAttribute, string>(a => a.Description) ?? enumValue.ToString();
-		//}
 
 	}
 }

@@ -61,6 +61,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>..\Release\</OutputPath>
     <DebugType>full</DebugType>
+    <DocumentationFile>..\Release\IT.XML</DocumentationFile>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -107,7 +109,6 @@
     <Compile Include="Extentions\Other_Extentions.cs" />
     <Compile Include="Extentions\Log_Extentions.cs" />
     <Compile Include="Contract.cs" />
-    <Compile Include="Log\LocalLog.cs" />
     <Compile Include="SettingsBase.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="TreeNode.cs" />

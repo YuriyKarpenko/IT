@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace IT
 {
@@ -92,14 +90,14 @@ namespace IT
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="s"></param>
-		/// <param name="def"></param>
+		/// <param name="defaultValue"></param>
 		/// <returns></returns>
-		public static T To<T>(this string s, T def)
+		public static T To<T>(this string s, T defaultValue)
 		{
 			T res;
 			if (TryParse<T>(s, out res))
 				return res;
-			return def;
+			return defaultValue;
 		}
 
 		/// <summary>
@@ -120,15 +118,16 @@ namespace IT
 		/// Как правило актуально для импорта
 		/// </summary>
 		/// <param name="s"></param>
+		/// <param name="defaultValue"></param>
 		/// <returns></returns>
-		public static bool ToBool(this string s, bool def = false)
+		public static bool ToBool(this string s, bool defaultValue = false)
 		{
 			if (!string.IsNullOrWhiteSpace(s))
 			{
 				s = s.Trim().ToLowerInvariant();
 				return TRUE_WORDS.Contains(s);
 			}
-			return def;
+			return defaultValue;
 		}
 
 
@@ -291,280 +290,6 @@ namespace IT
 			}
 			return result;
 		}
-
-
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <param name="def">Возвращаемое значение, в случае неудачного преобразования</param>
-		///// <returns></returns>
-		//public static DateTime ToDate(this string s, DateTime def)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return def;
-
-		//	DateTime ret;
-
-		//	if (DateTime.TryParse(s, out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return def;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <param name="def">Возвращаемое значение, в случае неудачного преобразования</param>
-		///// <returns></returns>
-		//public static int ToInt(this string s, int def)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return def;
-
-		//	int ret;
-
-		//	if (int.TryParse(s, out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return def;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <returns></returns>
-		//public static int? ToInt(this string s)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return null;
-
-		//	int ret;
-
-		//	if (int.TryParse(s, out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return null;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <param name="def">Возвращаемое значение, в случае неудачного преобразования</param>
-		///// <returns></returns>
-		//public static uint ToUint(this string s, uint def)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return def;
-
-		//	uint ret;
-
-		//	if (uint.TryParse(s, out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return def;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <returns></returns>
-		//public static uint? ToUint(this string s)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return null;
-
-		//	uint ret;
-
-		//	if (uint.TryParse(s, out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return null;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <param name="def">Возвращаемое значение, в случае неудачного преобразования</param>
-		///// <returns></returns>
-		//public static long ToLong(this string s, long def)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return def;
-
-		//	long ret;
-
-		//	if (long.TryParse(s, out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return def;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <returns></returns>
-		//public static long? ToLong(this string s)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return null;
-
-		//	long ret;
-
-		//	if (long.TryParse(s, out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return null;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <param name="def">Возвращаемое значение, в случае неудачного преобразования</param>
-		///// <returns></returns>
-		//public static ulong ToUlong(this string s, ulong def)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return def;
-
-		//	ulong ret;
-
-		//	if (ulong.TryParse(s, out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return def;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <returns></returns>
-		//public static ulong? ToUlong(this string s)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return null;
-
-		//	ulong ret;
-
-		//	if (ulong.TryParse(s, out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return null;
-		//}
-
-		///// <summary>
-		///// Замена символов '.' и ',' на  System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <returns></returns>
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <param name="def">Возвращаемое значение, в случае неудачного преобразования</param>
-		///// <returns></returns>
-		//public static decimal ToDecimal(this string s, decimal def)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return def;
-
-		//	decimal ret;
-
-		//	if (decimal.TryParse(s.ReplaceDecimalSeparator(), out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return def;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <returns></returns>
-		//public static decimal? ToDecimal(this string s)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return null;
-
-		//	decimal ret;
-
-		//	if (decimal.TryParse(s.ReplaceDecimalSeparator(), out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return null;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <param name="def">Возвращаемое значение, в случае неудачного преобразования</param>
-		///// <returns></returns>
-		//public static double ToDouble(this string s, double def)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return def;
-
-		//	double ret;
-
-		//	if (double.TryParse(s.ReplaceDecimalSeparator(), out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return def;
-		//}
-
-		///// <summary>
-		///// Преобразование строки в указанный тип
-		///// </summary>
-		///// <param name="s">Расширяемый экземпляр</param>
-		///// <returns></returns>
-		//public static double? ToDouble(this string s)
-		//{
-		//	if (string.IsNullOrEmpty(s))
-		//		return null;
-
-		//	double ret;
-
-		//	if (double.TryParse(s.ReplaceDecimalSeparator(), out ret))
-		//	{
-		//		return ret;
-		//	}
-
-		//	return null;
-		//}
 
 
 	}
