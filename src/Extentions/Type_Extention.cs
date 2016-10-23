@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
@@ -26,17 +28,29 @@ namespace IT
 		/// <summary>
 		/// PropertyInfo extracts from Type (include interaces)
 		/// </summary>
-		/// <param name="t"></param>
+		/// <param name="type"></param>
+		/// <param name="isFiltered"></param>
 		/// <returns></returns>
-		public static PropertyInfo[] GetPropertiesI(this Type t)
+		public static PropertyInfo[] GetProperties(this Type type, bool isFiltered)
 		{
-			var res = t.GetProperties();
-			if(t.IsInterface)
+			if (type == null)
+				return null;
+
+			var res = type.GetProperties();
+			if (type.IsInterface)
 			{
-				var ii = t.GetInterfaces();
+				var ii = type.GetInterfaces();
 				res = res
 					.Union(ii.SelectMany(i => i.GetProperties()))
 					.Distinct()
+					.ToArray();
+			}
+
+			if (isFiltered)
+			{
+				res = res
+					.Where(i => i.GetAttributeValue<DisplayAttribute, bool>(a => a.GetAutoGenerateField() ?? true, true))
+					.Where(i => i.GetAttributeValue<BrowsableAttribute, bool>(a => a.Browsable, true))
 					.ToArray();
 			}
 			return res;

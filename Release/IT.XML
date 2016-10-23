@@ -745,11 +745,12 @@
             <param name="t"></param>
             <returns></returns>
         </member>
-        <member name="M:IT.Type_Extention.GetPropertiesI(System.Type)">
+        <member name="M:IT.Type_Extention.GetProperties(System.Type,System.Boolean)">
             <summary>
             PropertyInfo extracts from Type (include interaces)
             </summary>
-            <param name="t"></param>
+            <param name="type"></param>
+            <param name="isFiltered"></param>
             <returns></returns>
         </member>
         <member name="T:IT.NotifyPropertyChangedOnly">
