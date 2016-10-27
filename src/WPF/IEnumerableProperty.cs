@@ -135,9 +135,8 @@ namespace IT.WPF
 	/// <summary>
 	/// The base class for easy work with lists in WPF
 	/// </summary>
-	/// <typeparam name="TList"></typeparam>
 	/// <typeparam name="T"></typeparam>
-	public abstract class IEnumerablePropertyBase<TList, T> : NotifyPropertyChangedBase where TList : IEnumerable<T>
+	public abstract class IEnumerablePropertyBase<T> : NotifyPropertyChangedBase
 	{
 		private T selectedItem;
 
@@ -152,7 +151,7 @@ namespace IT.WPF
 		/// <summary>
 		/// Список
 		/// </summary>
-		public virtual TList List { get; protected set; }
+		public virtual IEnumerable<T> List { get; protected set; }
 
 		/// <summary>
 		/// Текущее значение
@@ -203,7 +202,6 @@ namespace IT.WPF
 			return ret;
 		}
 
-
 		/// <summary>
 		/// Устанавливает значение this._Current
 		/// </summary>
@@ -235,12 +233,37 @@ namespace IT.WPF
 		}
 	}
 
+
+	/// <summary>
+	/// Класс для удобной работы с выделением элементов списками
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	public class IEnumerablePropertyReadOnly<T> : IEnumerablePropertyBase<T>
+	{
+		///// <summary>
+		///// Конструктор
+		///// </summary>
+		//protected IEnumerablePropertyReadOnly() { }
+
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="list"></param>
+		/// <param name="onSelectedChanged"></param>
+		public IEnumerablePropertyReadOnly(IEnumerable<T> list, Action<T> onSelectedChanged = null) : base(onSelectedChanged)
+		{
+			Contract.NotNull(list, "list");
+			this.List = list;
+		}
+	}
+
+
 	/// <summary>
 	/// class for easy work with lists in WPF
 	/// </summary>
 	/// <typeparam name="TList"></typeparam>
 	/// <typeparam name="T"></typeparam>
-	public class IEnumerableProperty<TList, T> : IEnumerablePropertyBase<TList, T> where TList : class, IEnumerable<T>
+	public class IEnumerableProperty<TList, T> : IEnumerablePropertyBase<T> where TList : class, IEnumerable<T>
 	{
 		private TList list;
 
@@ -275,17 +298,7 @@ namespace IT.WPF
 		/// <summary>
 		/// Список
 		/// </summary>
-		public override TList List { get { return this.list ?? this.GetList(); } }
-
-		/// <summary>
-		/// Текущее значение
-		/// </summary>
-		[Obsolete("Следует использовать свойство 'SelectedItem'")]
-		public virtual T Current
-		{
-			get { return this.SelectedItem; }
-			set { this.SelectedItem = value; }
-		}
+		public override IEnumerable<T> List { get { return this.list ?? this.GetList(); } }
 
 		/// <summary>
 		/// Признак работы в асинхронном режиме
@@ -321,13 +334,14 @@ namespace IT.WPF
 			this.fGetListAsync = getListAsync;
 		}
 
+
 		#region reset
 
 		/// <summary>
 		/// Сброс списка в указанное значение
 		/// </summary>
 		/// <param name="data">Данные для списка</param>
-		public virtual void Reset(TList data)
+		public virtual void Reset(TList data = default(TList))
 		{
 			try
 			{
@@ -343,20 +357,12 @@ namespace IT.WPF
 		}
 
 		/// <summary>
-		/// Сброс списка, и принудительное заполнение из источника (метод из конструктора)
-		/// </summary>
-		public virtual void Reset()
-		{
-			this.Reset(null);
-		}
-
-		/// <summary>
 		/// Сброс списка, и принудительное заполнение из источника (из конструктора) в другом потоке
 		/// </summary>
-		public virtual void ResetAsync()
+		public virtual void ResetAsync(TList data = default(TList))
 		{
 			this.OnIsWorkingChanged(true);
-			ThreadPool.QueueUserWorkItem(o => this.Reset());
+			ThreadPool.QueueUserWorkItem(o => this.Reset(data));
 		}
 
 		#endregion
@@ -366,7 +372,7 @@ namespace IT.WPF
 		/// Создает список для поля List посредством вызова метод из конструктора
 		/// </summary>
 		/// <returns>Результат перегрузки с параметром от метода из конструктора</returns>
-		protected virtual TList GetListInternal()
+		protected virtual TList GetList_Internal()
 		{
 			if (this.fGetList != null)
 			{
@@ -418,7 +424,7 @@ namespace IT.WPF
 			try
 			{
 #endif
-				l = this.GetListInternal();
+				l = this.GetList_Internal();
 				if (!object.Equals(this.list, l))
 				{
 					this.list = l;
@@ -436,29 +442,6 @@ namespace IT.WPF
 		}
 	}
 
-
-	/// <summary>
-	/// Класс для удобной работы с выделением элементов списками
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	public class IEnumerablePropertyReadOnly<T> : IEnumerablePropertyBase<IEnumerable<T>, T>
-	{
-		/// <summary>
-		/// Конструктор
-		/// </summary>
-		protected IEnumerablePropertyReadOnly() { }
-
-		/// <summary>
-		/// Конструктор
-		/// </summary>
-		/// <param name="list"></param>
-		/// <param name="onSelectedChanged"></param>
-		public IEnumerablePropertyReadOnly(IEnumerable<T> list, Action<T> onSelectedChanged = null) : base(onSelectedChanged)
-		{
-			Contract.NotNull(list, "list");
-			this.List = list;
-		}
-	}
 
 	/// <summary>
 	/// Класс для удобной работы с выделением элементов списками

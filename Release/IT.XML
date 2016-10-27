@@ -1381,45 +1381,44 @@
             <param name="element"></param>
             <param name="value"></param>
         </member>
-        <member name="T:IT.WPF.IEnumerablePropertyBase`2">
+        <member name="T:IT.WPF.IEnumerablePropertyBase`1">
             <summary>
             The base class for easy work with lists in WPF
             </summary>
-            <typeparam name="TList"></typeparam>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="E:IT.WPF.IEnumerablePropertyBase`2.SelectedChanged">
+        <member name="E:IT.WPF.IEnumerablePropertyBase`1.SelectedChanged">
             <summary>
             Возникает при изменении свойчтва
             </summary>
         </member>
-        <member name="P:IT.WPF.IEnumerablePropertyBase`2.List">
+        <member name="P:IT.WPF.IEnumerablePropertyBase`1.List">
             <summary>
             Список
             </summary>
         </member>
-        <member name="P:IT.WPF.IEnumerablePropertyBase`2.SelectedItem">
+        <member name="P:IT.WPF.IEnumerablePropertyBase`1.SelectedItem">
             <summary>
             Текущее значение
             </summary>
         </member>
-        <member name="P:IT.WPF.IEnumerablePropertyBase`2.HasSelected">
+        <member name="P:IT.WPF.IEnumerablePropertyBase`1.HasSelected">
             <summary>
             Выбран ли какой-либо элемент в данный момент
             </summary>
         </member>
-        <member name="M:IT.WPF.IEnumerablePropertyBase`2.#ctor">
+        <member name="M:IT.WPF.IEnumerablePropertyBase`1.#ctor">
             <summary>
             Constructor, only for heirs
             </summary>
         </member>
-        <member name="M:IT.WPF.IEnumerablePropertyBase`2.#ctor(System.Action{`1})">
+        <member name="M:IT.WPF.IEnumerablePropertyBase`1.#ctor(System.Action{`0})">
             <summary>
             constructor, only for heirs. Bind a method to an event
             </summary>
             <param name="selectedChanged">Метод, запускаемый при возникновении события</param>
         </member>
-        <member name="M:IT.WPF.IEnumerablePropertyBase`2.Select(System.Predicate{`1},System.Boolean,System.Boolean)">
+        <member name="M:IT.WPF.IEnumerablePropertyBase`1.Select(System.Predicate{`0},System.Boolean,System.Boolean)">
             <summary>
             Поиск по списку
             </summary>
@@ -1428,18 +1427,31 @@
             <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
             <returns></returns>
         </member>
-        <member name="M:IT.WPF.IEnumerablePropertyBase`2.SelectedItem_Set(`1,System.Boolean)">
+        <member name="M:IT.WPF.IEnumerablePropertyBase`1.SelectedItem_Set(`0,System.Boolean)">
             <summary>
             Устанавливает значение this._Current
             </summary>
             <param name="value">Значение</param>
             <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
         </member>
-        <member name="M:IT.WPF.IEnumerablePropertyBase`2.OnSelectedChanged(`1)">
+        <member name="M:IT.WPF.IEnumerablePropertyBase`1.OnSelectedChanged(`0)">
             <summary>
             Вызов OnPropertyChanged("Current") и соответствующего события
             </summary>
             <param name="value">Выбор для передачи в событие</param>
+        </member>
+        <member name="T:IT.WPF.IEnumerablePropertyReadOnly`1">
+            <summary>
+            Класс для удобной работы с выделением элементов списками
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:IT.WPF.IEnumerablePropertyReadOnly`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Action{`0})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="list"></param>
+            <param name="onSelectedChanged"></param>
         </member>
         <member name="T:IT.WPF.IEnumerableProperty`2">
             <summary>
@@ -1473,11 +1485,6 @@
             Список
             </summary>
         </member>
-        <member name="P:IT.WPF.IEnumerableProperty`2.Current">
-            <summary>
-            Текущее значение
-            </summary>
-        </member>
         <member name="P:IT.WPF.IEnumerableProperty`2.IsWorking">
             <summary>
             Признак работы в асинхронном режиме
@@ -1503,17 +1510,12 @@
             </summary>
             <param name="data">Данные для списка</param>
         </member>
-        <member name="M:IT.WPF.IEnumerableProperty`2.Reset">
-            <summary>
-            Сброс списка, и принудительное заполнение из источника (метод из конструктора)
-            </summary>
-        </member>
-        <member name="M:IT.WPF.IEnumerableProperty`2.ResetAsync">
+        <member name="M:IT.WPF.IEnumerableProperty`2.ResetAsync(`0)">
             <summary>
             Сброс списка, и принудительное заполнение из источника (из конструктора) в другом потоке
             </summary>
         </member>
-        <member name="M:IT.WPF.IEnumerableProperty`2.GetListInternal">
+        <member name="M:IT.WPF.IEnumerableProperty`2.GetList_Internal">
             <summary>
             Создает список для поля List посредством вызова метод из конструктора
             </summary>
@@ -1536,24 +1538,6 @@
             Запускается исключительно из свойства List + запуск событий
             </summary>
             <returns></returns>
-        </member>
-        <member name="T:IT.WPF.IEnumerablePropertyReadOnly`1">
-            <summary>
-            Класс для удобной работы с выделением элементов списками
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:IT.WPF.IEnumerablePropertyReadOnly`1.#ctor">
-            <summary>
-            Конструктор
-            </summary>
-        </member>
-        <member name="M:IT.WPF.IEnumerablePropertyReadOnly`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Action{`0})">
-            <summary>
-            Конструктор
-            </summary>
-            <param name="list"></param>
-            <param name="onSelectedChanged"></param>
         </member>
         <member name="T:IT.WPF.IEnumerableProperty`1">
             <summary>
