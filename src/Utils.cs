@@ -725,14 +725,16 @@ namespace IT
 #endif
 
 		/// <summary>
-		/// Пытается заполнить свойства переданного объекта значениями source соответствующих свойств используя PropertyInfo
+		/// Пытается заполнить свойства переданного объекта значениями соответствующих свойств source, используя PropertyInfo;
+		/// так же пытается применить ICloneable для внутренних объектов
 		/// (без рекурсии, т.е. сложные объекты могут иметь одинаковые ссылки на свойства) 
 		/// </summary>
+		/// <typeparam name="T">Тип результата</typeparam>
 		/// <param name="source">Расширяемый экземпляр</param>
 		/// <param name="dest">Объект для заполнения соответствующих свойств</param>
 		/// <param name="isIcgnoreCase">Параметр сравнения наименованй свойств</param>
 		/// <returns>Объект с заполнеными соответствующими свойствами</returns>
-		public static object ClonePropertyTo(object source, object dest, bool isIcgnoreCase = false)
+		public static T ClonePropertyTo<T>(object source, T dest, bool isIcgnoreCase = false)
 		{
 			Contract.NotNull(source, "source");
 			Contract.NotNull(dest, "dest");
@@ -742,7 +744,7 @@ namespace IT
 				var t1 = source.GetType();
 				var t2 = dest.GetType();
 
-				var param = BindingFlags.Default // = 0
+				var flags2 = BindingFlags.Default // = 0
 					//| BindingFlags.DeclaredOnly	//	= 2	Наследуемые члены не учитываются.
 					| BindingFlags.Instance	//	= 4
 					//| BindingFlags.Static	//	= 8
@@ -753,15 +755,18 @@ namespace IT
 				;
 
 				if (isIcgnoreCase)
-					param |= BindingFlags.IgnoreCase;	//	= 1
+					flags2 |= BindingFlags.IgnoreCase;	//	= 1
 
-				var pis2 = t2.GetProperties(param);
+				var pis2 = t2.GetProperties(flags2)
+					.Where(i => i.CanWrite)
+					.ToArray()
+					;
 
 				foreach (var pi2 in pis2)
 				{
-					var pi1 = t1.GetProperty(pi2.Name);
+					var pi1 = t1.GetProperty(pi2.Name, flags2);
 
-					if (pi1 != null && pi1.CanRead && pi2.CanWrite)
+					if (pi1 != null && pi1.CanRead /*&& pi2.CanWrite*/)
 					{
 						var o1 = pi1.GetValue(source, null);
 
@@ -783,23 +788,26 @@ namespace IT
 
 		/// <summary>
 		/// Клонирует заданный объект используя указанный конструктор, так же учитывает ICloneable
-		/// (внетренние объекты должны иметь конструкторы без параметров!)
+		/// (внутренние объекты должны иметь конструкторы без параметров!)
 		/// </summary>
+		/// <typeparam name="T">Тип результата</typeparam>
 		/// <param name="source"></param>
 		/// <param name="constructor"></param>
 		/// <returns></returns>
-		public static object CloneObject(object source, Func<object> constructor)
+		public static T CloneObject<T>(T source, Func<T> constructor)
 		{
 			Contract.NotNull(source, "source");
 			Contract.NotNull(constructor, "constructor");
 			try
 			{
-				var t = source.GetType();
+				var t = typeof(T);
+				//var t = source.GetType();
+
 				if (typeof(ICloneable).IsAssignableFrom(t))
 				{
 					var c1 = source as ICloneable;
 					var c = c1.Clone();
-					return c;
+					return (T)c;
 				}
 
 				var dest = constructor();

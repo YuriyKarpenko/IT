@@ -2511,21 +2511,24 @@
             <param name="isIcgnoreCase">Параметр сравнения наименованй свойств</param>
             <returns>Объект с заполнеными соответствующими свойствами</returns>
         </member>
-        <member name="M:IT.UtilsReflection.ClonePropertyTo(System.Object,System.Object,System.Boolean)">
+        <member name="M:IT.UtilsReflection.ClonePropertyTo``1(System.Object,``0,System.Boolean)">
             <summary>
-            Пытается заполнить свойства переданного объекта значениями source соответствующих свойств используя PropertyInfo
+            Пытается заполнить свойства переданного объекта значениями соответствующих свойств source, используя PropertyInfo;
+            так же пытается применить ICloneable для внутренних объектов
             (без рекурсии, т.е. сложные объекты могут иметь одинаковые ссылки на свойства) 
             </summary>
+            <typeparam name="T">Тип результата</typeparam>
             <param name="source">Расширяемый экземпляр</param>
             <param name="dest">Объект для заполнения соответствующих свойств</param>
             <param name="isIcgnoreCase">Параметр сравнения наименованй свойств</param>
             <returns>Объект с заполнеными соответствующими свойствами</returns>
         </member>
-        <member name="M:IT.UtilsReflection.CloneObject(System.Object,System.Func{System.Object})">
+        <member name="M:IT.UtilsReflection.CloneObject``1(``0,System.Func{``0})">
             <summary>
             Клонирует заданный объект используя указанный конструктор, так же учитывает ICloneable
-            (внетренние объекты должны иметь конструкторы без параметров!)
+            (внутренние объекты должны иметь конструкторы без параметров!)
             </summary>
+            <typeparam name="T">Тип результата</typeparam>
             <param name="source"></param>
             <param name="constructor"></param>
             <returns></returns>
