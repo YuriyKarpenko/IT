@@ -136,7 +136,7 @@ namespace IT.WPF
 	/// The base class for easy work with lists in WPF
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public abstract class IEnumerablePropertyBase<T> : NotifyPropertyChangedBase
+	public abstract class SelectorPropertyBase<T> : NotifyPropertyChangedBase
 	{
 		private T selectedItem;
 
@@ -172,13 +172,13 @@ namespace IT.WPF
 		/// <summary>
 		/// Constructor, only for heirs
 		/// </summary>
-		protected IEnumerablePropertyBase() { }
+		protected SelectorPropertyBase() { }
 
 		/// <summary>
 		/// constructor, only for heirs. Bind a method to an event
 		/// </summary>
 		/// <param name="selectedChanged">Метод, запускаемый при возникновении события</param>
-		protected IEnumerablePropertyBase(Action<T> selectedChanged)
+		protected SelectorPropertyBase(Action<T> selectedChanged)
 		{
 			if (selectedChanged != null)
 				this.SelectedChanged += (s, e) => selectedChanged(e.Value);
@@ -238,7 +238,7 @@ namespace IT.WPF
 	/// Класс для удобной работы с выделением элементов списками
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class IEnumerablePropertyReadOnly<T> : IEnumerablePropertyBase<T>
+	public class IEnumerablePropertyReadOnly<T> : SelectorPropertyBase<T>
 	{
 		///// <summary>
 		///// Конструктор
@@ -263,7 +263,7 @@ namespace IT.WPF
 	/// </summary>
 	/// <typeparam name="TList"></typeparam>
 	/// <typeparam name="T"></typeparam>
-	public class IEnumerableProperty<TList, T> : IEnumerablePropertyBase<T> where TList : class, IEnumerable<T>
+	public class SelectorProperty<TList, T> : SelectorPropertyBase<T> where TList : class, IEnumerable<T>
 	{
 		private TList list;
 
@@ -313,7 +313,7 @@ namespace IT.WPF
 		/// </summary>
 		/// <param name="getList">Функсия получения списка</param>
 		/// <param name="selectedChanged">Подписчик соответствующего события</param>
-		public IEnumerableProperty(Func<TList> getList, Action<T> selectedChanged = null)
+		public SelectorProperty(Func<TList> getList, Action<T> selectedChanged = null)
 			: base(selectedChanged)
 		{
 			Contract.Requires<ArgumentException>(getList != null, "getList");
@@ -326,7 +326,7 @@ namespace IT.WPF
 		/// </summary>
 		/// <param name="getListAsync">Передает метод (типа SrtData()) для использования при готовности данных</param>
 		/// <param name="selectedChanged">Подписчик соответствующего события</param>
-		public IEnumerableProperty(Action<Action<TList>> getListAsync, Action<T> selectedChanged = null)
+		public SelectorProperty(Action<Action<TList>> getListAsync, Action<T> selectedChanged = null)
 			: base(selectedChanged)
 		{
 			Contract.NotNull(getListAsync, "getListAsync");
@@ -447,14 +447,14 @@ namespace IT.WPF
 	/// Класс для удобной работы с выделением элементов списками
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class IEnumerableProperty<T> : IEnumerableProperty<IEnumerable<T>, T>
+	public class SelectorProperty<T> : SelectorProperty<IEnumerable<T>, T>
 	{
 		/// <summary>
 		/// constructor
 		/// </summary>
 		/// <param name="getList"></param>
 		/// <param name="selectedChanged"></param>
-		public IEnumerableProperty(Func<IEnumerable<T>> getList, Action<T> selectedChanged = null)
+		public SelectorProperty(Func<IEnumerable<T>> getList, Action<T> selectedChanged = null)
 			: base(getList, selectedChanged)
 		{
 		}
