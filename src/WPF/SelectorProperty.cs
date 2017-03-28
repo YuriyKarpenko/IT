@@ -151,7 +151,7 @@ namespace IT.WPF
 		/// <summary>
 		/// Список
 		/// </summary>
-		public virtual IEnumerable<T> List { get; protected set; }
+		protected abstract IEnumerable<T> Inner_List { get; }
 
 		/// <summary>
 		/// Текущее значение
@@ -194,7 +194,7 @@ namespace IT.WPF
 		/// <returns></returns>
 		public virtual T Select(Predicate<T> pred, bool changeCurrent = false, bool isRaiseEvent = true)
 		{
-			T ret = this.List == null ? default(T) : this.List.FirstOrDefault(i => pred(i));
+			T ret = this.Inner_List == null ? default(T) : this.Inner_List.FirstOrDefault(i => pred(i));
 			if (changeCurrent)
 			{
 				this.SelectedItem_Set(ret, isRaiseEvent);
@@ -240,10 +240,16 @@ namespace IT.WPF
 	/// <typeparam name="T"></typeparam>
 	public class IEnumerablePropertyReadOnly<T> : SelectorPropertyBase<T>
 	{
-		///// <summary>
-		///// Конструктор
-		///// </summary>
-		//protected IEnumerablePropertyReadOnly() { }
+        /// <summary>
+        /// Inner_List for SelectorPropertyBase
+        /// </summary>
+        protected override IEnumerable<T> Inner_List => List;
+
+        /// <summary>
+        /// List
+        /// </summary>
+        public virtual IEnumerable<T> List { get; private set; }
+
 
 		/// <summary>
 		/// Конструктор
@@ -266,6 +272,11 @@ namespace IT.WPF
 	public class SelectorProperty<TList, T> : SelectorPropertyBase<T> where TList : class, IEnumerable<T>
 	{
 		private TList list;
+        
+        /// <summary>
+        /// Inner_List for SelectorPropertyBase
+        /// </summary>
+        protected override IEnumerable<T> Inner_List => list;
 
 
 		#region Events
@@ -298,7 +309,7 @@ namespace IT.WPF
 		/// <summary>
 		/// Список
 		/// </summary>
-		public override IEnumerable<T> List { get { return this.list ?? this.GetList(); } }
+		public virtual TList List { get { return this.list ?? this.GetList(); } }
 
 		/// <summary>
 		/// Признак работы в асинхронном режиме
@@ -311,9 +322,29 @@ namespace IT.WPF
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="getList">Функсия получения списка</param>
 		/// <param name="selectedChanged">Подписчик соответствующего события</param>
-		public SelectorProperty(Func<TList> getList, Action<T> selectedChanged = null)
+		protected SelectorProperty(Action<T> selectedChanged = null)
+			: base(selectedChanged)
+		{
+        }
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="data">Функсия получения списка</param>
+        /// <param name="selectedChanged">Подписчик соответствующего события</param>
+        public SelectorProperty(TList data, Action<T> selectedChanged = null)
+			: base(selectedChanged)
+		{
+            this.Reset(data);
+        }
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="getList">Функсия получения списка</param>
+        /// <param name="selectedChanged">Подписчик соответствующего события</param>
+        public SelectorProperty(Func<TList> getList, Action<T> selectedChanged = null)
 			: base(selectedChanged)
 		{
 			Contract.Requires<ArgumentException>(getList != null, "getList");
