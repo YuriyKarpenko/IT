@@ -1440,23 +1440,23 @@
             </summary>
             <param name="value">Выбор для передачи в событие</param>
         </member>
-        <member name="T:IT.WPF.IEnumerablePropertyReadOnly`1">
+        <member name="T:IT.WPF.SelectorPropertyReadOnly`1">
             <summary>
             Класс для удобной работы с выделением элементов списками
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:IT.WPF.IEnumerablePropertyReadOnly`1.Inner_List">
+        <member name="P:IT.WPF.SelectorPropertyReadOnly`1.Inner_List">
             <summary>
             Inner_List for SelectorPropertyBase
             </summary>
         </member>
-        <member name="P:IT.WPF.IEnumerablePropertyReadOnly`1.List">
+        <member name="P:IT.WPF.SelectorPropertyReadOnly`1.List">
             <summary>
             List
             </summary>
         </member>
-        <member name="M:IT.WPF.IEnumerablePropertyReadOnly`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Action{`0})">
+        <member name="M:IT.WPF.SelectorPropertyReadOnly`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Action{`0})">
             <summary>
             Конструктор
             </summary>
@@ -1579,6 +1579,32 @@
             </summary>
             <param name="getList"></param>
             <param name="selectedChanged"></param>
+        </member>
+        <member name="T:IT.WPF.SelectorPropertyWPF`1">
+            <summary>
+            Класс для удобной работы с выделением элементов списками с использованием ObservableCollection
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:IT.WPF.SelectorPropertyWPF`1.#ctor(System.Action{`0})">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:IT.WPF.SelectorPropertyWPF`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Action{`0})">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:IT.WPF.SelectorPropertyWPF`1.#ctor(System.Func{System.Collections.ObjectModel.ObservableCollection{`0}},System.Action{`0})">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:IT.WPF.SelectorPropertyWPF`1.#ctor(System.Action{System.Action{System.Collections.ObjectModel.ObservableCollection{`0}}},System.Action{`0})">
+            <summary>
+            ctor
+            </summary>
         </member>
         <member name="T:IT.WPF.MonitoredProperty`1">
             <summary>
