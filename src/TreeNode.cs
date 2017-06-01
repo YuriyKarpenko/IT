@@ -143,7 +143,7 @@ namespace IT
 	/// </summary>
 	/// <typeparam name="TNode">Тип класса-наследника</typeparam>
 	[DebuggerDisplay("{Level} {Value} ({Childs.Count})")]
-	public abstract class TreeNode_Base<TNode> : TreeNode_Base, ILog where TNode : TreeNode_Base<TNode>
+	public class TreeNode_Base<TNode> : TreeNode_Base, ILog where TNode : TreeNode_Base<TNode>
 	{
 		/// <summary>
 		/// Вычисляет и устанавливает IsChecked в зависимости от состояния IsChecked дочерних элементов
