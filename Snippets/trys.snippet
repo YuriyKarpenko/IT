@@ -2,8 +2,8 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
 	<CodeSnippet Format="1.0.0">
 		<Header>
-			<Title>tryls</Title>
-			<Shortcut>tryls</Shortcut>
+			<Title>trys</Title>
+			<Shortcut>trys</Shortcut>
 			<Description>Фрагмент кода для try catch + LogStatic</Description>
 			<Author>Molodoy</Author>
 			<SnippetTypes>
@@ -19,14 +19,13 @@
 					<Function>SimpleTypeName(global::System.Exception)</Function>
 				</Literal>
 			</Declarations>
-			<Code Language="csharp"><![CDATA[Logger.Def.Debug("{0}.()", this);
+			<Code Language="csharp"><![CDATA[Logger.ToLogFmt(null, System.Diagnostics.TraceLevel.Verbose, null, "{0}.()", "typeof()");
 	try 
-	{	        
-		$selected$
+	{	$selected$
 	}
 	catch ($expression$ ex)
 	{
-		Logger.Def.Error(ex, "{0}.()", this$end$);
+		Logger.ToLogFmt(null, System.Diagnostics.TraceLevel.Error, ex, "{0}.()", "typeof()");
 		throw;
 	}]]>
 			</Code>
