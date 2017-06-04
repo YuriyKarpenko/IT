@@ -55,7 +55,7 @@ namespace IT
 		/// <param name="item"></param>
 		/// <param name="file"></param>
 		/// <param name="knownTypes"></param>
-		public static void Serialize_ToFile(this object item, string file = null, params Type[] knownTypes)
+		public static void Serialize_ToFile(object item, string file = null, params Type[] knownTypes)
 		{
 			Logger.ToLogFmt(null, TraceLevel.Verbose, null, "({0}, {1})", item, file);
 			try
@@ -78,7 +78,7 @@ namespace IT
 		/// <param name="item"></param>
 		/// <param name="knownTypes"></param>
 		/// <returns></returns>
-		public static Stream Serialize_ToStream(this object item, params Type[] knownTypes)
+		public static MemoryStream Serialize_ToStream(object item, params Type[] knownTypes)
 		{
 			Logger.ToLogFmt(null, TraceLevel.Verbose, null, "({0}, {1})", item, knownTypes);
 			try
@@ -91,58 +91,69 @@ namespace IT
 			catch (Exception ex)
 			{
 				Logger.ToLogFmt(null, TraceLevel.Error, ex, "({0}, {1})", item, knownTypes);
+				throw;
 			}
-
-			return null;
+			//return null;
+		}
+		/// <summary>
+		/// Сериализация посредством DataContractJsonSerializer
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="knownTypes"></param>
+		/// <returns></returns>
+		public static string Serialize_ToString(object item, params Type[] knownTypes)
+		{
+			var str = Serialize_ToStream(item, knownTypes);
+			if(str?.Length > 0)
+			{
+				var sr = new StreamReader(str);
+				var res = sr.ReadToEnd();
+				return res;
+			}
+			return string.Empty;
 		}
 
 		/// <summary>
 		/// Метод десериализации из файла
 		/// </summary>
-		/// <typeparam name="R"></typeparam>
+		/// <typeparam name="TRes"></typeparam>
 		/// <param name="stream"></param>
 		/// <param name="knownTypes"></param>
 		/// <returns></returns>
-		public static R Deserialize<R>(Stream stream, params Type[] knownTypes)
+		public static TRes Deserialize<TRes>(Stream stream, params Type[] knownTypes)
 		{
-			Logger.ToLogFmt(null, TraceLevel.Verbose, null, "(, {0})", typeof(R));
+			Logger.ToLogFmt(null, TraceLevel.Verbose, null, "(, {0})", typeof(TRes));
 			try
 			{
 				object o = null;
-				UsingSerializer(typeof(R), serializer => o = serializer.ReadObject(stream), knownTypes);
-				return (R)o;
+				UsingSerializer(typeof(TRes), serializer => o = serializer.ReadObject(stream), knownTypes);
+				return (TRes)o;
 			}
 			catch (Exception ex)
 			{
-				Logger.ToLogFmt(null, TraceLevel.Error, ex, "(, {0})", typeof(R));
+				Logger.ToLogFmt(null, TraceLevel.Error, ex, "(, {0})", typeof(TRes));
+				throw;
 			}
-			return default(R);
 		}
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <typeparam name="R"></typeparam>
-		/// <param name="file"></param>
+		/// <typeparam name="TRes"></typeparam>
+		/// <param name="content"></param>
 		/// <param name="knownTypes"></param>
 		/// <returns></returns>
-		public static R Deserialize<R>(string file = null, params Type[] knownTypes)
+		public static TRes Deserialize<TRes>(string content, params Type[] knownTypes)
 		{
-			Logger.ToLogFmt(null, TraceLevel.Verbose, null, "({0}, {1})", file, typeof(R));
-			try
+			if (string.IsNullOrEmpty(content))
 			{
-				if (string.IsNullOrEmpty(file))
-					file = typeof(R).Name + JsonExtension;
-				using (var stream = File.OpenRead(file))
-				{
-					var item = Deserialize<R>(stream, knownTypes);
-					return item;
-				}
+				return default(TRes);
 			}
-			catch (Exception ex)
+			else
 			{
-				Logger.ToLogFmt(null, TraceLevel.Error, ex, "({0}, {1})", file, typeof(R));
+				var bb = System.Text.Encoding.UTF8.GetBytes(content);
+				var str = new MemoryStream(bb);
+				return Deserialize<TRes>(str, knownTypes);
 			}
-			return default(R);
 		}
 
 
