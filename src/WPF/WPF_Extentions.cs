@@ -38,6 +38,7 @@ namespace IT.WPF
 			return b.HasValue && b.Value;
 		}
 
+		#region commands
 
 		/// <summary>
 		/// Добавление CommandBinding по его параметрам.
@@ -169,6 +170,9 @@ namespace IT.WPF
 			return canExec == null ? cbs.ReAdd(cmd, (s, e) => exec(e)) : cbs.ReAdd(cmd, (s, e) => exec(e), (s, e) => canExec(e));
 		}
 
+		#endregion
+
+		#region dataGrid
 
 		/// <summary>
 		/// Получение ячейки
@@ -296,6 +300,7 @@ namespace IT.WPF
 			return null;
 		}
 
+		#endregion
 
 
 		/// <summary>

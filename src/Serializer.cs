@@ -19,7 +19,7 @@ namespace IT
 		/// <param name="str">Входной поток</param>
 		/// <param name="formater"></param>
 		/// <returns></returns>
-		public static object From(Stream str, IFormatter formater = null)
+		public static object Deserialize(Stream str, IFormatter formater = null)
 		{
 			try
 			{
@@ -38,7 +38,10 @@ namespace IT
 		/// <param name="str">Входной поток</param>
 		/// <param name="formater"></param>
 		/// <returns></returns>
-		public static IEnumerable<T> From<T>(Stream str, IFormatter formater = null) { return (IEnumerable<T>)From(str, formater); }
+		public static IEnumerable<T> DeserializeCollection<T>(Stream str, IFormatter formater = null)
+		{
+			return (IEnumerable<T>)Deserialize(str, formater);
+		}
 
 		/// <summary>
 		/// Сериализация объекта в поток
@@ -47,15 +50,37 @@ namespace IT
 		/// <param name="str"></param>
 		/// <param name="formater"></param>
 		/// <returns></returns>
-		public static Stream To(object data, Stream str, IFormatter formater = null)
+		public static Stream Serialize(object data, Stream str, IFormatter formater = null)
 		{
 			if (data != null)
 			{
 				str = str ?? new MemoryStream();
 				(formater ?? binFmt).Serialize(str, data);
-				str.Position = 0;	//	?
+				str.Position = 0;   //	?
 			}
 			return str;
+		}
+		/// <summary>
+		/// Сериализация объекта в Base64String
+		/// </summary>
+		/// <param name="data"></param>
+		/// <param name="formater"></param>
+		/// <returns></returns>
+		public static string Serialize(object data, IFormatter formater = null)
+		{
+			if (data != null)
+			{
+				var str = Serialize(data, null, formater);
+				if (str.Length > 0)
+				{
+					str.Position = 0;   //	?
+					var bb = new byte[str.Length];
+					str.Read(bb, 0, bb.Length);
+					var res = Convert.ToBase64String(bb); ;
+					return res;
+				}
+			}
+			return null;
 		}
 	}
 }
