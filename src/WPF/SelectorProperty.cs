@@ -134,21 +134,17 @@ namespace IT.WPF
 	//}
 
 	/// <summary>
-	/// The base class for easy work with lists in WPF
+	/// Абстрактный Класс для удобной работы с выделением элементов ...
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public abstract class SelectorPropertyBase<T> : NotifyPropertyChangedBase
 	{
-		private T selectedItem;
-
-
 		/// <summary>
 		/// Возникает при изменении свойчтва
 		/// </summary>
 		public event EventHandler<EventArgs<T>> SelectedChanged;
 
-		#region Properties
-
+		// Properties
 		/// <summary>
 		/// Список
 		/// </summary>
@@ -159,17 +155,35 @@ namespace IT.WPF
 		/// </summary>
 		public virtual T SelectedItem
 		{
-			get { return this.selectedItem; }
-			set { this.SelectedItem_Set(value); }
+			get { return selectedItem; }
+			set { SelectedItem_Set(value, true); }
+		}
+		private T selectedItem;
+		/// <summary>
+		/// Устанавливает значение this._Current
+		/// </summary>
+		/// <param name="value">Значение</param>
+		/// <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
+		protected virtual void SelectedItem_Set(T value, bool isRaiseEvent)
+		{
+			if (!object.Equals(selectedItem, value))
+			{
+				selectedItem = value;
+				OnPropertyChanged(nameof(SelectedItem));
+
+				if (isRaiseEvent)
+					OnSelectedChanged(value);
+
+				OnPropertyChanged(nameof(HasSelected));
+			}
 		}
 
 		/// <summary>
 		/// Выбран ли какой-либо элемент в данный момент
 		/// </summary>
-		public bool HasSelected => this.SelectedItem != null;
+		public bool HasSelected => !Equals(SelectedItem, default(T));
 
-		#endregion
-
+		//	ctors
 		/// <summary>
 		/// Constructor, only for heirs
 		/// </summary>
@@ -182,10 +196,10 @@ namespace IT.WPF
 		protected SelectorPropertyBase(Action<T> selectedChanged)
 		{
 			if (selectedChanged != null)
-				this.SelectedChanged += (s, e) => selectedChanged(e.Value);
+				SelectedChanged += (s, e) => selectedChanged(e.Value);
 		}
 
-
+		//	publics
 		/// <summary>
 		/// Поиск по списку
 		/// </summary>
@@ -193,50 +207,30 @@ namespace IT.WPF
 		/// <param name="changeCurrent">Следует ли заполнять результатом свойство Current</param>
 		/// <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
 		/// <returns></returns>
-		public virtual T Select(Predicate<T> pred, bool changeCurrent = false, bool isRaiseEvent = true)
+		public virtual T Select(Func<T, bool> pred, bool changeCurrent = false, bool isRaiseEvent = true)
 		{
-			T ret = this.Inner_List == null ? default(T) : this.Inner_List.FirstOrDefault(i => pred(i));
+			T ret = Inner_List == null ? default(T) : Inner_List.FirstOrDefault(pred);
 			if (changeCurrent)
 			{
-				this.SelectedItem_Set(ret, isRaiseEvent);
+				SelectedItem_Set(ret, isRaiseEvent);
 			}
 			return ret;
 		}
 
-		/// <summary>
-		/// Устанавливает значение this._Current
-		/// </summary>
-		/// <param name="value">Значение</param>
-		/// <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
-		protected virtual void SelectedItem_Set(T value, bool isRaiseEvent = true)
-		{
-			if (!object.Equals(this.selectedItem, value))
-			{
-				this.selectedItem = value;
-				if (isRaiseEvent)
-					this.OnSelectedChanged(value);
-				else
-				{
-					this.OnPropertyChanged("SelectedItem");
-				}
-				this.OnPropertyChanged("HasSelected");
-			}
-		}
-
+		//	protecteds
 		/// <summary>
 		/// Вызов OnPropertyChanged("Current") и соответствующего события
 		/// </summary>
 		/// <param name="value">Выбор для передачи в событие</param>
 		protected virtual void OnSelectedChanged(T value)
 		{
-			this.OnPropertyChanged("SelectedItem");
-			this.SelectedChanged?.Invoke(this, new EventArgs<T>(value));
+			SelectedChanged?.Invoke(this, new EventArgs<T>(value));
 		}
 	}
 
 
 	/// <summary>
-	/// Класс для удобной работы с выделением элементов списками
+	/// Класс для удобной работы с выделением элементов из константных списков
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public class SelectorPropertyReadOnly<T> : SelectorPropertyBase<T>
@@ -275,7 +269,7 @@ namespace IT.WPF
 		private TList list;
 
 		/// <summary>
-		/// Inner_List for SelectorPropertyBase
+		/// overrided abstract property Inner_List (for SelectorPropertyBase)
 		/// </summary>
 		protected override IEnumerable<T> Inner_List => list;
 
@@ -310,7 +304,34 @@ namespace IT.WPF
 		/// <summary>
 		/// Список
 		/// </summary>
-		public virtual TList List { get { return this.list ?? this.GetList(); } }
+		public virtual TList List => list ?? List_Set(GetList_Internal());
+		/// <summary>
+		/// Проверка на отличие + Назначение list + запуск событий
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		protected virtual TList List_Set(TList data)
+		{
+			this.Debug("()");
+			try
+			{
+				if (!object.Equals(this.list, data))
+				{
+					SelectedItem = default(T);  //	
+					list = data;
+					this.OnListChanged(this.list);
+				}
+			}
+			catch (Exception ex)
+			{
+				this.Warn(ex, $"({data})");
+			}
+			finally
+			{
+				OnIsWorkingChanged(false);
+			}
+			return list;
+		}
 
 		/// <summary>
 		/// Признак работы в асинхронном режиме
@@ -319,7 +340,7 @@ namespace IT.WPF
 
 		#endregion
 
-
+		//	ctors
 		/// <summary>
 		/// Конструктор
 		/// </summary>
@@ -334,8 +355,7 @@ namespace IT.WPF
 		/// </summary>
 		/// <param name="data">Функсия получения списка</param>
 		/// <param name="selectedChanged">Подписчик соответствующего события</param>
-		public SelectorProperty(TList data, Action<T> selectedChanged = null)
-			: base(selectedChanged)
+		public SelectorProperty(TList data, Action<T> selectedChanged = null) : base(selectedChanged)
 		{
 			this.Reset(data);
 		}
@@ -358,8 +378,7 @@ namespace IT.WPF
 		/// </summary>
 		/// <param name="getListAsync">Передает метод (типа SrtData()) для использования при готовности данных</param>
 		/// <param name="selectedChanged">Подписчик соответствующего события</param>
-		public SelectorProperty(Action<Action<TList>> getListAsync, Action<T> selectedChanged = null)
-			: base(selectedChanged)
+		public SelectorProperty(Action<Action<TList>> getListAsync, Action<T> selectedChanged = null) : base(selectedChanged)
 		{
 			Contract.NotNull(getListAsync, "getListAsync");
 
@@ -373,28 +392,27 @@ namespace IT.WPF
 		/// Сброс списка в указанное значение
 		/// </summary>
 		/// <param name="data">Данные для списка</param>
-		public virtual void Reset(TList data = default(TList))
+		public virtual void Reset(TList data)
 		{
-			try
-			{
-				this.SelectedItem = default(T);
-				this.list = data;
-				var l = this.List;  //	принудительное заполнение списка
-				this.OnListChanged(this.list);
-			}
-			finally
-			{
-				this.OnIsWorkingChanged(false);
-			}
+			List_Set(data);
+		}
+
+		/// <summary>
+		/// Сброс списка, и принудительное заполнение из источника (из конструктора)
+		/// </summary>
+		public virtual void Reset()
+		{
+			List_Set(null);
+			List_Set(GetList_Internal());
 		}
 
 		/// <summary>
 		/// Сброс списка, и принудительное заполнение из источника (из конструктора) в другом потоке
 		/// </summary>
-		public virtual void ResetAsync(TList data = default(TList))
+		public async virtual void ResetAsync()
 		{
-			this.OnIsWorkingChanged(true);
-			ThreadPool.QueueUserWorkItem(o => this.Reset(data));
+			OnIsWorkingChanged(true);
+			ThreadPool.QueueUserWorkItem(o => Reset());
 		}
 
 		#endregion
@@ -415,7 +433,7 @@ namespace IT.WPF
 			if (this.fGetListAsync != null)
 			{
 				OnIsWorkingChanged(true);
-				ThreadPool.QueueUserWorkItem(o => fGetListAsync((Action<TList>)o), (object)(Action<TList>)this.Reset);
+				ThreadPool.QueueUserWorkItem(o => fGetListAsync((Action<TList>)o), (Action<TList>)Reset);
 			}
 
 			return null;
@@ -441,36 +459,6 @@ namespace IT.WPF
 			OnPropertyChanged(nameof(IsWorking));
 			IsWorkingChanged?.Invoke(this, EventArgs.Empty);
 		}
-
-
-		/// <summary>
-		/// Запускается исключительно из свойства List + запуск событий
-		/// </summary>
-		/// <returns></returns>
-		private TList GetList()
-		{
-			TList l = null;
-#if !SILVERLIGHT
-			this.Debug("()");
-			try
-			{
-#endif
-				l = this.GetList_Internal();
-				if (!object.Equals(this.list, l))
-				{
-					this.list = l;
-					this.OnListChanged(this.list);
-				}
-#if !SILVERLIGHT
-			}
-			catch (Exception ex)
-			{
-				this.Warn(ex, "()");
-			}
-#endif
-
-			return this.list;
-		}
 	}
 
 
@@ -495,55 +483,50 @@ namespace IT.WPF
 	/// Класс для удобной работы с выделением элементов списками с использованием ObservableCollection<>
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class SelectorPropertyWPF<T> : SelectorProperty<ObservableCollection<T>, T>
+	public class SelectorPropertyWPF<T> : SelectorProperty<ObservableCollection<T>, T> where T : class
 	{
-		private Action<ObservableCollection<T>> _getListAsync;
+		//private Action<ObservableCollection<T>> _getListAsync;
 		//private bool? isValid = null;
 		//public string Color => isValid.HasValue ? (isValid.Value ? Color_Verified : Color_Bad) : Color_Normal;
 
+		//	constructors
 		/// <summary>
 		/// ctor
 		/// </summary>
-		public SelectorPropertyWPF(Action<T> onSelect = null) : base(new ObservableCollection<T>(), onSelect)
-		{
-		}
+		public SelectorPropertyWPF(Action<T> onSelect) : base(new ObservableCollection<T>(), onSelect) { }
 		/// <summary>
 		/// ctor
 		/// </summary>
-		public SelectorPropertyWPF(IEnumerable<T> data, Action<T> onSelect = null) : base(new ObservableCollection<T>(data), onSelect)
-		{
-		}
+		public SelectorPropertyWPF(IEnumerable<T> data, Action<T> onSelect = null) : base(new ObservableCollection<T>(data), onSelect) { }
 		/// <summary>
 		/// ctor
 		/// </summary>
-		public SelectorPropertyWPF(Func<ObservableCollection<T>> getList, Action<T> onSelect = null) : base(getList, onSelect)
-		{
-		}
+		public SelectorPropertyWPF(Func<ObservableCollection<T>> getList, Action<T> onSelect = null) : base(getList, onSelect) { }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="fillListAsync"></param>
+		/// <param name="onSelect"></param>
+		public SelectorPropertyWPF(Action<Action<ObservableCollection<T>>> fillListAsync, Action<T> onSelect = null) : base(fillListAsync, onSelect) { }
 		/// <summary>
 		/// ctor
 		/// </summary>
-		public SelectorPropertyWPF(Action<Action<ObservableCollection<T>>> getListAsync, Action<T> onSelect = null) : base(getListAsync, onSelect)
-		{
-		}
-		/// <summary>
-		/// ctor
-		/// </summary>
-		public SelectorPropertyWPF(Action<ObservableCollection<T>> getListAsync, Action<T> onSelect = null) : base(onSelect)
-		{
-			Contract.NotNull(getListAsync, nameof(getListAsync));
-			_getListAsync = getListAsync;
-		}
+		//public SelectorPropertyWPF(Action<ObservableCollection<T>> fillListAsync, Action<T> onSelect = null) : base(onSelect)
+		//{
+		//	Contract.NotNull(fillListAsync, nameof(fillListAsync));
+		//	_getListAsync = fillListAsync;
+		//}
 
-		protected override ObservableCollection<T> GetList_Internal()
-		{
-			ThreadPool.QueueUserWorkItem(o =>
-			{
-				var l = new ObservableCollection<T>();
-				_getListAsync(l);
-				Reset(l);
-			});
-			return null;// base.GetList_Internal();
-		}
+		//protected override ObservableCollection<T> GetList_Internal()
+		//{
+		//	ThreadPool.QueueUserWorkItem(o =>
+		//	{
+		//		var l = new ObservableCollection<T>();
+		//		_getListAsync(l);
+		//		Reset(l);
+		//	});
+		//	return null;// base.GetList_Internal();
+		//}
 
 
 	}
