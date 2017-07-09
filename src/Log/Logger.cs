@@ -121,7 +121,7 @@ namespace IT.Log
 		{
 			try
 			{
-				msg = $"{DateTime.Now.ToLongTimeString()} : {level} : {msg} [{source}]";
+				msg = $"{DateTime.Now.ToLongTimeString()} : {level} : [{source}] {msg}";
 
 				if (Logger.MinLevel < level)
 					return msg;
