@@ -100,6 +100,7 @@
     <Compile Include="Extentions\Assembly_Extention.cs" />
     <Compile Include="Extentions\String_Extentions.cs" />
     <Compile Include="Extentions\Type_Extention.cs" />
+    <Compile Include="MyLookupBindingPropertiesAttribute.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="Serializer_Json.cs" />
     <Compile Include="Serializer.cs" />
