@@ -23,11 +23,12 @@ namespace IT
 		/// <param name="level"></param>
 		/// <param name="ex"></param>
 		/// <param name="msg"></param>
+		/// <param name="args">Аргументы метода</param>
 		/// <returns></returns>
 		[MethodImpl(MethodImplOptions.NoInlining)]
-		public static string LogFmt(this ILog obj, TraceLevel level, Exception ex, string msg)
+		public static string LogFmt(this ILog obj, TraceLevel level, Exception ex, string msg, params object[] args)
 		{
-			msg = Logger.GetMsg_Ext(msg);
+			msg = Logger.GetMsg_Ext(msg, args);
 			return Logger.ToLog(obj, level, msg, ex);
 		}
 
@@ -36,12 +37,12 @@ namespace IT
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <param name="ex"></param>
-		/// <param name="formatStr"></param>
-		/// <param name="args"></param>
+		/// <param name="msg"></param>
+		/// <param name="args">Аргументы метода</param>
 		[MethodImpl(MethodImplOptions.NoInlining)]
-		public static string Error(this ILog obj, Exception ex, string formatStr, params object[] args)
+		public static string Error(this ILog obj, Exception ex, string msg = null, params object[] args)
 		{
-			var s = LogFmt(obj, TraceLevel.Error, ex, string.Format(formatStr, args));
+			var s = LogFmt(obj, TraceLevel.Error, ex, msg, args);
 			return s;
 		}
 
@@ -50,12 +51,12 @@ namespace IT
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <param name="ex"></param>
-		/// <param name="formatStr"></param>
-		/// <param name="args"></param>
+		/// <param name="msg"></param>
+		/// <param name="args">Аргументы метода</param>
 		[MethodImpl(MethodImplOptions.NoInlining)]
-		public static string Warn(this ILog obj, Exception ex, string formatStr, params object[] args)
+		public static string Warn(this ILog obj, Exception ex, string msg = null, params object[] args)
 		{
-			var s = LogFmt(obj, TraceLevel.Warning, ex, string.Format(formatStr, args));
+			var s = LogFmt(obj, TraceLevel.Warning, ex, msg, args);
 			return s;
 		}
 
@@ -63,12 +64,12 @@ namespace IT
 		/// Логирование соответствующего уровня
 		/// </summary>
 		/// <param name="obj"></param>
-		/// <param name="formatStr"></param>
-		/// <param name="args"></param>
+		/// <param name="msg"></param>
+		/// <param name="args">Аргументы метода</param>
 		[MethodImpl(MethodImplOptions.NoInlining)]
-		public static string Info(this ILog obj, string formatStr, params object[] args)
+		public static string Info(this ILog obj, string msg = null, params object[] args)
 		{
-			var s = LogFmt(obj, TraceLevel.Info, null, string.Format(formatStr, args));
+			var s = LogFmt(obj, TraceLevel.Info, null, msg, args);
 			return s;
 		}
 
@@ -76,12 +77,12 @@ namespace IT
 		/// Логирование соответствующего уровня
 		/// </summary>
 		/// <param name="obj"></param>
-		/// <param name="formatStr"></param>
-		/// <param name="args"></param>
+		/// <param name="msg"></param>
+		/// <param name="args">Аргументы метода</param>
 		[MethodImpl(MethodImplOptions.NoInlining)]
-		public static string Debug(this ILog obj, string formatStr, params object[] args)
+		public static string Debug(this ILog obj, string msg = null, params object[] args)
 		{
-			var s = LogFmt(obj, TraceLevel.Verbose, null, string.Format(formatStr, args));
+			var s = LogFmt(obj, TraceLevel.Verbose, null, msg, args);
 			return s;
 		}
 
@@ -89,13 +90,12 @@ namespace IT
 		/// Логирование соответствующего уровня
 		/// </summary>
 		/// <param name="obj"></param>
-		/// <param name="formatStr"></param>
-		/// <param name="args"></param>
+		/// <param name="msg"></param>
+		/// <param name="args">Аргументы метода</param>
 		[MethodImpl(MethodImplOptions.NoInlining)]
-		public static string Trace(this ILog obj, string formatStr, params object[] args)
+		public static string Trace(this ILog obj, string msg = null, params object[] args)
 		{
-			var s = string.Format(formatStr, args);
-			//s = LogFmt(obj, TraceLevel.Verbose, null, string.Format(formatStr, args));
+			var s = LogFmt(obj, TraceLevel.Verbose, null, msg, args);
 			return s;
 		}
 	}

@@ -81,15 +81,16 @@ namespace IT.Log
 		/// Получает StackFrame и дополняет сообщение на онове информации StackFrame 
 		/// </summary>
 		/// <param name="msg"></param>
+		/// <param name="args">Аргументы метода</param>
 		/// <returns></returns>
-		public static string GetMsg_Ext(string msg)
+		public static string GetMsg_Ext(string msg, params object[] args)
 		{
 			//	0	-	этот метод
 			//	1	-	LogExtentions или ToLogFmt
 			//	2	-	LogExtentions.
 			//	3	-	То, что нада
 			var fr = new StackFrame(3, Include_Line);
-			return GetMsg_Method(fr, msg);
+			return GetMsg_Method(fr, PostMethod(msg, args));
 		}
 
 		/// <summary>
@@ -98,14 +99,14 @@ namespace IT.Log
 		/// <param name="source">Класс-источник логирования</param>
 		/// <param name="level"></param>
 		/// <param name="ex"></param>
-		/// <param name="formatStr"></param>
-		/// <param name="args"></param>
-		public static string ToLogFmt(object source, TraceLevel level, Exception ex, string formatStr, params object[] args)
+		/// <param name="msg"></param>
+		/// <param name="args">Аргументы метода</param>
+		public static string ToLogFmt(object source, TraceLevel level, Exception ex, string msg, params object[] args)
 		{
 			//	0	-	этот метод
 			//	1	-	То, что нада
 			var fr = new StackFrame(1, Include_Line);
-			var msg = GetMsg_Method(fr, string.Format(formatStr, args));
+			msg = GetMsg_Method(fr, PostMethod(msg, args));
 			return Logger.ToLog(source, level, msg, ex);
 		}
 
@@ -169,6 +170,9 @@ namespace IT.Log
 
 			return msg;
 		}
+
+
+		private static string PostMethod(string msg, params object[] args) => "(" + string.Join(", ", args) + ") " + msg;
 
 		/// <summary>
 		/// Дополняет сообщение на онове информации StackFrame 
