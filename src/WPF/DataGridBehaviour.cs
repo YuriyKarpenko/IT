@@ -262,6 +262,7 @@ namespace IT.WPF
 
 			if (columns != null)
 			{
+				dataGrid.AutoGenerateColumns = false;
 				foreach (DataGridColumn column in columns)
 				{
 					dataGrid.Columns.Add(column);

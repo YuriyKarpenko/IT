@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.ComponentModel;
+using System.Collections;
+using System.Collections.Specialized;
+using System.Globalization;
 
 namespace IT.WPF
 {
@@ -238,12 +242,12 @@ namespace IT.WPF
 		/// <summary>
 		/// Inner_List for SelectorPropertyBase
 		/// </summary>
-		protected override IEnumerable<T> Inner_List => List;
+		protected override IEnumerable<T> Inner_List => ItemsSource;
 
 		/// <summary>
 		/// List
 		/// </summary>
-		public virtual IEnumerable<T> List { get; private set; }
+		public virtual IEnumerable<T> ItemsSource { get; private set; }
 
 
 		/// <summary>
@@ -254,7 +258,7 @@ namespace IT.WPF
 		public SelectorPropertyReadOnly(IEnumerable<T> list, Action<T> onSelectedChanged = null) : base(onSelectedChanged)
 		{
 			Contract.NotNull(list, "list");
-			this.List = list;
+			this.ItemsSource = list;
 		}
 	}
 
@@ -285,6 +289,7 @@ namespace IT.WPF
 		/// Возникает при смене состояния IsWorking (используется только при асинхронных операциях)
 		/// </summary>
 		public event EventHandler IsWorkingChanged;
+		public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 		#endregion
 
@@ -409,7 +414,7 @@ namespace IT.WPF
 		/// <summary>
 		/// Сброс списка, и принудительное заполнение из источника (из конструктора) в другом потоке
 		/// </summary>
-		public async virtual void ResetAsync()
+		public virtual void ResetAsync()
 		{
 			OnIsWorkingChanged(true);
 			ThreadPool.QueueUserWorkItem(o => Reset());
@@ -459,11 +464,13 @@ namespace IT.WPF
 			OnPropertyChanged(nameof(IsWorking));
 			IsWorkingChanged?.Invoke(this, EventArgs.Empty);
 		}
+
+
+
 	}
 
-
 	/// <summary>
-	/// Класс для удобной работы с выделением элементов списками с использованием IEnumerable<>
+	/// Класс для удобной работы с выделением элементов списками с использованием IEnumerable<T/>
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public class SelectorProperty<T> : SelectorProperty<IEnumerable<T>, T>
@@ -480,7 +487,7 @@ namespace IT.WPF
 	}
 
 	/// <summary>
-	/// Класс для удобной работы с выделением элементов списками с использованием ObservableCollection<>
+	/// Класс для удобной работы с выделением элементов списками с использованием ObservableCollection<T/>
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public class SelectorPropertyWPF<T> : SelectorProperty<ObservableCollection<T>, T> where T : class
@@ -494,23 +501,27 @@ namespace IT.WPF
 		/// ctor
 		/// </summary>
 		public SelectorPropertyWPF(Action<T> onSelect) : base(new ObservableCollection<T>(), onSelect) { }
+		
 		/// <summary>
 		/// ctor
 		/// </summary>
 		public SelectorPropertyWPF(IEnumerable<T> data, Action<T> onSelect = null) : base(new ObservableCollection<T>(data), onSelect) { }
+		
 		/// <summary>
 		/// ctor
 		/// </summary>
 		public SelectorPropertyWPF(Func<ObservableCollection<T>> getList, Action<T> onSelect = null) : base(getList, onSelect) { }
+		
 		/// <summary>
-		/// 
+		/// ctor
 		/// </summary>
 		/// <param name="fillListAsync"></param>
 		/// <param name="onSelect"></param>
 		public SelectorPropertyWPF(Action<Action<ObservableCollection<T>>> fillListAsync, Action<T> onSelect = null) : base(fillListAsync, onSelect) { }
-		/// <summary>
-		/// ctor
-		/// </summary>
+		
+		///// <summary>
+		///// ctor
+		///// </summary>
 		//public SelectorPropertyWPF(Action<ObservableCollection<T>> fillListAsync, Action<T> onSelect = null) : base(onSelect)
 		//{
 		//	Contract.NotNull(fillListAsync, nameof(fillListAsync));
@@ -531,4 +542,53 @@ namespace IT.WPF
 
 	}
 
+
+	public class SelectorProperty2<T> : ObservableCollection<T>, ICollectionView
+	{
+		private List<object> Inner_List = new List<object>();
+		private ICollectionView @this => (ICollectionView)this;
+		private readonly SortDescriptionCollection _SortDescriptions = new SortDescriptionCollection();
+		private ObservableCollection<GroupDescription> _GroupDescriptions = new ObservableCollection<GroupDescription>();
+		//private ObservableCollection<object> _GroupsInner = new ObservableCollection<object>();
+		private ReadOnlyObservableCollection<object> _Groups;// = new ReadOnlyObservableCollection<object>(_Gro);
+		private object _CurrentItem;
+
+		//public Predicate<T> Filter { get; set; }
+
+
+		#region ICollectionView
+
+		public event CurrentChangingEventHandler CurrentChanging;
+		public event EventHandler CurrentChanged;
+
+
+		CultureInfo ICollectionView.Culture { get; set; }
+		IEnumerable ICollectionView.SourceCollection => Inner_List;
+		Predicate<object> ICollectionView.Filter { get; set; }
+		bool ICollectionView.CanFilter => @this.Filter != null;
+		SortDescriptionCollection ICollectionView.SortDescriptions => _SortDescriptions;
+		bool ICollectionView.CanSort => _SortDescriptions.Count > 0;
+		bool ICollectionView.CanGroup => _GroupDescriptions.Count > 0;
+		ObservableCollection<GroupDescription> ICollectionView.GroupDescriptions => _GroupDescriptions;
+		ReadOnlyObservableCollection<object> ICollectionView.Groups => _Groups;
+		bool ICollectionView.IsEmpty => Inner_List?.Any() == false;
+		object ICollectionView.CurrentItem => _CurrentItem;
+		int ICollectionView.CurrentPosition => throw new NotImplementedException();
+		bool ICollectionView.IsCurrentAfterLast => throw new NotImplementedException();
+		bool ICollectionView.IsCurrentBeforeFirst => throw new NotImplementedException();
+
+		bool ICollectionView.Contains(object item) => throw new NotImplementedException();
+		void ICollectionView.Refresh() => throw new NotImplementedException();
+		IDisposable ICollectionView.DeferRefresh() => throw new NotImplementedException();
+		bool ICollectionView.MoveCurrentToFirst() => throw new NotImplementedException();
+		bool ICollectionView.MoveCurrentToLast() => throw new NotImplementedException();
+		bool ICollectionView.MoveCurrentToNext() => throw new NotImplementedException();
+		bool ICollectionView.MoveCurrentToPrevious() => throw new NotImplementedException();
+		bool ICollectionView.MoveCurrentTo(object item) => throw new NotImplementedException();
+		bool ICollectionView.MoveCurrentToPosition(int position) => throw new NotImplementedException();
+
+		//IEnumerator IEnumerable.GetEnumerator() => throw new NotImplementedException();	base
+
+		#endregion
+	}
 }
