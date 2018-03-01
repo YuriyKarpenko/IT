@@ -4,11 +4,12 @@
                     xmlns:jb="clr-namespace:IT.WPF.JetBrains"
 					>
 	<!--
+                    xmlns:jb="clr-namespace:IT.WPF.JetBrains"
                     xmlns:behaviors="clr-namespace:DataGridExtensions.Behaviors"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	-->
 
-	<DataTemplate x:Key="{x:Static it:DataGridFilter.ColumnHeaderTemplateKey}">
+	<DataTemplate x:Key="{x:Static it:DataGridFilter.HeadegFilter_DockButtom_TemplateKey}">
 		<DockPanel Background="Transparent">
 			<it:DataGridFilterHeader DockPanel.Dock="Bottom"/>
 			<ContentPresenter x:Name="PART_Content" Content="{Binding}"
@@ -18,16 +19,176 @@
 		</DockPanel>
 	</DataTemplate>
 
-	<ControlTemplate x:Key="{x:Static it:DataGridFilter.TextColumnFilterTemplateKey}">
-		<DockPanel>
-			<ComboBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectedItem}" />
-			<TextBlock DockPanel.Dock="Right" Text="qwerty"/>
+	<DataTemplate x:Key="{x:Static it:DataGridFilter.HeadegFilter_DockRight_TemplateKey}">
+		<DockPanel Background="Transparent">
+			<it:DataGridFilterHeader DockPanel.Dock="Right"/>
+			<ContentPresenter x:Name="PART_Content" Content="{Binding}"
+                        SnapsToDevicePixels="{Binding SnapsToDevicePixels, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridColumnHeader}}"
+                        HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridColumnHeader}}"
+                        VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridColumnHeader}}"/>
 		</DockPanel>
+	</DataTemplate>
+
+
+	<!--	ControlTemplates	-->
+
+	<ControlTemplate x:Key="{x:Static it:DataGridFilter.DataGridFilters_ComboBox_TemplateKey}">
+		<ComboBox Style="{DynamicResource {x:Static it:DataGridFilter.ComboBox_StyleKey}}" ItemsSource="{Binding ItemsSource}" 
+				  SelectedItem="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged, TargetNullValue=Все\ значения}" />
 	</ControlTemplate>
 
 
+	<ControlTemplate x:Key="{x:Static it:DataGridFilter.DataGridFilters_TextBoxContains_TemplateKey}">
+		<Grid>
+			<Control Style="{DynamicResource {x:Static it:DataGridFilter.Icon_StyleKey}}"/>
+			<TextBox Style="{DynamicResource {x:Static it:DataGridFilter.SearchTextBox_StyleKey}}"
+               Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}"/>
+		</Grid>
+	</ControlTemplate>
 
-	<!--#endregion	JetBrains	-->	
+	<ControlTemplate x:Key="{x:Static it:DataGridFilter.Icon_TemplateKey}">
+		<Path Data="M 0,0 L 10,0 6,4 6,9 4,9 4,4 Z" Fill="{TemplateBinding Control.Foreground}"
+          VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2,0"/>
+	</ControlTemplate>
+
+
+	<!--	Styles	-->
+
+	<Style x:Key="{x:Static it:DataGridFilter.Icon_StyleKey}" TargetType="{x:Type Control}">
+		<Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
+		<Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+		<Setter Property="Control.Template" Value="{DynamicResource {x:Static it:DataGridFilter.Icon_TemplateKey}}"/>
+		<Setter Property="UIElement.Focusable" Value="false"/>
+		<Setter Property="Control.Foreground" Value="Gray"/>
+	</Style>
+
+	<Style x:Key="{x:Static it:DataGridFilter.ComboBox_StyleKey}" TargetType="{x:Type ComboBox}">
+		<Setter Property="ComboBox.Foreground" Value="DarkBlue"/>
+		<Setter Property="FrameworkElement.MinWidth" Value="90"/>
+		<Setter Property="FrameworkElement.Margin" Value="0"/>
+		<!--<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type TextBox}">
+					<Border x:Name="border" BorderBrush="{TemplateBinding Control.BorderBrush}" 
+							BorderThickness="{TemplateBinding Control.BorderThickness}"
+							Background="{TemplateBinding Control.Background}" 
+							SnapsToDevicePixels="true">
+						<DockPanel>
+							<Button x:Name="clear" DockPanel.Dock="Right" Focusable="false"
+									Style="{DynamicResource {x:Static it:DataGridFilter.SearchTextBoxClearButton_StyleKey}}">
+								<Interaction.Behaviors>
+									<behaviors:ClearTextBoxOnButtonClickBehavior TextBox="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
+								</Interaction.Behaviors>
+							</Button>
+							<ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Hidden"/>
+						</DockPanel>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="UIElement.IsEnabled" Value="false">
+							<Setter TargetName="border" Property="UIElement.Opacity" Value="0.56"/>
+						</Trigger>
+						<Trigger Property="UIElement.IsMouseOver" Value="true">
+							<Setter TargetName="border" Property="Border.BorderBrush" Value="#FF7EB4EA"/>
+						</Trigger>
+						<Trigger Property="UIElement.IsKeyboardFocused" Value="true">
+							<Setter TargetName="border" Property="Border.BorderBrush" Value="#FF569DE5"/>
+						</Trigger>
+						<Trigger Property="TextBox.Text" Value="">
+							<Setter TargetName="clear" Property="UIElement.Visibility" Value="Hidden"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>-->
+		<Style.Triggers>
+			<DataTrigger Binding="{Binding Filter}" Value="{x:Null}">
+				<Setter Property="UIElement.Opacity" Value="0"/>
+			</DataTrigger>
+			<Trigger Property="UIElement.IsMouseOver" Value="true">
+				<Setter Property="UIElement.Opacity" Value="1"/>
+			</Trigger>
+			<Trigger Property="UIElement.IsFocused" Value="true">
+				<Setter Property="UIElement.Opacity" Value="1"/>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<Style x:Key="{x:Static it:DataGridFilter.SearchTextBox_StyleKey}"
+         TargetType="{x:Type TextBox}">
+		<Setter Property="FrameworkElement.MinWidth" Value="20"/>
+		<Setter Property="FrameworkElement.Margin" Value="4,0,2,0"/>
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type TextBox}">
+					<Border x:Name="border" BorderBrush="{TemplateBinding Control.BorderBrush}" 
+							BorderThickness="{TemplateBinding Control.BorderThickness}"
+							Background="{TemplateBinding Control.Background}" SnapsToDevicePixels="true">
+						<DockPanel>
+							<Button x:Name="clear" DockPanel.Dock="Right" Focusable="false"
+									Style="{DynamicResource {x:Static it:DataGridFilter.SearchTextBoxClearButton_StyleKey}}">
+								<!--<Interaction.Behaviors>
+									<behaviors:ClearTextBoxOnButtonClickBehavior TextBox="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
+								</Interaction.Behaviors>-->
+							</Button>
+							<ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Hidden"/>
+						</DockPanel>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="UIElement.IsEnabled" Value="false">
+							<Setter TargetName="border" Property="UIElement.Opacity" Value="0.56"/>
+						</Trigger>
+						<Trigger Property="UIElement.IsMouseOver" Value="true">
+							<Setter TargetName="border" Property="Border.BorderBrush" Value="#FF7EB4EA"/>
+						</Trigger>
+						<Trigger Property="UIElement.IsKeyboardFocused" Value="true">
+							<Setter TargetName="border" Property="Border.BorderBrush" Value="#FF569DE5"/>
+						</Trigger>
+						<Trigger Property="TextBox.Text" Value="">
+							<Setter TargetName="clear" Property="UIElement.Visibility" Value="Hidden"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+		<Style.Triggers>
+			<Trigger Property="TextBox.Text" Value="">
+				<Setter Property="UIElement.Opacity" Value="0"/>
+			</Trigger>
+			<Trigger Property="UIElement.IsMouseOver" Value="true">
+				<Setter Property="UIElement.Opacity" Value="1"/>
+			</Trigger>
+			<Trigger Property="UIElement.IsFocused" Value="true">
+				<Setter Property="UIElement.Opacity" Value="1"/>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<Style x:Key="{x:Static it:DataGridFilter.SearchTextBoxClearButton_StyleKey}"
+         TargetType="{x:Type Button}">
+		<Setter Property="Control.Foreground" Value="LightGray"/>
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type ButtonBase}">
+					<Border Background="Transparent">
+						<Path Data="M 0,0 L 7,7 M 0,7 L 7,0 " Stroke="{TemplateBinding Control.Foreground}"
+							  HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="2" Margin="3"/>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="UIElement.IsMouseOver" Value="true">
+							<Setter Property="Control.Foreground" Value="Gray"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+
+	<!--#endregion	JetBrains	-->
+
 	<Style x:Key="{x:Static jb:DataGridFilter.ColumnHeaderSearchCheckBoxStyleKey}"
          TargetType="{x:Type CheckBox}">
 		<Setter Property="ToggleButton.IsThreeState" Value="true"/>
@@ -44,7 +205,7 @@
 			</Trigger>
 		</Style.Triggers>
 	</Style>
-	
+
 	<Style x:Key="{x:Static jb:DataGridFilter.ColumnHeaderSearchTextBoxClearButtonStyleKey}"
          TargetType="{x:Type Button}">
 		<Setter Property="Control.Foreground" Value="LightGray"/>
@@ -64,7 +225,7 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-	
+
 	<Style x:Key="{x:Static jb:DataGridFilter.ColumnHeaderSearchTextBoxStyleKey}"
          TargetType="{x:Type TextBox}">
 		<Setter Property="FrameworkElement.MinWidth" Value="20"/>
@@ -119,7 +280,7 @@
 		<Path Data="M 0,0 L 10,0 6,4 6,9 4,9 4,4 Z" Fill="{TemplateBinding Control.Foreground}"
           VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2,0"/>
 	</ControlTemplate>
-	
+
 	<Style x:Key="{x:Static jb:DataGridFilter.IconStyleKey}" TargetType="{x:Type Control}">
 		<Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
 		<Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
@@ -127,7 +288,7 @@
 		<Setter Property="UIElement.Focusable" Value="false"/>
 		<Setter Property="Control.Foreground" Value="Gray"/>
 	</Style>
-	
+
 	<ControlTemplate x:Key="{x:Static jb:DataGridFilter.TextColumnFilterTemplateKey}">
 		<Grid>
 			<Control Style="{DynamicResource {x:Static jb:DataGridFilter.IconStyleKey}}"/>
@@ -135,7 +296,7 @@
                Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}"/>
 		</Grid>
 	</ControlTemplate>
-	
+
 	<ControlTemplate x:Key="{x:Static jb:DataGridFilter.CheckBoxColumnFilterTemplateKey}">
 		<Grid>
 			<Control Style="{DynamicResource {x:Static jb:DataGridFilter.IconStyleKey}}"/>
@@ -143,7 +304,7 @@
                 IsChecked="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}"/>
 		</Grid>
 	</ControlTemplate>
-	
+
 	<ControlTemplate x:Key="{x:Static jb:DataGridFilter.TemplateColumnFilterTemplateKey}">
 		<Grid>
 			<Control Style="{DynamicResource {x:Static jb:DataGridFilter.IconStyleKey}}"/>
@@ -151,7 +312,7 @@
                Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}"/>
 		</Grid>
 	</ControlTemplate>
-	
+
 	<DataTemplate x:Key="{x:Static jb:DataGridFilter.ColumnHeaderTemplateKey}">
 		<DockPanel Background="Transparent">
 			<jb:DataGridFilterColumnControl DockPanel.Dock="Right"/>
@@ -161,7 +322,7 @@
                         VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridColumnHeader}}"/>
 		</DockPanel>
 	</DataTemplate>
-	
+
 	<!--<Style x:Key="{x:Static behaviors:ExtendedStarSizeBehavior.ColumnHeaderGripperToolTipStyleKey}"
          TargetType="{x:Type ToolTip}">
 		<Setter Property="ContentControl.ContentTemplate">
@@ -177,7 +338,7 @@
 		</Setter>
 	</Style>-->
 	<!--#region -->
-	
+
 	<!--
 	-->
 </ResourceDictionary>
