@@ -108,8 +108,10 @@
     <Compile Include="WPF\Filters\DataGridFilter.cs" />
     <Compile Include="WPF\Filters\DataGridFilterCore.cs" />
     <Compile Include="WPF\Filters\DataGridFilterHeader.cs" />
+    <Compile Include="WPF\Filters\DataGridFilters.cs" />
     <Compile Include="WPF\Filters\IContentFilter.cs" />
-    <Compile Include="WPF\Filters\ContentFilter.cs" />
+    <Compile Include="WPF\Filters\ContentFilters.cs" />
+    <Compile Include="WPF\Filters\IContentFilterFactory.cs" />
     <Compile Include="WPF\Filters\SimpleContentFilterFactory.cs" />
     <Compile Include="WPF\JetBrains\DataGridFilter.cs" />
     <Compile Include="WPF\JetBrains\DataGridFilterColumn.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="WPF\JetBrains\__ContractsRuntime.cs" />
     <Compile Include="WPF\SelectorProperty.cs" />
     <Compile Include="WPF\MonitoredProperty.cs" />
+    <Compile Include="WPF\VM_BaseInit.cs" />
     <Compile Include="WPF\WPF_Extentions.cs" />
     <Compile Include="Zip.cs" />
   </ItemGroup>

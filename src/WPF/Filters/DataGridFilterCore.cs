@@ -1,122 +1,287 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace IT.WPF.Filters
 {
+	/// <summary> Управляет фильтрацией и визуализацией фильтров всех колонок </summary>
+	public interface IFilterManager
+	{
+		/// <summary> Признак включенной фильтрации </summary>
+		DataGridFilters FilterEnabled { get; }
+
+		/// <summary> Предоставляет фабрику фильтров содержимого. </summary>
+		IContentFilterFactory FilterFactory { get; }
+
+		/// <summary> Данные расширяемого контрола </summary>
+		IEnumerable ItemsSource { get; }
+
+		/// <summary> Данные расширяемого контрола </summary>
+		ItemCollection Items { get; }
+
+
+		/// <summary> Добавляет новый столбец. </summary>
+		/// <param name="filterColumn"></param>
+		void AddColumn(IFilterHeaderControl filterColumn);
+
+		/// <summary> Удаляет разгруженный столбец. </summary>
+		/// <requires csharp="filterColumn != null" vb="filterColumn &lt;&gt; Nothing">filterColumn != null</requires>
+		void RemoveColumn(IFilterHeaderControl filterColumn);
+
+		/// <summary> Уведомляет об изменении какого-либо фильтра </summary>
+		void OnFilterChanged();
+	}
+
+	/// <summary> Управляет фильтрацией и визуализацией фильтров всех колонок </summary>
+	public abstract class FilterCore<T> : NotifyPropertyChangedBase, IFilterManager, ILog where T : ItemsControl
+	{
+		/// <summary> Предоставляет фабрику фильтров содержимого по умолчанию (SimpleContentFilterFactory). </summary>
+		public static IContentFilterFactory DefaultFilterFactory { get; set; } = new SimpleContentFilterFactory( StringComparison.CurrentCultureIgnoreCase);
+
+		/// <summary> Признак процесса фильтрации </summary>
+		public bool IsWorking { get; private set; }
+
+		#region IFilterCore
+
+		/// <summary> Признак включенной фильтрации </summary>
+		public DataGridFilters FilterEnabled { get; private set; }
+
+		/// <summary> Предоставляет фабрику фильтров содержимого. </summary>
+		public virtual IContentFilterFactory FilterFactory => DefaultFilterFactory;
+
+		IEnumerable IFilterManager.ItemsSource => ItemsControl.ItemsSource;
+
+		ItemCollection IFilterManager.Items => ItemsControl.Items;
+
+
+		void IFilterManager.AddColumn(IFilterHeaderControl filterColumn)
+		{
+			filterColumn.Visibility = FilterVisibility;
+			_filterHeaderControls.Add(filterColumn);
+		}
+
+		void IFilterManager.RemoveColumn(IFilterHeaderControl filterColumn)
+		{
+			_filterHeaderControls.Remove(filterColumn);
+			this.OnFilterChanged();
+		}
+
+		/// <summary> Уведомляет об изменении какого-либо фильтра </summary>
+		public virtual void OnFilterChanged()
+		{
+			EvaluateFilter();
+		}
+
+		#endregion
+
+		/// <summary>
+		/// представление фильтров
+		/// </summary>
+		private Visibility FilterVisibility => FilterEnabled == DataGridFilters.Disabled ? Visibility.Hidden : Visibility.Visible;
+
+
+		/// <summary> Списочный элемкнт управления, в котором применяется фмльтр (DataGrid, List, ListView etc ...) </summary>
+		protected T ItemsControl { get; private set; }
+
+		/// <summary> Заголовки фильтра, появляются при инициализации DataGridFilterHeader</summary>
+		private readonly List<IFilterHeaderControl> _filterHeaderControls = new List<IFilterHeaderControl>();
+
+
+		/// <summary> .ctor </summary>
+		/// <param name="itemsControl"></param>
+		public FilterCore(T itemsControl)
+		{
+			ItemsControl = itemsControl;
+		}
+
+
+		/// <summary> Включение/отключение фильтрации + изменение видимости фильтров </summary>
+		/// <param name="value"></param>
+		public virtual void Enable(DataGridFilters value)
+		{
+			FilterEnabled = value;
+			foreach (UIElement filterColumnControl in _filterHeaderControls)
+				filterColumnControl.Visibility = FilterVisibility;
+			EvaluateFilter();
+		}
+
+		/// <summary> получение колонок, участвующих в фильтрации </summary>
+		/// <param name="excluded"></param>
+		/// <returns></returns>
+		protected virtual IList<IFilterHeaderControl> GetColumnFilters(params IFilterHeaderControl[] excluded)
+		{
+			var res = _filterHeaderControls
+				//.Where(column => column != excluded)
+				.Except(excluded)
+				.Where(column => column.IsVisible && column.IsFiltered)
+				.ToArray();
+			return res;
+		}
+
+		/// <summary> Создание условия фильтрации по заданным фильтрам </summary>
+		/// <param name="columnFilters"></param>
+		/// <returns></returns>
+		protected internal virtual Predicate<object> CreatePredicate(IEnumerable<IFilterHeaderControl> columnFilters)
+		{
+			if (columnFilters?.Any() == true)
+				return (i => columnFilters.All(filter => filter.Matches(i)));
+
+			return item => true;
+		}
+
+		/// <summary> Вычисляет текущие фильтры и применяет фильтрацию к представлению коллекции элемента управления элемента. </summary>
+		protected virtual void EvaluateFilter()
+		{
+			var columnFilters = GetColumnFilters();
+
+			IsWorking = true;
+			OnPropertyChanged(nameof(IsWorking));
+			var oldCursor = ItemsControl.Cursor;
+			ItemsControl.Cursor = Cursors.Wait;
+			try
+			{
+				ItemsControl.Items.Filter = this.CreatePredicate(columnFilters);
+
+				foreach (IFilterHeaderControl filterColumnControl in _filterHeaderControls)
+					filterColumnControl.ValuesUpdated();
+			}
+			catch (InvalidOperationException ex)
+			{
+				this.Warn(ex);
+			}
+			catch (Exception ex)
+			{
+				this.Error(ex);
+			}
+			finally
+			{
+				IsWorking = false;
+				ItemsControl.Cursor = oldCursor;
+				OnPropertyChanged(nameof(IsWorking));
+			}
+		}
+
+	}
+
 	/// <summary>
 	/// Управляет фильтрацией и визуализацией фильтров всех колонок
 	/// </summary>
 	/// <invariant>_dataGrid != null</invariant>
 	/// <invariant>_filterColumnControls != null</invariant>
-	public class DataGridFilterCore : ILog
-    {
-		private readonly DataGrid _dg;
-		
-		/// <summary>Заголовки фильтра, появляются при инициализации DataGridFilterHeader</summary>
-		private readonly List<DataGridFilterHeader> _filterColumnControls = new List<DataGridFilterHeader>();
+	public class DataGridFilterCore : FilterCore<DataGrid>
+	{
+		///// <summary>Occurs before new columns are filtered.</summary>
+		//public event EventHandler<DataGridFilteringEventArgs> Filtering;
 
-		/// <summary> Признак включенной фильтрации </summary>
-		private bool _isFilteringEnabled;
+		///// <summary>Occurs when any filter has changed.</summary>
+		//public event EventHandler FilterChanged;
 
-		/// <summary> Timer to defer evaluation of the filter until user has stopped typing. </summary>
+
+		/// <summary> Таймер задежки применения фильтра до тех пор, пока пользователь не перестанет печатать. </summary>
 		private DispatcherTimer _deferFilterEvaluationTimer;
+
+		/// <summary> Глобальный фильтр, который применяется в дополнение к фильтрам столбцов. </summary>
+		private Predicate<object> _globalFilter;
+
 
 		/// <summary> .ctor </summary>
 		/// <param name="dg"></param>
-		public DataGridFilterCore(DataGrid dg)
+		public DataGridFilterCore(DataGrid dg) : base(dg)
 		{
-			_dg = dg;
 			dg.Columns.CollectionChanged += Columns_CollectionChanged;
+
+			//dataGrid.Loaded += new RoutedEventHandler(this.DataGrid_Loaded);
+
+			//	растянуть заголовок по ширине
+			if (dg.ColumnHeaderStyle == null)
+			{
+				Style style = new Style(typeof(DataGridColumnHeader), (Style)dg.FindResource(typeof(DataGridColumnHeader)));
+				style.Setters.Add(new Setter(Control.HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
+				dg.ColumnHeaderStyle = style;
+			}
 		}
+
 
 		/// <summary> Включение/отключение фильтрации </summary>
-		/// <param name="val"></param>
-		public void Enable(bool val)
+		/// <param name="value"></param>
+		public override void Enable(DataGridFilters value)
 		{
-
-		}
-
-		/// <summary>Adds a new column.</summary>
-		/// <param name="filterColumn"></param>
-		internal void AddColumn(DataGridFilterHeader filterColumn)
-		{
-			filterColumn.Visibility = this._isFilteringEnabled ? Visibility.Visible : Visibility.Hidden;
-			this._filterColumnControls.Add(filterColumn);
-		}
-
-		/// <summary>Removes an unloaded column.</summary>
-		/// <requires csharp="filterColumn != null" vb="filterColumn &lt;&gt; Nothing">filterColumn != null</requires>
-		internal void RemoveColumn(DataGridFilterHeader filterColumn)
-		{
-			this._filterColumnControls.Remove(filterColumn);
-			this.OnFilterChanged();
+			base.Enable(value);
+			SetHeaderTemplate(ItemsControl.Columns);
 		}
 
 		/// <summary>
-		/// When any filter condition has changed restart the evaluation timer to defer
-		/// the evaluation until the user has stopped typing.
+		/// Когда какое-либо условие фильтра изменилось, перезапустите таймер оценки, чтобы отложить оценку до тех пор, пока пользователь не перестанет печатать.
 		/// </summary>
-		internal void OnFilterChanged()
+		public override void OnFilterChanged()
 		{
-			if (this._isFilteringEnabled)
+			if (this.FilterEnabled != DataGridFilters.Disabled)
 			{
-				this._dg.CommitEdit();
-				this._dg.CommitEdit();
+				this.ItemsControl.CommitEdit();
+				this.ItemsControl.CommitEdit();
 				if (this._deferFilterEvaluationTimer == null)
-					this._deferFilterEvaluationTimer = new DispatcherTimer(TimeSpan.FromSeconds(0.5), DispatcherPriority.Input, ((_, __) => this.EvaluateFilter()), Dispatcher.CurrentDispatcher);
+					this._deferFilterEvaluationTimer = new DispatcherTimer(ItemsControl.GetFilterEvaluationDelay(), DispatcherPriority.Input, (_, __) => EvaluateFilter(), Dispatcher.CurrentDispatcher);
 				this._deferFilterEvaluationTimer.Stop();
 				this._deferFilterEvaluationTimer.Start();
 			}
 		}
 
-		internal IList<DataGridFilterHeader> GetColumnFilters(DataGridFilterHeader excluded = null)
+		internal void SetGlobalFilter(Predicate<object> globalFilter)
 		{
-			return this._filterColumnControls
-				.Where(column => column != excluded)
-				.Where(column => column.IsVisible && column.IsFiltered)
-				.ToArray();
+			_globalFilter = globalFilter;
+			OnFilterChanged();
 		}
 
-		internal Predicate<object> CreatePredicate(IList<DataGridFilterHeader> columnFilters)
+		/// <summary> Создание условия фильтрации по заданным фильтрам </summary>
+		/// <param name="columnFilters"></param>
+		/// <returns></returns>
+		protected internal override Predicate<object> CreatePredicate(IEnumerable<IFilterHeaderControl> columnFilters)
 		{
-			//if (columnFilters?.Any() != true)
-			//	return this._globalFilter;
+			if (columnFilters?.Any() != true)
+				return this._globalFilter;
 
-			//if (this._globalFilter == null)
-			//	return (i => columnFilters.All(filter => filter.Matches(i)));
-
-			//return (Predicate<object>)(item => this._globalFilter(item)) && columnFilters.All(filter => filter.Matches(item)));
-
-			return (i => columnFilters.All(filter => filter.Matches(i)));
+			var basePredicate = base.CreatePredicate(columnFilters);
+			if (_globalFilter == null)
+				return basePredicate;
+			else
+				return item => _globalFilter(item) && basePredicate(item);
 		}
 
-		/// <summary>Creates a new content filter.</summary>
-		internal IContentFilter CreateContentFilter(object content) => this._dg.GetContentFilterFactory().Create(content);
+		private void DataGrid_Loaded(object sender, RoutedEventArgs e)
+		{
+			object obj1 = ItemsControl.Template?.FindName("DG_ScrollViewer", (FrameworkElement)ItemsControl);
 
+			if (obj1 is ScrollViewer scrollViewer1)
+			{
+				object obj2 = scrollViewer1.Template?.FindName("PART_ColumnHeadersPresenter", (FrameworkElement)scrollViewer1);
 
+				if (obj2 is FrameworkElement frameworkElement)
+				{
+					// ISSUE: variable of a boxed type
+					frameworkElement.SetValue(KeyboardNavigation.TabNavigationProperty, KeyboardNavigationMode.None);
+				}
+			}
+		}
+
+		//	поиск и установка HeaderTemplate для новых колонок
 		private void Columns_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
 			try
 			{
-				if(e.NewItems != null)
+				if (e.NewItems != null)
 				{
-					var array = e.NewItems
+					var columns = e.NewItems
 						.OfType<DataGridColumn>()
 						.Where(column => /*column.GetIsFilterVisible() && */column.HeaderTemplate == null)
 						.ToArray();
-
-					if (array.Any())
-					{
-						object obj = this._dg.FindResource(DataGridFilter.ColumnHeaderTemplateKey);
-						DataTemplate dataTemplate = (DataTemplate)obj;
-						foreach (DataGridColumn dataGridColumn in array)
-							dataGridColumn.HeaderTemplate = dataTemplate;
-					}
+					SetHeaderTemplate(columns);
 				}
 			}
 			catch (Exception ex)
@@ -126,11 +291,9 @@ namespace IT.WPF.Filters
 		}
 
 		/// <summary> Evaluates the current filters and applies the filtering to the collection view of the items control. </summary>
-		private void EvaluateFilter()
+		protected override void EvaluateFilter()
 		{
 			this._deferFilterEvaluationTimer?.Stop();
-			ItemCollection items = this._dg.Items;
-			IList<DataGridFilterHeader> columnFilters = this.GetColumnFilters(null);
 
 			// ISSUE: reference to a compiler-generated field
 			//if (this.Filtering != null)
@@ -161,16 +324,30 @@ namespace IT.WPF.Filters
 			//	eventHandler((object)this, e);
 			//}
 
-			try
-			{
-				items.Filter = this.CreatePredicate(columnFilters);
-				foreach (DataGridFilterHeader filterColumnControl in this._filterColumnControls)
-					filterColumnControl.ValuesUpdated();
-			}
-			catch (InvalidOperationException ex)
-			{
-			}
+			base.EvaluateFilter();
 		}
 
+		private void SetHeaderTemplate(IEnumerable<DataGridColumn> columns)
+		{
+			if (columns?.Any() == true)
+			{
+				object key = null;
+				switch (FilterEnabled)
+				{
+					case DataGridFilters.ComboBox:
+						key = DataGridFilter.HeadegFilter_DockButtom_TemplateKey;
+						break;
+					case DataGridFilters.TextBoxContains:
+					//case DataGridFilters.TextBoxContains:
+						key = DataGridFilter.HeadegFilter_DockRight_TemplateKey;
+						break;
+				}
+
+				DataTemplate dataTemplate = (DataTemplate)ItemsControl.FindResource(key, ItemsControl);
+
+				foreach (DataGridColumn dataGridColumn in columns)
+					dataGridColumn.HeaderTemplate = dataTemplate;
+			}
+		}
 	}
 }
