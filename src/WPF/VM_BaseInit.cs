@@ -1,33 +1,45 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Camo.WPF
+namespace IT.WPF
 {
 	interface IDataContext
 	{
 		void OnDataContext_Set(FrameworkElement e);
 	}
 
-	public class VM_BaseInit : NotifyPropertyChangedDisposeble, IDataContext, ILog, IInvokable
+	public class VM_BaseInit : NotifyPropertyChangedBase, IDataContext, ILog//, IInvokable
 	{
 		#region static
 
 		static VM_BaseInit()
 		{
-			var pm = new System.Windows.FrameworkPropertyMetadata(CallbackDataContext);
+			DependencyPropertyDescriptor propertyDescriptor = DependencyPropertyDescriptor.FromProperty(Control.DataContextProperty, typeof(ContentControl));
+			if (propertyDescriptor != null)
+				propertyDescriptor.DesignerCoerceValueCallback = new CoerceValueCallback(DataContext_CoerceValue);
+
+			var pm = new FrameworkPropertyMetadata(CallbackDataContext);
 			FrameworkElement.DataContextProperty.AddOwner(typeof(ContentControl), pm);
 		}
 		static void CallbackDataContext(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			if (e.NewValue != null)
+			if (e.NewValue != null && e.NewValue is IDataContext vm)
 			{
-				IDataContext vm = e.NewValue as IDataContext;
-				if (vm != null)
-					vm.OnDataContext_Set(d as FrameworkElement);
+				vm.OnDataContext_Set(d as FrameworkElement);
 			}
+		}
+		static object DataContext_CoerceValue(DependencyObject d, object value)
+		{
+			if (value != null && value is IDataContext vm)
+			{
+				vm.OnDataContext_Set(d as FrameworkElement);
+			}
+			return value;
 		}
 
 		#endregion
@@ -52,14 +64,15 @@ namespace Camo.WPF
 		/// <summary>
 		/// Для создания контролов. Так же запускает Init_Core_Async
 		/// </summary>
-		protected virtual void Init_Core()
+		protected virtual Task Init_Core()
 		{
 #if DEBUG
 			this.IsDedug = Visibility.Visible;
 #else
 			this.IsDedug = Visibility.Collapsed;
 #endif
-			this.GoAsync(this.Init_Core_Async, ex => this.Error(ex, "() Async"));
+			//this.GoAsync(this.Init_Core_Async, ex => this.Error(ex, "() Async"));
+			return new Task(Init_Core_Async);
 		}
 		/// <summary>
 		/// Для фоновой загрузки данных
@@ -122,7 +135,7 @@ namespace Camo.WPF
 		/// <param name="args">Параметры строки форматирования</param>
 		protected virtual void MessageBoxShow(MessageBoxImage img, string formatStr, params object[] args)
 		{
-			MessageBox.Show(string.Format(formatStr, args), App_Helper.AppCaption, MessageBoxButton.OK, img);
+			MessageBox.Show(string.Format(formatStr, args), Ap.AppCaption, MessageBoxButton.OK, img);
 		}
 		/// <summary>
 		/// Облегченное использование MessageBox.Show()
@@ -132,7 +145,7 @@ namespace Camo.WPF
 		/// <param name="args">Параметры строки форматирования</param>
 		protected virtual MessageBoxResult MessageBoxShow_Question(MessageBoxButton btn, string formatStr, params object[] args)
 		{
-			return MessageBox.Show(string.Format(formatStr, args), App_Helper.AppCaption, btn, MessageBoxImage.Question);
+			return MessageBox.Show(string.Format(formatStr, args), Ap.AppCaption, btn, MessageBoxImage.Question);
 		}
 	}
 }

@@ -353,9 +353,10 @@ namespace IT.WPF
 		/// Performs a cast from object to <typeparamref name="T" />, avoiding possible null violations if <typeparamref name="T" /> is a value type.
 		/// </summary>
 		/// <typeparam name="T">The target type</typeparam>
-		/// <param name="value">The value.</param>
+		/// <param name="o">The value.</param>
+		/// <param name="canReturnNull">The value.</param>
 		/// <returns>The value casted to <typeparamref name="T" />, or <c>default(T)</c> if value is <c>null</c>.</returns>
-		public static T SafeCast<T>(this object value) => (T)(value ?? default(T));
+		public static T SafeCast<T>(this object o, bool canReturnNull = false) => (T) (canReturnNull ? o : (o ?? default(T)));
 
 		/// <summary> 
 		/// Gets the value of a dependency property using <see cref="M:IT.WPF.WPF_Extentions.SafeCast``1(System.Object)" />.

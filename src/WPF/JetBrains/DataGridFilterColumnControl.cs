@@ -29,18 +29,14 @@ namespace IT.WPF.JetBrains
 	{
 		private static readonly BooleanToVisibilityConverter _booleanToVisibilityConverter = new BooleanToVisibilityConverter();
 		private static readonly ControlTemplate _emptyControlTemplate = new ControlTemplate();
+
+		#region Filter
+
 		/// <summary>Identifies the Filter dependency property</summary>
 		public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof(object), typeof(DataGridFilterColumnControl)
 			//, (PropertyMetadata)new FrameworkPropertyMetadata((object)null, new PropertyChangedCallback(DataGridFilterColumnControl.<>c.<>9.<.cctor>b__3_0))
 			, (PropertyMetadata)new FrameworkPropertyMetadata((object)null, new PropertyChangedCallback((o, e) => ((DataGridFilterColumnControl)o).Filter_Changed(e.NewValue)))
 			);
-		/// <summary>
-		/// Identifies the CellValue dependency property, a private helper property used to evaluate the property path for the list items.
-		/// </summary>
-		private static readonly DependencyProperty _cellValueProperty = DependencyProperty.Register("_cellValue", typeof(object), typeof(DataGridFilterColumnControl));
-
-		/// <summary>The active filter for this column.</summary>
-		private IContentFilter _activeFilter;
 
 		/// <summary>
 		/// The user provided filter (IFilter) or content (usually a string) used to filter this column.
@@ -52,6 +48,74 @@ namespace IT.WPF.JetBrains
 			get => this.GetValue(DataGridFilterColumnControl.FilterProperty);
 			set => this.SetValue(DataGridFilterColumnControl.FilterProperty, value);
 		}
+
+		#endregion
+
+		#region INotifyPropertyChanged
+
+		/// <summary>Occurs when a property value changes.</summary>
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		/// <summary>Raises the PropertyChanged event.</summary>
+		/// <param name="propertyName">Name of the property.</param>
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			// ISSUE: reference to a compiler-generated field
+			PropertyChangedEventHandler changedEventHandler = this.PropertyChanged;
+			if (changedEventHandler == null)
+				return;
+			PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
+			changedEventHandler((object)this, e);
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Identifies the CellValue dependency property, a private helper property used to evaluate the property path for the list items.
+		/// </summary>
+		private static readonly DependencyProperty _cellValueProperty = DependencyProperty.Register("_cellValue", typeof(object), typeof(DataGridFilterColumnControl));
+
+		/// <summary>The active filter for this column.</summary>
+		private IContentFilter _activeFilter;
+
+		/// <summary>
+		/// The column header of the column we are filtering. This control must be a child element of the column header.
+		/// </summary>
+		protected DataGridColumnHeader ColumnHeader { get; private set; }
+
+		/// <summary>The DataGrid we belong to.</summary>
+		/// <getter>
+		///   <ensures csharp="this.FilterHost == default(decimal) || Contract.Result&lt;System.Windows.Controls.DataGrid&gt;() != null" vb="Me.FilterHost = Nothing OrElse Contract.Result(Of System.Windows.Controls.DataGrid)() &lt;&gt; Nothing">this.FilterHost == default(decimal) || result != null</ensures>
+		/// </getter>
+		/// <setter>
+		///   <requires csharp="this.FilterHost == default(decimal) || value != null" vb="Me.FilterHost = Nothing OrElse value &lt;&gt; Nothing">this.FilterHost == default(decimal) || value != null</requires>
+		/// </setter>
+		protected DataGrid DataGrid { get; private set; }
+
+		/// <summary>The filter we belong to.</summary>
+		/// <getter>
+		///   <ensures csharp="Contract.Result&lt;DataGridExtensions.DataGridFilterHost&gt;() == default(decimal) || this.DataGrid != null" vb="Contract.Result(Of DataGridExtensions.DataGridFilterHost)() = Nothing OrElse Me.DataGrid &lt;&gt; Nothing">result == default(decimal) || this.DataGrid != null</ensures>
+		/// </getter>
+		/// <setter>
+		///   <requires csharp="value == default(decimal) || this.DataGrid != null" vb="value = Nothing OrElse Me.DataGrid &lt;&gt; Nothing">value == default(decimal) || this.DataGrid != null</requires>
+		/// </setter>
+		protected DataGridFilterHost FilterHost { get; private set; }
+
+		/// <summary>
+		/// Returns a flag indicating whether this column has some filter condition to evaluate or not.
+		/// If there is no filter condition we don't need to invoke this filter.
+		/// </summary>
+		public bool IsFiltered
+		{
+			get
+			{
+				if (string.IsNullOrWhiteSpace(Filter != null ? Filter.ToString() : null))
+					return false;
+				DataGridColumnHeader columnHeader = this.ColumnHeader;
+				return (columnHeader != null ? columnHeader.Column : (DataGridColumn)null) != null;
+			}
+		}
+
 
 		/// <summary>
 		/// Returns all distinct visible (filtered) values of this column as string.
@@ -95,6 +159,12 @@ namespace IT.WPF.JetBrains
 				//}
 				//if (predicate == null)
 				//	predicate = (Predicate<object>)(_ => true);
+
+				//Predicate<object> predicate = this.FilterHost?.CreatePredicate((IList<DataGridFilterColumnControl>)null);
+				//if (predicate == null)
+				//	predicate = (Predicate<object>)(_ => true);
+
+
 				return (IEnumerable<string>)this.InternalSourceValues(_predicate(null)).Distinct<string>().ToArray<string>();
 			}
 		}
@@ -131,22 +201,6 @@ namespace IT.WPF.JetBrains
 			}
 		}
 
-		/// <summary>
-		/// Returns a flag indicating whether this column has some filter condition to evaluate or not.
-		/// If there is no filter condition we don't need to invoke this filter.
-		/// </summary>
-		public bool IsFiltered
-		{
-			get
-			{
-				object filter = this.Filter;
-				if (string.IsNullOrWhiteSpace(filter != null ? filter.ToString() : (string)null))
-					return false;
-				DataGridColumnHeader columnHeader = this.ColumnHeader;
-				return (columnHeader != null ? columnHeader.Column : (DataGridColumn)null) != null;
-			}
-		}
-
 		/// <summary>Gets the column this control is hosting the filter for.</summary>
 		public DataGridColumn Column
 		{
@@ -159,31 +213,6 @@ namespace IT.WPF.JetBrains
 			}
 		}
 
-		/// <summary>The DataGrid we belong to.</summary>
-		/// <getter>
-		///   <ensures csharp="this.FilterHost == default(decimal) || Contract.Result&lt;System.Windows.Controls.DataGrid&gt;() != null" vb="Me.FilterHost = Nothing OrElse Contract.Result(Of System.Windows.Controls.DataGrid)() &lt;&gt; Nothing">this.FilterHost == default(decimal) || result != null</ensures>
-		/// </getter>
-		/// <setter>
-		///   <requires csharp="this.FilterHost == default(decimal) || value != null" vb="Me.FilterHost = Nothing OrElse value &lt;&gt; Nothing">this.FilterHost == default(decimal) || value != null</requires>
-		/// </setter>
-		protected DataGrid DataGrid { get; private set; }
-
-		/// <summary>The filter we belong to.</summary>
-		/// <getter>
-		///   <ensures csharp="Contract.Result&lt;DataGridExtensions.DataGridFilterHost&gt;() == default(decimal) || this.DataGrid != null" vb="Contract.Result(Of DataGridExtensions.DataGridFilterHost)() = Nothing OrElse Me.DataGrid &lt;&gt; Nothing">result == default(decimal) || this.DataGrid != null</ensures>
-		/// </getter>
-		/// <setter>
-		///   <requires csharp="value == default(decimal) || this.DataGrid != null" vb="value = Nothing OrElse Me.DataGrid &lt;&gt; Nothing">value == default(decimal) || this.DataGrid != null</requires>
-		/// </setter>
-		protected DataGridFilterHost FilterHost { get; private set; }
-
-		/// <summary>
-		/// The column header of the column we are filtering. This control must be a child element of the column header.
-		/// </summary>
-		protected DataGridColumnHeader ColumnHeader { get; private set; }
-
-		/// <summary>Occurs when a property value changes.</summary>
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		static DataGridFilterColumnControl()
 		{
@@ -204,6 +233,7 @@ namespace IT.WPF.JetBrains
 			this.Focusable = false;
 			this.DataContext = (object)this;
 		}
+
 
 		private void Self_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -289,53 +319,37 @@ namespace IT.WPF.JetBrains
 
 		private static object Template_CoerceValue(DependencyObject sender, object baseValue)
 		{
-			if (baseValue != null)
-				return baseValue;
-			DataGridFilterColumnControl filterColumnControl1 = sender as DataGridFilterColumnControl;
-			Type type1;
-			if (filterColumnControl1 == null)
+			if (baseValue == null && sender is DataGridFilterColumnControl filterColumnControl1)
 			{
-				type1 = (Type)null;
-			}
-			else
-			{
-				DataGridColumnHeader columnHeader = filterColumnControl1.ColumnHeader;
-				if (columnHeader == null)
+				Type colType = filterColumnControl1.ColumnHeader?.Column?.GetType();
+				if (colType != null)
 				{
-					type1 = (Type)null;
-				}
-				else
-				{
-					DataGridColumn column = columnHeader.Column;
-					type1 = column != null ? column.GetType() : (Type)null;
-				}
-			}
-			Type type2 = type1;
-			if (type2 == (Type)null)
-				return (object)null;
-			ComponentResourceKey componentResourceKey1 = new ComponentResourceKey(typeof(DataGridFilter), (object)type2);
-			DataGrid dataGrid = filterColumnControl1.DataGrid;
-			object obj;
-			if (dataGrid == null)
-			{
-				obj = (object)null;
-			}
-			else
-			{
-				IResourceLocator resourceLocator = dataGrid.GetResourceLocator();
-				if (resourceLocator == null)
-				{
-					obj = (object)null;
-				}
-				else
-				{
-					DataGridFilterColumnControl filterColumnControl2 = filterColumnControl1;
-					ComponentResourceKey componentResourceKey2 = componentResourceKey1;
-					obj = resourceLocator.FindResource((FrameworkElement)filterColumnControl2, (object)componentResourceKey2);
+					ComponentResourceKey componentResourceKey1 = new ComponentResourceKey(typeof(DataGridFilter), (object)colType);
+					DataGrid dataGrid = filterColumnControl1.DataGrid;
+					object obj;
+					if (dataGrid == null)
+					{
+						obj = (object)null;
+					}
+					else
+					{
+						IResourceLocator resourceLocator = dataGrid.GetResourceLocator();
+						if (resourceLocator == null)
+						{
+							obj = (object)null;
+						}
+						else
+						{
+							DataGridFilterColumnControl filterColumnControl2 = filterColumnControl1;
+							ComponentResourceKey componentResourceKey2 = componentResourceKey1;
+							obj = resourceLocator.FindResource((FrameworkElement)filterColumnControl2, (object)componentResourceKey2);
+						}
+					}
+					var res = obj ?? filterColumnControl1.TryFindResource((object)componentResourceKey1);
+					return res;
 				}
 			}
-			var res = obj ?? filterColumnControl1.TryFindResource((object)componentResourceKey1);
-			return res;
+			return baseValue;
 		}
 
 		/// <summary>
@@ -355,9 +369,9 @@ namespace IT.WPF.JetBrains
 		/// </summary>
 		internal void ValuesUpdated()
 		{
-			this.OnPropertyChanged("Values");
-			this.OnPropertyChanged("SourceValues");
-			this.OnPropertyChanged("SelectableValues");
+			this.OnPropertyChanged(nameof(Values));
+			this.OnPropertyChanged(nameof(SourceValues));
+			this.OnPropertyChanged(nameof(SelectableValues));
 		}
 
 		/// <summary>
@@ -419,16 +433,5 @@ namespace IT.WPF.JetBrains
 				.Select<object, string>((Func<object, string>)(content => (content != null ? content.ToString() : (string)null) ?? string.Empty));
 		}
 
-		/// <summary>Raises the PropertyChanged event.</summary>
-		/// <param name="propertyName">Name of the property.</param>
-		protected virtual void OnPropertyChanged(string propertyName)
-		{
-			// ISSUE: reference to a compiler-generated field
-			PropertyChangedEventHandler changedEventHandler = this.PropertyChanged;
-			if (changedEventHandler == null)
-				return;
-			PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
-			changedEventHandler((object)this, e);
-		}
 	}
 }

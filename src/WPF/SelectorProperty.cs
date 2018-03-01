@@ -289,7 +289,7 @@ namespace IT.WPF
 		/// Возникает при смене состояния IsWorking (используется только при асинхронных операциях)
 		/// </summary>
 		public event EventHandler IsWorkingChanged;
-		public event NotifyCollectionChangedEventHandler CollectionChanged;
+		//public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 		#endregion
 

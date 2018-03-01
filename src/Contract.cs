@@ -3,7 +3,9 @@
 // Assembly location: C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.ComponentModel.Composition\v4.0_4.0.0.0__b77a5c561934e089\System.ComponentModel.Composition.dll
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace IT
@@ -96,6 +98,16 @@ namespace IT
 		//        return;
 		//    throw new ArgumentException(string.Format((IFormatProvider)CultureInfo.CurrentCulture, Strings.ArgumentOutOfRange_InvalidEnumInSet, (object)parameterName, (object)value, (object)((object)enumFlagSet).ToString()), parameterName);
 		//}
+
+		//internal static void ReportFailure(ContractFailureKind kind, string msg, string conditionTxt, Exception inner)
+		//{
+		//	string msg1 = System.Runtime.CompilerServices.ContractHelper.RaiseContractFailedEvent(kind, msg, conditionTxt, inner);
+		//	if (msg1 == null)
+		//		return;
+		//	// ISSUE: reference to a compiler-generated method
+		//	__ContractsRuntime.TriggerFailure(kind, msg1, msg, conditionTxt, inner);
+		//}
+
 	}
 
 }

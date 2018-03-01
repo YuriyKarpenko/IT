@@ -25,18 +25,30 @@ namespace IT.WPF.JetBrains
 	/// <invariant>_filterColumnControls != null</invariant>
 	public sealed class DataGridFilterHost
 	{
-		/// <summary>Filter information about each column.</summary>
-		private readonly List<DataGridFilterColumnControl> _filterColumnControls = new List<DataGridFilterColumnControl>();
-		/// <summary>The columns that we are currently filtering.</summary>
-		private DataGridColumn[] _filteredColumns = new DataGridColumn[0];
+		/// <summary>Occurs before new columns are filtered.</summary>
+		public event EventHandler<DataGridFilteringEventArgs> Filtering;
+
+		/// <summary>Occurs when any filter has changed.</summary>
+		public event EventHandler FilterChanged;
+
+
 		/// <summary>The data grid this filter is attached to.</summary>
 		private readonly DataGrid _dataGrid;
+		
+		/// <summary>Filter information about each column.</summary>
+		private readonly List<DataGridFilterColumnControl> _filterColumnControls = new List<DataGridFilterColumnControl>();
+		
 		/// <summary> Timer to defer evaluation of the filter until user has stopped typing. </summary>
 		private DispatcherTimer _deferFilterEvaluationTimer;
+
 		/// <summary>Flag indicating if filtering is currently enabled.</summary>
 		private bool _isFilteringEnabled;
+
 		/// <summary> A global filter that is applied in addition to the column filters. </summary>
 		private Predicate<object> _globalFilter;
+
+		/// <summary>The columns that we are currently filtering.</summary>
+		private DataGridColumn[] _filteredColumns = new DataGridColumn[0];
 
 		/// <summary>
 		/// Gets a the active filter column controls for this data grid.
@@ -52,11 +64,6 @@ namespace IT.WPF.JetBrains
 		/// </getter>
 		public DataGrid DataGrid => this._dataGrid;
 
-		/// <summary>Occurs before new columns are filtered.</summary>
-		public event EventHandler<DataGridFilteringEventArgs> Filtering;
-
-		/// <summary>Occurs when any filter has changed.</summary>
-		public event EventHandler FilterChanged;
 
 		/// <summary>Create a new filter host for the given data grid.</summary>
 		/// <param name="dataGrid">The data grid to filter.</param>
@@ -72,6 +79,7 @@ namespace IT.WPF.JetBrains
 			style.Setters.Add((SetterBase)new Setter(Control.HorizontalContentAlignmentProperty, (object)HorizontalAlignment.Stretch));
 			dataGrid.ColumnHeaderStyle = style;
 		}
+
 
 		/// <summary>Clear all existing filter conditions.</summary>
 		public void Clear()
@@ -239,7 +247,7 @@ namespace IT.WPF.JetBrains
 				foreach (DataGridFilterColumnControl filterColumnControl in this._filterColumnControls)
 					filterColumnControl.ValuesUpdated();
 			}
-			catch (InvalidOperationException ex)
+			catch (InvalidOperationException)
 			{
 			}
 		}
