@@ -71,114 +71,130 @@
             Версия программы
             </summary>
         </member>
-        <member name="T:IT.CsvBase`2">
+        <member name="T:IT.CsvBase">
             <summary>
             Базовый класс для работы с основными операциями формата Csv
             </summary>
-            <typeparam name="TItemProperty">Тип свойств полей, как правило <see cref="T:System.Reflection.PropertyInfo"/> или <see cref="T:System.ComponentModel.PropertyDescriptor"/> </typeparam>
-            <typeparam name="T">Тип обрабатываемых данных</typeparam>
         </member>
-        <member name="F:IT.CsvBase`2.DEFAULT_SEPARATOR">
+        <member name="P:IT.CsvBase.DEFAULT_SEPARATOR">
             <summary>
             Дефолтный разделитель полей
             </summary>
         </member>
-        <member name="P:IT.CsvBase`2.Separator">
+        <member name="P:IT.CsvBase.Separator">
             <summary>
             Разделитель полей
             </summary>
         </member>
-        <member name="P:IT.CsvBase`2.ItemPropertyes">
+        <member name="M:IT.CsvBase.#ctor">
             <summary>
-            Набор свойств указанного типа
+            ctor
             </summary>
         </member>
-        <member name="M:IT.CsvBase`2.#ctor(`0[])">
+        <member name="T:IT.CsvReader`1">
             <summary>
-            Конструктор
+            Класс для работы с основными операциями формата Csv. 
             </summary>
-            <param name="itemPropertyes">Набор свойств указанного типа</param>
+            <typeparam name="T">Тип обрабатываемых данных</typeparam>
         </member>
-        <member name="M:IT.CsvBase`2.GetHeader">
+        <member name="P:IT.CsvReader`1.FilterSource">
             <summary>
-            Метод получения заголовка
+            Запускается сразу после прочтения файла
             </summary>
+        </member>
+        <member name="P:IT.CsvReader`1.Items">
+            <summary>
+            Прочитанные сущности
+            </summary>
+        </member>
+        <member name="M:IT.CsvReader`1.#ctor(System.Func{System.String[],`0})">
+            <summary>
+            ctor
+            </summary>
+            <param name="creator"></param>
+        </member>
+        <member name="M:IT.CsvReader`1.Load(System.String,System.Int32,System.Func{System.String[],`0})">
+            <summary>
+            
+            </summary>
+            <param name="fileName"></param>
+            <param name="splitCount"></param>
+            <param name="creator"></param>
             <returns></returns>
         </member>
-        <member name="M:IT.CsvBase`2.GetRow(`1)">
+        <member name="T:IT.CsvReader">
             <summary>
-            Метод получения строки данных указанного объекта
+            Упрощенный класс для работы с основными операциями формата Csv. 
             </summary>
-            <param name="v"></param>
-            <returns></returns>
         </member>
-        <member name="M:IT.CsvBase`2.Write(System.Collections.Generic.IEnumerable{`1},System.IO.TextWriter,System.Boolean)">
+        <member name="M:IT.CsvReader.#ctor">
             <summary>
-            Метод запиви набора данных в выходной потокововый объект
+            ctor
             </summary>
-            <param name="list">Исходный набор данных</param>
-            <param name="tw"></param>
-            <param name="includeHeader">Записывать ли заголовок</param>
         </member>
-        <member name="M:IT.CsvBase`2.UsingProps(System.Func{`0,System.String})">
-            <summary>
-            Вспомогательный метод получения строки из предоставляемых полей
-            </summary>
-            <param name="getPropertyValue"></param>
-            <returns></returns>
-        </member>
-        <member name="M:IT.CsvBase`2.GetHeaderCore">
-            <summary>
-            Метод получения заголовка
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:IT.CsvBase`2.GetRowCore(`1)">
-            <summary>
-            Метод получения строки данных указанного объекта
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="T:IT.Csv`1">
+        <member name="T:IT.CsvWriter`1">
             <summary>
             Класс для работы с основными операциями формата Csv. Понимает атрибуты DisplayNameAttribute и DescriptionAttribute
             </summary>
             <typeparam name="T">Тип обрабатываемых данных</typeparam>
         </member>
-        <member name="M:IT.Csv`1.Create(System.String[])">
+        <member name="M:IT.CsvWriter`1.Create(System.String[])">
             <summary>
             Создает Csv с указанными полями (пересечение) и порядком следования
             </summary>
-            <param name="fields"></param>
+            <param name="fields">Позволяет ограничить/фильтровать состав полей, указанными</param>
             <returns></returns>
         </member>
-        <member name="M:IT.Csv`1.UsingCsv(System.Action{IT.Csv{`0}},IT.Csv{`0})">
+        <member name="M:IT.CsvWriter`1.UsingCsv(System.Action{IT.CsvWriter{`0}},IT.CsvWriter{`0})">
             <summary>
             Предоставляет готовый экземпляр для удобной работы с ним
             </summary>
             <param name="act"></param>
             <param name="existingItem"></param>
         </member>
-        <member name="M:IT.Csv`1.#ctor">
+        <member name="P:IT.CsvWriter`1.ItemPropertyes">
+            <summary>
+            Набор свойств указанного типа
+            </summary>
+        </member>
+        <member name="M:IT.CsvWriter`1.#ctor(System.Reflection.PropertyInfo[])">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="itemPropertyes">Набор свойств указанного типа</param>
+        </member>
+        <member name="M:IT.CsvWriter`1.#ctor">
             <summary>
             Конструктор
             </summary>
         </member>
-        <member name="M:IT.Csv`1.#ctor(System.Reflection.PropertyInfo[],System.Func{`0,System.String})">
+        <member name="M:IT.CsvWriter`1.#ctor(System.Reflection.PropertyInfo[],System.Func{`0,System.String})">
             <summary>
             Конструктор
             </summary>
             <param name="pis">Набор свойств указанного типа</param>
             <param name="getRow">Метод получения строки данных указанного объекта</param>
         </member>
-        <member name="M:IT.Csv`1.#ctor(System.Func{`0,System.String})">
+        <member name="M:IT.CsvWriter`1.#ctor(System.Func{`0,System.String})">
             <summary>
             Конструктор
             </summary>
             <param name="getRow">Метод получения строки данных указанного объекта</param>
         </member>
-        <member name="M:IT.Csv`1.Serialize(System.Collections.Generic.IEnumerable{`0},System.IO.Stream,System.Boolean)">
+        <member name="M:IT.CsvWriter`1.GetHeader">
+            <summary>
+            Метод получения заголовка
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IT.CsvWriter`1.GetRow(`0)">
+            <summary>
+            Метод получения строки данных указанного объекта
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.CsvWriter`1.Serialize(System.Collections.Generic.IEnumerable{`0},System.IO.Stream,System.Boolean)">
             <summary>
             Метод запиви набора данных в выходной потокововый объект
             </summary>
@@ -186,7 +202,7 @@
             <param name="outStream"></param>
             <param name="includeHeader"></param>
         </member>
-        <member name="M:IT.Csv`1.ToStream(System.Collections.Generic.IEnumerable{`0},System.Boolean)">
+        <member name="M:IT.CsvWriter`1.ToStream(System.Collections.Generic.IEnumerable{`0},System.Boolean)">
             <summary>
             Создает и заполняет MemoryStream
             </summary>
@@ -194,17 +210,32 @@
             <param name="includeHeader"></param>
             <returns></returns>
         </member>
-        <member name="M:IT.Csv`1.GetHeaderCore">
+        <member name="M:IT.CsvWriter`1.Write(System.Collections.Generic.IEnumerable{`0},System.IO.TextWriter,System.Boolean)">
+            <summary>
+            Метод запиви набора данных в выходной потокововый объект
+            </summary>
+            <param name="list">Исходный набор данных</param>
+            <param name="tw"></param>
+            <param name="includeHeader">Записывать ли заголовок</param>
+        </member>
+        <member name="M:IT.CsvWriter`1.GetHeaderCore">
             <summary>
             Метод получения заголовка
             </summary>
             <returns></returns>
         </member>
-        <member name="M:IT.Csv`1.GetRowCore(`0)">
+        <member name="M:IT.CsvWriter`1.GetRowCore(`0)">
             <summary>
             Метод получения строки данных указанного объекта
             </summary>
             <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.CsvWriter`1.UsingProps(System.Func{System.Reflection.PropertyInfo,System.String})">
+            <summary>
+            Вспомогательный метод получения строки из предоставляемых полей
+            </summary>
+            <param name="getPropertyValue"></param>
             <returns></returns>
         </member>
         <member name="T:IT.Data.DataAdapterBase">
@@ -572,6 +603,21 @@
             <param name="getValue">Метод получения значения</param>
             <returns></returns>
         </member>
+        <member name="M:IT.MemCache`2.GetValue(`0,System.Func{`1})">
+            <summary>
+            Контроль наследников над получением значения
+            </summary>
+            <param name="key"></param>
+            <param name="getValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.MemCache`2.SetValue(`0,`1)">
+            <summary>
+            Контроль наследниников над установкой значения
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
         <member name="T:IT.Assembly_Extention">
             <summary>
             Extention methods for Assembly
@@ -753,6 +799,45 @@
             <param name="isFiltered"></param>
             <returns></returns>
         </member>
+        <member name="T:IT.MyLookupBindingPropertiesAttribute">
+            <summary>
+            Замена атрибута System.ComponentModel.LookupBindingPropertiesAttribute
+            Появление данного атрибута обусловлено тем, что в арибуре AttributeUsage класса LookupBindingPropertiesAttribute провтыкали установить AllowMultiple = true, без чего невозможно а одном классе использовать несколько Lookup-полей
+            </summary>
+        </member>
+        <member name="P:IT.MyLookupBindingPropertiesAttribute.DataSource">
+            <summary>
+            Gets the name of the data source property for the component this attribute is bound to.
+            Возвращает имя свойства источника данных для LookupMember, к которому привязан этот атрибут.
+            </summary>
+        </member>
+        <member name="P:IT.MyLookupBindingPropertiesAttribute.DisplayMember">
+            <summary>
+            Gets the name of the display member property for the component this attribute is bound to.
+            Возвращает имя свойства элемента отображения для компонента, к которому привязан DataSource.
+            </summary>
+        </member>
+        <member name="P:IT.MyLookupBindingPropertiesAttribute.LookupMember">
+            <summary>
+            Gets the name of the  member property for the component this attribute is bound to.
+            Возвращает имя свойства наэначения для компонента, к которому привязан этот атрибут.
+            </summary>
+        </member>
+        <member name="P:IT.MyLookupBindingPropertiesAttribute.ValueMember">
+            <summary>
+            Gets the name of the value member property for the component this attribute is bound to.
+            Возвращает имя свойства элемента значения для компонента, к которому привязан этот атрибут.
+            </summary>
+        </member>
+        <member name="M:IT.MyLookupBindingPropertiesAttribute.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            .ctor
+            </summary>
+            <param name="dataSource"></param>
+            <param name="displayMember"></param>
+            <param name="valueMember"></param>
+            <param name="lookupMember"></param>
+        </member>
         <member name="T:IT.NotifyPropertyChangedOnly">
             <summary>
             Простая реализация INotifyPropertyChanged
@@ -833,11 +918,6 @@
             </summary>
             <param name="propertyName">Имя проверяемого свойства</param>
         </member>
-        <member name="M:IT.NotifyPropertyChangedBaseEx.Finalize">
-            <summary>
-            Destructor
-            </summary>
-        </member>
         <member name="M:IT.NotifyPropertyChangedBaseEx.ToString">
             <summary>
             Возвращает короткое имя типа
@@ -890,11 +970,19 @@
             <param name="knownTypes"></param>
             <returns></returns>
         </member>
+        <member name="M:IT.Serializer_Json.Serialize_ToString(System.Object,System.Type[])">
+            <summary>
+            Сериализация посредством DataContractJsonSerializer
+            </summary>
+            <param name="item"></param>
+            <param name="knownTypes"></param>
+            <returns></returns>
+        </member>
         <member name="M:IT.Serializer_Json.Deserialize``1(System.IO.Stream,System.Type[])">
             <summary>
             Метод десериализации из файла
             </summary>
-            <typeparam name="R"></typeparam>
+            <typeparam name="TRes"></typeparam>
             <param name="stream"></param>
             <param name="knownTypes"></param>
             <returns></returns>
@@ -903,8 +991,8 @@
             <summary>
             
             </summary>
-            <typeparam name="R"></typeparam>
-            <param name="file"></param>
+            <typeparam name="TRes"></typeparam>
+            <param name="content"></param>
             <param name="knownTypes"></param>
             <returns></returns>
         </member>
@@ -913,7 +1001,7 @@
             Сериализация объектов
             </summary>
         </member>
-        <member name="M:IT.Serializer.From(System.IO.Stream,System.Runtime.Serialization.IFormatter)">
+        <member name="M:IT.Serializer.Deserialize(System.IO.Stream,System.Runtime.Serialization.IFormatter)">
             <summary>
             Десериализация обекта из потока
             </summary>
@@ -921,7 +1009,7 @@
             <param name="formater"></param>
             <returns></returns>
         </member>
-        <member name="M:IT.Serializer.From``1(System.IO.Stream,System.Runtime.Serialization.IFormatter)">
+        <member name="M:IT.Serializer.DeserializeCollection``1(System.IO.Stream,System.Runtime.Serialization.IFormatter)">
             <summary>
             Десериализация обекта из потока
             </summary>
@@ -930,12 +1018,20 @@
             <param name="formater"></param>
             <returns></returns>
         </member>
-        <member name="M:IT.Serializer.To(System.Object,System.IO.Stream,System.Runtime.Serialization.IFormatter)">
+        <member name="M:IT.Serializer.Serialize(System.Object,System.IO.Stream,System.Runtime.Serialization.IFormatter)">
             <summary>
             Сериализация объекта в поток
             </summary>
             <param name="data"></param>
             <param name="str"></param>
+            <param name="formater"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.Serializer.Serialize(System.Object,System.Runtime.Serialization.IFormatter)">
+            <summary>
+            Сериализация объекта в Base64String
+            </summary>
+            <param name="data"></param>
             <param name="formater"></param>
             <returns></returns>
         </member>
@@ -969,6 +1065,988 @@
             <summary>
             Если объект уже уничтожен - запускает исключение ObjectDisposedException()
             </summary>
+        </member>
+        <member name="T:IT.WPF.DataGridFilter">
+            <summary>
+            Присоединенные свойства для использования фильтрации
+            </summary>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.HeadegFilter_DockButtom_TemplateKey">
+            <summary>Template для заголовка в общем </summary>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.HeadegFilter_DockRight_TemplateKey">
+            <summary>Template для заголовка в общем </summary>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.DataGridFilters_ComboBox_TemplateKey">
+            <summary> Template для фильтра для столбца, представленного DataGridTextColumn. </summary>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.DataGridFilters_TextBoxContains_TemplateKey">
+            <summary> Template для фильтра для столбца, представленного DataGridTextColumn. </summary>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.Icon_TemplateKey">
+            <summary>The filter icon template.</summary>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.Icon_StyleKey">
+            <summary>The filter icon style.</summary>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.SearchTextBox_StyleKey">
+            <summary> Style for the filter text box in a filtered DataGridTextColumn. </summary>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.ComboBox_StyleKey">
+            <summary> Style for the filter ComboBox in a filtered DataGridTextColumn. </summary>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.SearchTextBoxClearButton_StyleKey">
+            <summary> Style for the clear button in the filter text box in a filtered DataGridTextColumn. </summary>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.AutoFilterProperty">
+            <summary> Включение простого автофильтра как в excel </summary>
+        </member>
+        <member name="M:IT.WPF.DataGridFilter.GetAutoFilter(System.Windows.Controls.DataGrid)">
+            <summary> </summary>
+            <param name="dg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.DataGridFilter.SetAutoFilter(System.Windows.Controls.DataGrid,IT.WPF.Filters.DataGridFilters)">
+            <summary> </summary>
+            <param name="dg"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="F:IT.WPF.DataGridFilter.GlobalFilterProperty">
+            <summary> Позволяет указать глобальный фильтр, который применяется к элементам в дополнение к фильтрам столбцов. </summary>
+        </member>
+        <member name="M:IT.WPF.DataGridFilter.GetGlobalFilter(System.Windows.Controls.DataGrid)">
+            <summary>
+            Gets the value of the <see cref="P:IT.WPF.GlobalFilter" /> attached property from a given <see cref="T:System.Windows.Controls.DataGrid" />.
+            </summary>
+            <param name="obj">The <see cref="T:System.Windows.Controls.DataGrid" /> from which to read the property value.</param>
+            <returns>the value of the <see cref="P:DataGridExtensions.GlobalFilter" /> attached property.</returns>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+        </member>
+        <member name="M:IT.WPF.DataGridFilter.SetGlobalFilter(System.Windows.Controls.DataGrid,System.Predicate{System.Object})">
+            <summary>
+            Sets the value of the <see cref="P:IT.WPF.GlobalFilter" /> attached property to a given <see cref="T:System.Windows.Controls.DataGrid" />.
+            </summary>
+            <param name="obj">The <see cref="T:System.Windows.Controls.DataGrid" /> on which to set the property value.</param>
+            <param name="value">The property value to set.</param>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+        </member>
+        <member name="M:IT.WPF.DataGridFilter.GlobalFilter_Changed(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <requires csharp="d != null" vb="d &lt;&gt; Nothing">d != null</requires>
+        </member>
+        <member name="M:IT.WPF.DataGridFilter.GetContentFilterFactory(System.Windows.Controls.DataGrid)">
+            <summary> получение фабрики фильтров </summary>
+            <param name="dg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.DataGridFilter.GetFilterEvaluationDelay(System.Windows.Controls.DataGrid)">
+            <summary> Возвращает задержку, которая используется для изменения фильтра дроссельной заслонки до применения фильтра. </summary>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+            <param name="dg"></param>
+            <returns> Задержка дроссельной заслонки </returns>
+        </member>
+        <member name="T:IT.WPF.Filters.IFilterManager">
+            <summary> Управляет фильтрацией и визуализацией фильтров всех колонок </summary>
+        </member>
+        <member name="P:IT.WPF.Filters.IFilterManager.FilterEnabled">
+            <summary> Признак включенной фильтрации </summary>
+        </member>
+        <member name="P:IT.WPF.Filters.IFilterManager.FilterFactory">
+            <summary> Предоставляет фабрику фильтров содержимого. </summary>
+        </member>
+        <member name="P:IT.WPF.Filters.IFilterManager.ItemsSource">
+            <summary> Данные расширяемого контрола </summary>
+        </member>
+        <member name="P:IT.WPF.Filters.IFilterManager.Items">
+            <summary> Данные расширяемого контрола </summary>
+        </member>
+        <member name="M:IT.WPF.Filters.IFilterManager.AddColumn(IT.WPF.IFilterHeaderControl)">
+            <summary> Добавляет новый столбец. </summary>
+            <param name="filterColumn"></param>
+        </member>
+        <member name="M:IT.WPF.Filters.IFilterManager.RemoveColumn(IT.WPF.IFilterHeaderControl)">
+            <summary> Удаляет разгруженный столбец. </summary>
+            <requires csharp="filterColumn != null" vb="filterColumn &lt;&gt; Nothing">filterColumn != null</requires>
+        </member>
+        <member name="M:IT.WPF.Filters.IFilterManager.OnFilterChanged">
+            <summary> Уведомляет об изменении какого-либо фильтра </summary>
+        </member>
+        <member name="T:IT.WPF.Filters.FilterCore`1">
+            <summary> Управляет фильтрацией и визуализацией фильтров всех колонок </summary>
+        </member>
+        <member name="P:IT.WPF.Filters.FilterCore`1.DefaultFilterFactory">
+            <summary> Предоставляет фабрику фильтров содержимого по умолчанию (SimpleContentFilterFactory). </summary>
+        </member>
+        <member name="P:IT.WPF.Filters.FilterCore`1.IsWorking">
+            <summary> Признак процесса фильтрации </summary>
+        </member>
+        <member name="P:IT.WPF.Filters.FilterCore`1.FilterEnabled">
+            <summary> Признак включенной фильтрации </summary>
+        </member>
+        <member name="P:IT.WPF.Filters.FilterCore`1.FilterFactory">
+            <summary> Предоставляет фабрику фильтров содержимого. </summary>
+        </member>
+        <member name="M:IT.WPF.Filters.FilterCore`1.OnFilterChanged">
+            <summary> Уведомляет об изменении какого-либо фильтра </summary>
+        </member>
+        <member name="P:IT.WPF.Filters.FilterCore`1.FilterVisibility">
+            <summary>
+            представление фильтров
+            </summary>
+        </member>
+        <member name="P:IT.WPF.Filters.FilterCore`1.ItemsControl">
+            <summary> Списочный элемкнт управления, в котором применяется фмльтр (DataGrid, List, ListView etc ...) </summary>
+        </member>
+        <member name="F:IT.WPF.Filters.FilterCore`1._filterHeaderControls">
+            <summary> Заголовки фильтра, появляются при инициализации DataGridFilterHeader</summary>
+        </member>
+        <member name="M:IT.WPF.Filters.FilterCore`1.#ctor(`0)">
+            <summary> .ctor </summary>
+            <param name="itemsControl"></param>
+        </member>
+        <member name="M:IT.WPF.Filters.FilterCore`1.Enable(IT.WPF.Filters.DataGridFilters)">
+            <summary> Включение/отключение фильтрации + изменение видимости фильтров </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IT.WPF.Filters.FilterCore`1.GetColumnFilters(IT.WPF.IFilterHeaderControl[])">
+            <summary> получение колонок, участвующих в фильтрации </summary>
+            <param name="excluded"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.Filters.FilterCore`1.CreatePredicate(System.Collections.Generic.IEnumerable{IT.WPF.IFilterHeaderControl})">
+            <summary> Создание условия фильтрации по заданным фильтрам </summary>
+            <param name="columnFilters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.Filters.FilterCore`1.EvaluateFilter">
+            <summary> Вычисляет текущие фильтры и применяет фильтрацию к представлению коллекции элемента управления элемента. </summary>
+        </member>
+        <member name="T:IT.WPF.Filters.DataGridFilterCore">
+            <summary>
+            Управляет фильтрацией и визуализацией фильтров всех колонок
+            </summary>
+            <invariant>_dataGrid != null</invariant>
+            <invariant>_filterColumnControls != null</invariant>
+        </member>
+        <member name="F:IT.WPF.Filters.DataGridFilterCore._deferFilterEvaluationTimer">
+            <summary> Таймер задежки применения фильтра до тех пор, пока пользователь не перестанет печатать. </summary>
+        </member>
+        <member name="F:IT.WPF.Filters.DataGridFilterCore._globalFilter">
+            <summary> Глобальный фильтр, который применяется в дополнение к фильтрам столбцов. </summary>
+        </member>
+        <member name="M:IT.WPF.Filters.DataGridFilterCore.#ctor(System.Windows.Controls.DataGrid)">
+            <summary> .ctor </summary>
+            <param name="dg"></param>
+        </member>
+        <member name="M:IT.WPF.Filters.DataGridFilterCore.Enable(IT.WPF.Filters.DataGridFilters)">
+            <summary> Включение/отключение фильтрации </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IT.WPF.Filters.DataGridFilterCore.OnFilterChanged">
+            <summary>
+            Когда какое-либо условие фильтра изменилось, перезапустите таймер оценки, чтобы отложить оценку до тех пор, пока пользователь не перестанет печатать.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.Filters.DataGridFilterCore.CreatePredicate(System.Collections.Generic.IEnumerable{IT.WPF.IFilterHeaderControl})">
+            <summary> Создание условия фильтрации по заданным фильтрам </summary>
+            <param name="columnFilters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.Filters.DataGridFilterCore.EvaluateFilter">
+            <summary> Evaluates the current filters and applies the filtering to the collection view of the items control. </summary>
+        </member>
+        <member name="T:IT.WPF.Filters.DataGridFilters">
+            <summary>
+            Типы фильтров
+            </summary>
+        </member>
+        <member name="F:IT.WPF.Filters.DataGridFilters.Disabled">
+            <summary>
+            отключен
+            </summary>
+        </member>
+        <member name="F:IT.WPF.Filters.DataGridFilters.ComboBox">
+            <summary>
+            как в excel
+            </summary>
+        </member>
+        <member name="F:IT.WPF.Filters.DataGridFilters.TextBoxContains">
+            <summary>
+            JetBrains
+            </summary>
+        </member>
+        <member name="T:IT.WPF.Filters.IContentFilter">
+            <summary>Интерфейс для фильтрации содезжимого (Content)</summary>
+        </member>
+        <member name="M:IT.WPF.Filters.IContentFilter.IsMatch(System.Object)">
+            <summary>
+            Determines whether the specified value matches the condition of this filter.
+            </summary>
+            <param name="value">The content.</param>
+            <returns>
+            <c>true</c> if the specified value matches the condition; otherwise, <c>false</c>.
+                </returns>
+        </member>
+        <member name="T:IT.WPF.Filters.ContentFilterContains">
+            <summary>
+            A content filter using a simple "contains" string comparison to match the content and the value.
+            </summary>
+            <invariant>_content != null</invariant>
+        </member>
+        <member name="M:IT.WPF.Filters.ContentFilterContains.#ctor(System.String,System.StringComparison)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataGridExtensions.SimpleContentFilter" /> class.
+            </summary>
+            <param name="content">The content.</param>
+            <param name="stringComparison">The string comparison.</param>
+            <requires csharp="content != null" vb="content &lt;&gt; Nothing">content != null</requires>
+        </member>
+        <member name="M:IT.WPF.Filters.ContentFilterContains.IsMatch(System.Object)">
+            <summary>
+            Determines whether the specified value matches the condition of this filter.
+            </summary>
+            <param name="value">The content.</param>
+            <returns>
+            <c>true</c> if the specified value matches the condition; otherwise, <c>false</c>.
+                </returns>
+        </member>
+        <member name="T:IT.WPF.Filters.ContentFilterEquals">
+            <summary>
+            IContentFilter использующий точное совпадение значений
+            </summary>
+        </member>
+        <member name="M:IT.WPF.Filters.ContentFilterEquals.#ctor(System.String,System.StringComparison)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataGridExtensions.SimpleContentFilter" /> class.
+            </summary>
+            <param name="content">The content.</param>
+            <param name="stringComparison">The string comparison.</param>
+            <requires csharp="content != null" vb="content &lt;&gt; Nothing">content != null</requires>
+        </member>
+        <member name="M:IT.WPF.Filters.ContentFilterEquals.IsMatch(System.Object)">
+            <summary>
+            Determines whether the specified value matches the condition of this filter.
+            </summary>
+            <param name="value">The content.</param>
+            <returns>
+            <c>true</c> if the specified value matches the condition; otherwise, <c>false</c>.
+                </returns>
+        </member>
+        <member name="T:IT.WPF.Filters.IContentFilterFactory">
+            <summary>
+            Фабрика фильтров контента
+            </summary>
+        </member>
+        <member name="M:IT.WPF.Filters.IContentFilterFactory.Create(IT.WPF.Filters.DataGridFilters,System.Object)">
+            <summary>
+            получение фильтра
+            </summary>
+            <param name="filterType"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IT.WPF.Filters.SimpleContentFilterFactory">
+            <summary> Factory to create a <see cref="T:IT.WPF.Filter.IContentFilter" /></summary>
+        </member>
+        <member name="P:IT.WPF.Filters.SimpleContentFilterFactory.StringComparison">
+            <summary>Gets or sets the string comparison.</summary>
+        </member>
+        <member name="M:IT.WPF.Filters.SimpleContentFilterFactory.#ctor(System.StringComparison)">
+            <summary> .ctor </summary>
+            <param name="stringComparison">The string comparison to use.</param>
+        </member>
+        <member name="M:IT.WPF.Filters.SimpleContentFilterFactory.Create(IT.WPF.Filters.DataGridFilters,System.Object)">
+            <summary> Создает фильтр содержимого для указанного содержимого. </summary>
+            <param name="content">Содержимое для создания фильтра.</param>
+            <param name="filterType">Тип фильтра</param>
+            <returns>The new filter.</returns>
+        </member>
+        <member name="T:IT.WPF.IFilterHeaderControl">
+            <summary>
+            управление поведением конкретного фильтра
+            </summary>
+        </member>
+        <member name="P:IT.WPF.IFilterHeaderControl.IsFiltered">
+            <summary> Признак активного состояния фильтра </summary>
+        </member>
+        <member name="P:IT.WPF.IFilterHeaderControl.IsVisible">
+            <summary> Видимость элемента фильтра </summary>
+        </member>
+        <member name="P:IT.WPF.IFilterHeaderControl.Visibility">
+            <summary> Видимость элемента фильтра </summary>
+        </member>
+        <member name="M:IT.WPF.IFilterHeaderControl.Matches(System.Object)">
+            <summary> Возвращает true, если данный элемент соответствует условию фильтра для этого столбца. </summary>
+        </member>
+        <member name="M:IT.WPF.IFilterHeaderControl.ValuesUpdated">
+            <summary> Уведомление фильтра о том, что содержимое значений могло быть изменено. </summary>
+        </member>
+        <member name="T:IT.WPF.FilterHeaderControl">
+            <summary>
+            Элемент отображения фмльта
+            </summary>
+        </member>
+        <member name="P:IT.WPF.FilterHeaderControl.NoFilterValue">
+            <summary> Значение фильтра, которое отключает вильтрацию </summary>
+        </member>
+        <member name="F:IT.WPF.FilterHeaderControl.FilterProperty">
+            <summary> Идентифицирует свойство зависимостей Filter (для привязки значений из UI) </summary>
+        </member>
+        <member name="P:IT.WPF.FilterHeaderControl.Filter">
+            <summary>
+            Предоставляемое пользователем значение фильтра (IFilter) или содержимое (обычно строка), используется для фильтрации этого столбца.
+            Если объект фильтра реализует IFilter, он будет использоваться непосредственно как фильтр,
+            иначе, значение будет использовано фильтром содержимого (IContentFilter).
+            </summary>
+        </member>
+        <member name="E:IT.WPF.FilterHeaderControl.PropertyChanged">
+            <summary> реализация INotifyPropertyChanged </summary>
+        </member>
+        <member name="M:IT.WPF.FilterHeaderControl.OnPropertyChanged(System.String)">
+            <summary> реализация INotifyPropertyChanged </summary>
+        </member>
+        <member name="F:IT.WPF.FilterHeaderControl._cellValueProperty">
+            <summary> Вспомогательное private свойство, используемое для вычисления пути свойства для элементов списка </summary>
+        </member>
+        <member name="P:IT.WPF.FilterHeaderControl.BindingProperty">
+            <summary> Путь привязки </summary>
+        </member>
+        <member name="M:IT.WPF.FilterHeaderControl.GetItemContent(System.Object)">
+            <summary>
+            Изучает путь свойства и возвращает значение объекта для этого столбца.
+            </summary>
+        </member>
+        <member name="P:IT.WPF.FilterHeaderControl.IsFiltered">
+            <summary>
+            Возвращает флаг, указывающий, имеет ли этот столбец какое-либо условие фильтра для оценки или нет.
+            Если нет условия фильтра, нам не нужно вызывать этот фильтр.
+            </summary>
+        </member>
+        <member name="P:IT.WPF.FilterHeaderControl.FilterHost">
+            <summary> Менеджер фильтрации </summary>
+        </member>
+        <member name="F:IT.WPF.FilterHeaderControl._activeFilter">
+            <summary> Активный фильтр для этого столбца.</summary>
+        </member>
+        <member name="M:IT.WPF.FilterHeaderControl.Matches(System.Object)">
+            <summary> Возвращает true, если данный элемент соответствует условию фильтра для этого столбца. </summary>
+        </member>
+        <member name="M:IT.WPF.FilterHeaderControl.IT#WPF#IFilterHeaderControl#ValuesUpdated">
+            <summary> Уведомление фильтра о том, что содержимое значений могло быть изменено. </summary>
+        </member>
+        <member name="P:IT.WPF.FilterHeaderControl.ItemsSource">
+            <summary>
+            Возвращает все уникальные исходные значения этого столбца в виде строки.
+            Это может быть использовано, например, feed the ItemsSource в автоматическом фильтре, подобном Excel, который всегда отображает все исходные значения, которые можно выбрать.
+            </summary>
+        </member>
+        <member name="P:IT.WPF.FilterHeaderControl.Values">
+            <summary>
+            Возвращает все уникальные видимые (отфильтрованные) значения этого столбца в виде строки.
+            Это может быть использовано, например, отправьте файл ItemsSource для AutoCompleteBox, чтобы дать подсказку пользователю, что ввести.
+            </summary>
+            <remarks>
+            Возможно, вам потребуется включить «NotifyOnTargetUpdated = true» в привязку DataGrid.ItemsSource для получения актуальных значений при изменении исходного объекта.
+            </remarks>
+        </member>
+        <member name="P:IT.WPF.FilterHeaderControl.SourceValues">
+            <summary>
+            Возвращает все уникальные исходные значения этого столбца в виде строки.
+            Это может быть использовано, например, feed the ItemsSource в автоматическом фильтре, подобном Excel, который всегда отображает все исходные значения, которые можно выбрать.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.FilterHeaderControl.InternalValues">
+            <summary> Получает содержимое ячейки для всех элементов списка для этого столбца. </summary>
+        </member>
+        <member name="M:IT.WPF.FilterHeaderControl.InternalSourceValues">
+            <summary> Получает содержимое ячейки для всех элементов списка для этого столбца. </summary>
+        </member>
+        <member name="M:IT.WPF.FilterHeaderControl.PrepareCombo(System.Collections.Generic.IEnumerable{System.String})">
+            <summary> подготока значений для ComboBox </summary>
+            <param name="src"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IT.WPF.FilterHeaderControl.CreateContentFilter(System.Object)">
+            <summary> Создает новый фильтр содержимого. </summary>
+        </member>
+        <member name="T:IT.WPF.DataGridFilterHeader">
+            <summary>
+            Элемент отображения фмльта
+            </summary>
+        </member>
+        <member name="P:IT.WPF.DataGridFilterHeader.BindingProperty">
+            <summary>
+            Фильтрация применяется к SortMemberPath, это путь, используемый для создания привязки.
+            </summary>
+        </member>
+        <member name="P:IT.WPF.DataGridFilterHeader.ColumnHeader">
+            <summary> Заголовок столбца, который мы фильтруем. Данный контрол внедряется в этот заголовок </summary>
+        </member>
+        <member name="P:IT.WPF.DataGridFilterHeader.DataGrid">
+            <summary> Грид, который сожержит данный контрол </summary>
+        </member>
+        <member name="P:IT.WPF.DataGridFilterHeader.IsFiltered">
+            <summary>
+            Возвращает флаг, указывающий, имеет ли этот столбец какое-либо условие фильтра для оценки или нет.
+            Если нет условия фильтра, нам не нужно вызывать этот фильтр.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.DataGridFilterHeader.#ctor">
+            <summary> .ctor </summary>
+        </member>
+        <member name="T:IT.WPF.JetBrains.DataGridFilter">
+            <summary>
+            Defines the attached properties that can be set on the data grid level.
+            </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.IsAutoFilterEnabledProperty">
+            <summary>Identifies the IsAutoFilterEnabled dependency property</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.FilterProperty">
+            <summary>
+            Identifies the Filters dependency property.
+            This property definition is private, so it's only accessible by code and can't be messed up by invalid bindings.
+            </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.ContentFilterFactoryProperty">
+            <summary>Identifies the ContentFilterFactory dependency property</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.FilterEvaluationDelayProperty">
+            <summary>
+            Identifies the FilterEvaluationDelay dependency property
+            </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.ResourceLocatorProperty">
+            <summary>
+            Identifies the <see cref="P:DataGridExtensions.DataGridFilter.ResourceLocator" /> attached property
+            </summary>
+            <AttachedPropertyComments>
+              <summary>
+                  Set an resource locator to locate resource if the component resource keys can not be found, e.g. because dgx is used in a plugin and multiple assemblies with resources might exist.
+                  </summary>
+            </AttachedPropertyComments>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.GlobalFilterProperty">
+            <summary>
+            Identifies the <see cref="P:DataGridExtensions.GlobalFilter" /> dependency property.
+            </summary>
+            <AttachedPropertyComments>
+              <summary>
+                  Allows to specify a global filter that is applied to the items in addition to the column filters.
+                  </summary>
+            </AttachedPropertyComments>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.TextColumnFilterTemplateKey">
+            <summary> Template for the filter on a column represented by a DataGridTextColumn. </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.CheckBoxColumnFilterTemplateKey">
+            <summary> Template for the filter on a column represented by a DataGridCheckBoxColumn. </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.TemplateColumnFilterTemplateKey">
+            <summary> Template for the filter on a column represented by a DataGridCheckBoxColumn. </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.ColumnHeaderTemplateKey">
+            <summary>Template for the whole column header.</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.IconTemplateKey">
+            <summary>The filter icon template.</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.IconStyleKey">
+            <summary>The filter icon style.</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.ColumnHeaderSearchCheckBoxStyleKey">
+            <summary> Style for the filter check box in a filtered DataGridCheckBoxColumn. </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.ColumnHeaderSearchTextBoxStyleKey">
+            <summary> Style for the filter text box in a filtered DataGridTextColumn. </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilter.ColumnHeaderSearchTextBoxClearButtonStyleKey">
+            <summary> Style for the clear button in the filter text box in a filtered DataGridTextColumn. </summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.GetIsAutoFilterEnabled(System.Windows.Controls.DataGrid)">
+            <summary> Gets if the default filters are automatically attached to each column. </summary>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.SetIsAutoFilterEnabled(System.Windows.Controls.DataGrid,System.Boolean)">
+            <summary>
+            Sets if the default filters are automatically attached to each column. Set to false if you want to control filters by code.
+            </summary>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.GetFilter(System.Windows.Controls.DataGrid)">
+            <summary>
+            Filter attached property to attach the DataGridFilterHost instance to the owning DataGrid.
+            This property is only used by code and is not accessible from XAML.
+            </summary>
+            <requires csharp="dataGrid != null" vb="dataGrid &lt;&gt; Nothing">dataGrid != null</requires>
+            <ensures csharp="Contract.Result&lt;DataGridExtensions.DataGridFilterHost&gt;() != null" vb="Contract.Result(Of DataGridExtensions.DataGridFilterHost)() &lt;&gt; Nothing">result != null</ensures>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.GetContentFilterFactory(System.Windows.Controls.DataGrid)">
+            <summary>
+            Gets the content filter factory for the data grid filter.
+            </summary>
+            <requires csharp="dataGrid != null" vb="dataGrid &lt;&gt; Nothing">dataGrid != null</requires>
+            <ensures csharp="Contract.Result&lt;DataGridExtensions.IContentFilterFactory&gt;() != null" vb="Contract.Result(Of DataGridExtensions.IContentFilterFactory)() &lt;&gt; Nothing">result != null</ensures>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.SetContentFilterFactory(System.Windows.Controls.DataGrid,IT.WPF.JetBrains.IContentFilterFactory)">
+            <summary>
+            Sets the content filter factory for the data grid filter.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.GetFilterEvaluationDelay(System.Windows.Controls.DataGrid)">
+            <summary>
+            Gets the delay that is used to throttle filter changes before the filter is applied.
+            </summary>
+            <param name="obj">The data grid</param>
+            <returns>The throttle delay.</returns>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.SetFilterEvaluationDelay(System.Windows.Controls.DataGrid,System.TimeSpan)">
+            <summary>
+            Sets the delay that is used to throttle filter changes before the filter is applied.
+            </summary>
+            <param name="obj">The data grid</param>
+            <param name="value">The new throttle delay.</param>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.GetResourceLocator(System.Windows.Controls.DataGrid)">
+            <summary>Gets the resource locator.</summary>
+            <param name="obj">The object.</param>
+            <returns>The locator</returns>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.SetResourceLocator(System.Windows.Controls.DataGrid,IT.WPF.JetBrains.IResourceLocator)">
+            <summary>Sets the resource locator.</summary>
+            <param name="obj">The object.</param>
+            <param name="value">The value.</param>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.GetGlobalFilter(System.Windows.Controls.DataGrid)">
+            <summary>
+            Gets the value of the <see cref="P:DataGridExtensions.GlobalFilter" /> attached property from a given <see cref="T:System.Windows.Controls.DataGrid" />.
+            </summary>
+            <param name="obj">The <see cref="T:System.Windows.Controls.DataGrid" /> from which to read the property value.</param>
+            <returns>the value of the <see cref="P:DataGridExtensions.GlobalFilter" /> attached property.</returns>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.SetGlobalFilter(System.Windows.Controls.DataGrid,System.Predicate{System.Object})">
+            <summary>
+            Sets the value of the <see cref="P:DataGridExtensions.GlobalFilter" /> attached property to a given <see cref="T:System.Windows.Controls.DataGrid" />.
+            </summary>
+            <param name="obj">The <see cref="T:System.Windows.Controls.DataGrid" /> on which to set the property value.</param>
+            <param name="value">The property value to set.</param>
+            <requires csharp="obj != null" vb="obj &lt;&gt; Nothing">obj != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilter.GlobalFilter_Changed(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <requires csharp="d != null" vb="d &lt;&gt; Nothing">d != null</requires>
+        </member>
+        <member name="T:IT.WPF.JetBrains.DataGridFilterColumn">
+            <summary>
+            Defines the attached properties that can be set on the data grid column level.
+            </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterColumn.IsFilterVisibleProperty">
+            <summary>Identifies the IsFilterVisible dependency property</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterColumn.TemplateProperty">
+            <summary>Identifies the Template dependency property.</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterColumn.FilterProperty">
+            <summary>Identifies the Filter dependency property</summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumn.GetIsFilterVisible(System.Windows.Controls.DataGridColumn)">
+            <summary>Control the visibility of the filter for this column.</summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumn.SetIsFilterVisible(System.Windows.Controls.DataGridColumn,System.Boolean)">
+            <summary>Control the visibility of the filter for this column.</summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumn.GetTemplate(System.Windows.Controls.DataGridColumn)">
+            <summary>
+            Gets the control template for the filter of this column. If the template is null or unset, a default template will be used.
+            </summary>
+            <requires csharp="column != null" vb="column &lt;&gt; Nothing">column != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumn.SetTemplate(System.Windows.Controls.DataGridColumn,System.Windows.Controls.ControlTemplate)">
+            <summary>
+            Sets the control template for the filter of this column. If the template is null or unset, a default template will be used.
+            </summary>
+            <requires csharp="column != null" vb="column &lt;&gt; Nothing">column != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumn.GetFilter(System.Windows.Controls.DataGridColumn)">
+            <summary>Gets the filter expression of the column.</summary>
+            <requires csharp="column != null" vb="column &lt;&gt; Nothing">column != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumn.SetFilter(System.Windows.Controls.DataGridColumn,System.Object)">
+            <summary>Sets the filter expression of the column.</summary>
+            <requires csharp="column != null" vb="column &lt;&gt; Nothing">column != null</requires>
+        </member>
+        <member name="T:IT.WPF.JetBrains.DataGridFilterColumnControl">
+            <summary>
+            This class is the control hosting all information needed for filtering of one column.
+            Filtering is enabled by simply adding this control to the header template of the DataGridColumn.
+            </summary>
+            <seealso cref="T:System.Windows.Controls.Control" />
+            <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
+            <invariant>(FilterHost == null) || (DataGrid != null)</invariant>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterColumnControl.FilterProperty">
+            <summary>Identifies the Filter dependency property</summary>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterColumnControl.Filter">
+            <summary>
+            The user provided filter (IFilter) or content (usually a string) used to filter this column.
+            If the filter object implements IFilter, it will be used directly as the filter,
+            else the filter object will be passed to the content filter.
+            </summary>
+        </member>
+        <member name="E:IT.WPF.JetBrains.DataGridFilterColumnControl.PropertyChanged">
+            <summary>Occurs when a property value changes.</summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumnControl.OnPropertyChanged(System.String)">
+            <summary>Raises the PropertyChanged event.</summary>
+            <param name="propertyName">Name of the property.</param>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterColumnControl._cellValueProperty">
+            <summary>
+            Identifies the CellValue dependency property, a private helper property used to evaluate the property path for the list items.
+            </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterColumnControl._activeFilter">
+            <summary>The active filter for this column.</summary>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterColumnControl.ColumnHeader">
+            <summary>
+            The column header of the column we are filtering. This control must be a child element of the column header.
+            </summary>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterColumnControl.DataGrid">
+            <summary>The DataGrid we belong to.</summary>
+            <getter>
+              <ensures csharp="this.FilterHost == default(decimal) || Contract.Result&lt;System.Windows.Controls.DataGrid&gt;() != null" vb="Me.FilterHost = Nothing OrElse Contract.Result(Of System.Windows.Controls.DataGrid)() &lt;&gt; Nothing">this.FilterHost == default(decimal) || result != null</ensures>
+            </getter>
+            <setter>
+              <requires csharp="this.FilterHost == default(decimal) || value != null" vb="Me.FilterHost = Nothing OrElse value &lt;&gt; Nothing">this.FilterHost == default(decimal) || value != null</requires>
+            </setter>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterColumnControl.FilterHost">
+            <summary>The filter we belong to.</summary>
+            <getter>
+              <ensures csharp="Contract.Result&lt;DataGridExtensions.DataGridFilterHost&gt;() == default(decimal) || this.DataGrid != null" vb="Contract.Result(Of DataGridExtensions.DataGridFilterHost)() = Nothing OrElse Me.DataGrid &lt;&gt; Nothing">result == default(decimal) || this.DataGrid != null</ensures>
+            </getter>
+            <setter>
+              <requires csharp="value == default(decimal) || this.DataGrid != null" vb="value = Nothing OrElse Me.DataGrid &lt;&gt; Nothing">value == default(decimal) || this.DataGrid != null</requires>
+            </setter>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterColumnControl.IsFiltered">
+            <summary>
+            Returns a flag indicating whether this column has some filter condition to evaluate or not.
+            If there is no filter condition we don't need to invoke this filter.
+            </summary>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterColumnControl.Values">
+            <summary>
+            Returns all distinct visible (filtered) values of this column as string.
+            This can be used to e.g. feed the ItemsSource of an AutoCompleteBox to give a hint to the user what to enter.
+            </summary>
+            <remarks>
+            You may need to include "NotifyOnTargetUpdated=true" in the binding of the DataGrid.ItemsSource to get up-to-date
+            values when the source object changes.
+            </remarks>
+            <getter>
+              <ensures csharp="Contract.Result&lt;System.Collections.Generic.IEnumerable&lt;string&gt;&gt;() != null" vb="Contract.Result(Of System.Collections.Generic.IEnumerable(Of String))() &lt;&gt; Nothing">result != null</ensures>
+            </getter>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterColumnControl.SourceValues">
+            <summary>
+            Returns all distinct source values of this column as string.
+            This can be used to e.g. feed the ItemsSource of an Excel-like auto-filter that always shows all source values that can be selected.
+            </summary>
+            <remarks>
+            You may need to include "NotifyOnTargetUpdated=true" in the binding of the DataGrid.ItemsSource to get up-to-date
+            values when the source object changes.
+            </remarks>
+            <getter>
+              <ensures csharp="Contract.Result&lt;System.Collections.Generic.IEnumerable&lt;string&gt;&gt;() != null" vb="Contract.Result(Of System.Collections.Generic.IEnumerable(Of String))() &lt;&gt; Nothing">result != null</ensures>
+            </getter>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterColumnControl.SelectableValues">
+            <summary>
+            Returns all distinct selectable values of this column as string.
+            This can be used to e.g. feed the ItemsSource of an Excel-like auto-filter, that only shows the values that are currently selectable, depending on the other filters.
+            </summary>
+            <remarks>
+            You may need to include "NotifyOnTargetUpdated=true" in the binding of the DataGrid.ItemsSource to get up-to-date
+            values when the source object changes.
+            </remarks>
+            <getter>
+              <ensures csharp="Contract.Result&lt;System.Collections.Generic.IEnumerable&lt;string&gt;&gt;() != null" vb="Contract.Result(Of System.Collections.Generic.IEnumerable(Of String))() &lt;&gt; Nothing">result != null</ensures>
+            </getter>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterColumnControl.Column">
+            <summary>Gets the column this control is hosting the filter for.</summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumnControl.#ctor">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:DataGridExtensions.DataGridFilterColumnControl" /> class.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumnControl.Matches(System.Object)">
+            <summary>
+            Returns true if the given item matches the filter condition for this column.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumnControl.ValuesUpdated">
+            <summary>
+            Notification of the filter that the content of the values might have changed.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumnControl.GetCellContent(System.Object)">
+            <summary>
+            Examines the property path and returns the objects value for this column.
+            Filtering is applied on the SortMemberPath, this is the path used to create the binding.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumnControl.InternalValues">
+            <summary>
+            Gets the cell content of all list items for this column.
+            </summary>
+            <ensures csharp="Contract.Result&lt;System.Collections.Generic.IEnumerable&lt;string&gt;&gt;() != null" vb="Contract.Result(Of System.Collections.Generic.IEnumerable(Of String))() &lt;&gt; Nothing">result != null</ensures>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterColumnControl.InternalSourceValues(System.Predicate{System.Object})">
+            <summary>
+            Gets the cell content of all list items for this column.
+            </summary>
+            <requires csharp="new DataGridExtensions.DataGridFilterColumnControl.&lt;&gt;c__DisplayClass42_0(){&#xD;&#xA;    predicate = predicate, &#xD;&#xA;}.predicate != null" vb="(() =&gt; {&#xD;&#xA;    DataGridExtensions.DataGridFilterColumnControl.&lt;&gt;c__DisplayClass42_0 local_0_prime = New DataGridExtensions.DataGridFilterColumnControl.&lt;&gt;c__DisplayClass42_0();&#xD;&#xA;    (local_0_prime.predicate = predicate)&#xD;&#xA;    return local_0_prime; })().predicate &lt;&gt; Nothing">new DataGridExtensions.DataGridFilterColumnControl.&lt;&gt;c__DisplayClass42_0(){
+                predicate = predicate,
+            }.predicate != null</requires>
+            <ensures csharp="Contract.Result&lt;System.Collections.Generic.IEnumerable&lt;string&gt;&gt;() != null" vb="Contract.Result(Of System.Collections.Generic.IEnumerable(Of String))() &lt;&gt; Nothing">result != null</ensures>
+        </member>
+        <member name="T:IT.WPF.JetBrains.DataGridFilterHost">
+            <summary>
+            This class hosts all filter columns and handles the filter changes on the data grid level.
+            This class will be attached to the DataGrid.
+            </summary>
+            <invariant>_dataGrid != null</invariant>
+            <invariant>_filterColumnControls != null</invariant>
+        </member>
+        <member name="E:IT.WPF.JetBrains.DataGridFilterHost.Filtering">
+            <summary>Occurs before new columns are filtered.</summary>
+        </member>
+        <member name="E:IT.WPF.JetBrains.DataGridFilterHost.FilterChanged">
+            <summary>Occurs when any filter has changed.</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterHost._dataGrid">
+            <summary>The data grid this filter is attached to.</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterHost._filterColumnControls">
+            <summary>Filter information about each column.</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterHost._deferFilterEvaluationTimer">
+            <summary> Timer to defer evaluation of the filter until user has stopped typing. </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterHost._isFilteringEnabled">
+            <summary>Flag indicating if filtering is currently enabled.</summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterHost._globalFilter">
+            <summary> A global filter that is applied in addition to the column filters. </summary>
+        </member>
+        <member name="F:IT.WPF.JetBrains.DataGridFilterHost._filteredColumns">
+            <summary>The columns that we are currently filtering.</summary>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterHost.FilterColumnControls">
+            <summary>
+            Gets a the active filter column controls for this data grid.
+            </summary>
+            <getter>
+              <ensures csharp="Contract.Result&lt;System.Collections.Generic.IList&lt;DataGridExtensions.DataGridFilterColumnControl&gt;&gt;() != null" vb="Contract.Result(Of System.Collections.Generic.IList(Of DataGridExtensions.DataGridFilterColumnControl))() &lt;&gt; Nothing">result != null</ensures>
+            </getter>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilterHost.DataGrid">
+            <summary>The data grid this filter is attached to.</summary>
+            <getter>
+              <ensures csharp="Contract.Result&lt;System.Windows.Controls.DataGrid&gt;() != null" vb="Contract.Result(Of System.Windows.Controls.DataGrid)() &lt;&gt; Nothing">result != null</ensures>
+            </getter>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterHost.#ctor(System.Windows.Controls.DataGrid)">
+            <summary>Create a new filter host for the given data grid.</summary>
+            <param name="dataGrid">The data grid to filter.</param>
+            <requires csharp="dataGrid != null" vb="dataGrid &lt;&gt; Nothing">dataGrid != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterHost.Clear">
+            <summary>Clear all existing filter conditions.</summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterHost.Enable(System.Boolean)">
+            <summary>
+            Enables filtering by showing or hiding the filter controls.
+            </summary>
+            <param name="value">if set to <c>true</c>, filters controls are visible and filtering is enabled.</param>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterHost.OnFilterChanged">
+            <summary>
+            When any filter condition has changed restart the evaluation timer to defer
+            the evaluation until the user has stopped typing.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterHost.AddColumn(IT.WPF.JetBrains.DataGridFilterColumnControl)">
+            <summary>Adds a new column.</summary>
+            <param name="filterColumn" />
+            <requires csharp="filterColumn != null" vb="filterColumn &lt;&gt; Nothing">filterColumn != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterHost.RemoveColumn(IT.WPF.JetBrains.DataGridFilterColumnControl)">
+            <summary>Removes an unloaded column.</summary>
+            <requires csharp="filterColumn != null" vb="filterColumn &lt;&gt; Nothing">filterColumn != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterHost.CreateContentFilter(System.Object)">
+            <summary>Creates a new content filter.</summary>
+            <ensures csharp="Contract.Result&lt;DataGridExtensions.IContentFilter&gt;() != null" vb="Contract.Result(Of DataGridExtensions.IContentFilter)() &lt;&gt; Nothing">result != null</ensures>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilterHost.EvaluateFilter">
+            <summary> Evaluates the current filters and applies the filtering to the collection view of the items control. </summary>
+        </member>
+        <member name="T:IT.WPF.JetBrains.DataGridFilteringEventArgs">
+            <summary>
+            Notification about additional columns to be filtered.
+            Clients can e.g. use this event to cache/preload column data in a different thread and/or display a wait cursor while filtering.
+            <remarks>
+            Clients may only cancel the processing when e.g. the data grid is about to be unloaded. Canceling the process of filtering
+            will cause the UI to be inconsistent.
+            </remarks></summary>
+        </member>
+        <member name="P:IT.WPF.JetBrains.DataGridFilteringEventArgs.Columns">
+            <summary>Gets the additional columns that will be filtered.</summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.DataGridFilteringEventArgs.#ctor(System.Collections.Generic.ICollection{System.Windows.Controls.DataGridColumn})">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:DataGridExtensions.DataGridFilteringEventArgs" /> class.
+            </summary>
+            <param name="columns">The additional columns that will be filtered.</param>
+        </member>
+        <member name="T:IT.WPF.JetBrains.IContentFilter">
+            <summary>Interface to be implemented by content filters.</summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.IContentFilter.IsMatch(System.Object)">
+            <summary>
+            Determines whether the specified value matches the condition of this filter.
+            </summary>
+            <param name="value">The content.</param>
+            <returns>
+            <c>true</c> if the specified value matches the condition; otherwise, <c>false</c>.
+                </returns>
+        </member>
+        <member name="T:IT.WPF.JetBrains.IContentFilterFactory">
+            <summary>
+            Interface to be implemented by a content filter factory.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.IContentFilterFactory.Create(System.Object)">
+            <summary>Creates the content filter for the specified content.</summary>
+            <param name="content">The content to create the filter for.</param>
+            <returns>The new filter.</returns>
+            <ensures csharp="Contract.Result&lt;DataGridExtensions.IContentFilter&gt;() != null" vb="Contract.Result(Of DataGridExtensions.IContentFilter)() &lt;&gt; Nothing">result != null</ensures>
+        </member>
+        <member name="M:IT.WPF.JetBrains.InternalExtensionMethods.Restart(System.Windows.Threading.DispatcherTimer)">
+            <summary>Restarts the specified timer.</summary>
+            <param name="timer">The timer.</param>
+            <requires csharp="timer != null" vb="timer &lt;&gt; Nothing">timer != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.InternalExtensionMethods.FindAncestorOrSelf``1(System.Windows.DependencyObject)">
+            <summary>
+            Walks the elements tree and returns the first element that derives from T.
+            </summary>
+            <typeparam name="T">The type to return.</typeparam>
+            <param name="item">The item to start search with.</param>
+            <returns>The element if found; otherwise null.</returns>
+        </member>
+        <member name="M:IT.WPF.JetBrains.InternalExtensionMethods.BeginInvoke(System.Windows.Media.Visual,System.Action)">
+            <summary>
+            Shortcut to <see cref="M:System.Windows.Threading.Dispatcher.BeginInvoke(System.Delegate,System.Object[])" /></summary>
+            <requires csharp="self != null" vb="self &lt;&gt; Nothing">self != null</requires>
+            <requires csharp="action != null" vb="action &lt;&gt; Nothing">action != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.InternalExtensionMethods.BeginInvoke(System.Windows.Media.Visual,System.Windows.Threading.DispatcherPriority,System.Action)">
+            <summary>
+            Shortcut to <see cref="M:System.Windows.Threading.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority,System.Delegate)" /></summary>
+            <requires csharp="self != null" vb="self &lt;&gt; Nothing">self != null</requires>
+            <requires csharp="action != null" vb="action &lt;&gt; Nothing">action != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.InternalExtensionMethods.SafeCast``1(System.Object)">
+            <summary>
+            Performs a cast from object to <typeparamref name="T" />, avoiding possible null violations if <typeparamref name="T" /> is a value type.
+            </summary>
+            <typeparam name="T">The target type</typeparam>
+            <param name="value">The value.</param>
+            <returns>The value casted to <typeparamref name="T" />, or <c>default(T)</c> if value is <c>null</c>.</returns>
+        </member>
+        <member name="M:IT.WPF.JetBrains.InternalExtensionMethods.GetValue``1(System.Windows.DependencyObject,System.Windows.DependencyProperty)">
+            <summary>
+            Gets the value of a dependency property using <see cref="M:DataGridExtensions.InternalExtensionMethods.SafeCast``1(System.Object)" />.
+            </summary>
+            <typeparam name="T" />
+            <param name="self">The dependency object from which to get the value.</param>
+            <param name="property">The property to get.</param>
+            <returns>The value safely casted to <typeparamref name="T" /></returns>
+            <requires csharp="self != null" vb="self &lt;&gt; Nothing">self != null</requires>
+            <requires csharp="property != null" vb="property &lt;&gt; Nothing">property != null</requires>
+        </member>
+        <member name="T:IT.WPF.JetBrains.IResourceLocator">
+            <summary>
+            A resource locator to override the windows internal mechanism of resource loading, e.g. because dgx is used in a plugin and multiple assemblies with resources might exist.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.IResourceLocator.FindResource(System.Windows.FrameworkElement,System.Object)">
+            <summary>Returns the resource for the specified resource key.</summary>
+            <param name="target">The target object</param>
+            <param name="resourceKey">The resource key.</param>
+            <returns>The resource.</returns>
+        </member>
+        <member name="T:IT.WPF.JetBrains.SimpleContentFilter">
+            <summary>
+            A content filter using a simple "contains" string comparison to match the content and the value.
+            </summary>
+            <invariant>_content != null</invariant>
+        </member>
+        <member name="M:IT.WPF.JetBrains.SimpleContentFilter.#ctor(System.String,System.StringComparison)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataGridExtensions.SimpleContentFilter" /> class.
+            </summary>
+            <param name="content">The content.</param>
+            <param name="stringComparison">The string comparison.</param>
+            <requires csharp="content != null" vb="content &lt;&gt; Nothing">content != null</requires>
+        </member>
+        <member name="M:IT.WPF.JetBrains.SimpleContentFilter.IsMatch(System.Object)">
+            <summary>
+            Determines whether the specified value matches the condition of this filter.
+            </summary>
+            <param name="value">The content.</param>
+            <returns>
+            <c>true</c> if the specified value matches the condition; otherwise, <c>false</c>.
+                </returns>
+        </member>
+        <member name="T:IT.WPF.JetBrains.SimpleContentFilterFactory">
+            <summary>
+            Factory to create a <see cref="T:DataGridExtensions.SimpleContentFilter" /></summary>
+        </member>
+        <member name="P:IT.WPF.JetBrains.SimpleContentFilterFactory.StringComparison">
+            <summary>Gets or sets the string comparison.</summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.SimpleContentFilterFactory.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataGridExtensions.SimpleContentFilterFactory" /> class.
+            </summary>
+        </member>
+        <member name="M:IT.WPF.JetBrains.SimpleContentFilterFactory.#ctor(System.StringComparison)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataGridExtensions.SimpleContentFilterFactory" /> class.
+            </summary>
+            <param name="stringComparison">The string comparison to use.</param>
+        </member>
+        <member name="M:IT.WPF.JetBrains.SimpleContentFilterFactory.Create(System.Object)">
+            <summary>Creates the content filter for the specified content.</summary>
+            <param name="content">The content to create the filter for.</param>
+            <returns>The new filter.</returns>
+            <ensures inheritedFrom="M:DataGridExtensions.IContentFilterFactory.Create(System.Object)" inheritedFromTypeName="IContentFilterFactory" csharp="Contract.Result&lt;DataGridExtensions.IContentFilter&gt;() != null" vb="Contract.Result(Of DataGridExtensions.IContentFilter)() &lt;&gt; Nothing">result != null</ensures>
         </member>
         <member name="T:IT.WPF.ValueWrapper`1">
             <summary>
@@ -1383,7 +2461,7 @@
         </member>
         <member name="T:IT.WPF.SelectorPropertyBase`1">
             <summary>
-            The base class for easy work with lists in WPF
+            Абстрактный Класс для удобной работы с выделением элементов ...
             </summary>
             <typeparam name="T"></typeparam>
         </member>
@@ -1402,6 +2480,13 @@
             Текущее значение
             </summary>
         </member>
+        <member name="M:IT.WPF.SelectorPropertyBase`1.SelectedItem_Set(`0,System.Boolean)">
+            <summary>
+            Устанавливает значение this._Current
+            </summary>
+            <param name="value">Значение</param>
+            <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
+        </member>
         <member name="P:IT.WPF.SelectorPropertyBase`1.HasSelected">
             <summary>
             Выбран ли какой-либо элемент в данный момент
@@ -1418,7 +2503,7 @@
             </summary>
             <param name="selectedChanged">Метод, запускаемый при возникновении события</param>
         </member>
-        <member name="M:IT.WPF.SelectorPropertyBase`1.Select(System.Predicate{`0},System.Boolean,System.Boolean)">
+        <member name="M:IT.WPF.SelectorPropertyBase`1.Select(System.Func{`0,System.Boolean},System.Boolean,System.Boolean)">
             <summary>
             Поиск по списку
             </summary>
@@ -1426,13 +2511,6 @@
             <param name="changeCurrent">Следует ли заполнять результатом свойство Current</param>
             <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
             <returns></returns>
-        </member>
-        <member name="M:IT.WPF.SelectorPropertyBase`1.SelectedItem_Set(`0,System.Boolean)">
-            <summary>
-            Устанавливает значение this._Current
-            </summary>
-            <param name="value">Значение</param>
-            <param name="isRaiseEvent">Следует ли вызывать SelectedChanged</param>
         </member>
         <member name="M:IT.WPF.SelectorPropertyBase`1.OnSelectedChanged(`0)">
             <summary>
@@ -1442,7 +2520,7 @@
         </member>
         <member name="T:IT.WPF.SelectorPropertyReadOnly`1">
             <summary>
-            Класс для удобной работы с выделением элементов списками
+            Класс для удобной работы с выделением элементов из константных списков
             </summary>
             <typeparam name="T"></typeparam>
         </member>
@@ -1451,7 +2529,7 @@
             Inner_List for SelectorPropertyBase
             </summary>
         </member>
-        <member name="P:IT.WPF.SelectorPropertyReadOnly`1.List">
+        <member name="P:IT.WPF.SelectorPropertyReadOnly`1.ItemsSource">
             <summary>
             List
             </summary>
@@ -1472,7 +2550,7 @@
         </member>
         <member name="P:IT.WPF.SelectorProperty`2.Inner_List">
             <summary>
-            Inner_List for SelectorPropertyBase
+            overrided abstract property Inner_List (for SelectorPropertyBase)
             </summary>
         </member>
         <member name="E:IT.WPF.SelectorProperty`2.ListChanged">
@@ -1499,6 +2577,13 @@
             <summary>
             Список
             </summary>
+        </member>
+        <member name="M:IT.WPF.SelectorProperty`2.List_Set(`0)">
+            <summary>
+            Проверка на отличие + Назначение list + запуск событий
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
         </member>
         <member name="P:IT.WPF.SelectorProperty`2.IsWorking">
             <summary>
@@ -1538,7 +2623,12 @@
             </summary>
             <param name="data">Данные для списка</param>
         </member>
-        <member name="M:IT.WPF.SelectorProperty`2.ResetAsync(`0)">
+        <member name="M:IT.WPF.SelectorProperty`2.Reset">
+            <summary>
+            Сброс списка, и принудительное заполнение из источника (из конструктора)
+            </summary>
+        </member>
+        <member name="M:IT.WPF.SelectorProperty`2.ResetAsync">
             <summary>
             Сброс списка, и принудительное заполнение из источника (из конструктора) в другом потоке
             </summary>
@@ -1561,15 +2651,9 @@
             </summary>
             <param name="value"></param>
         </member>
-        <member name="M:IT.WPF.SelectorProperty`2.GetList">
-            <summary>
-            Запускается исключительно из свойства List + запуск событий
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:IT.WPF.SelectorProperty`1">
             <summary>
-            Класс для удобной работы с выделением элементов списками
+            Класс для удобной работы с выделением элементов списками с использованием IEnumerable<T/>
             </summary>
             <typeparam name="T"></typeparam>
         </member>
@@ -1582,7 +2666,7 @@
         </member>
         <member name="T:IT.WPF.SelectorPropertyWPF`1">
             <summary>
-            Класс для удобной работы с выделением элементов списками с использованием ObservableCollection
+            Класс для удобной работы с выделением элементов списками с использованием ObservableCollection<T/>
             </summary>
             <typeparam name="T"></typeparam>
         </member>
@@ -1605,6 +2689,8 @@
             <summary>
             ctor
             </summary>
+            <param name="fillListAsync"></param>
+            <param name="onSelect"></param>
         </member>
         <member name="T:IT.WPF.MonitoredProperty`1">
             <summary>
@@ -1616,6 +2702,12 @@
             <summary>
             Срабатывает при изменении значения
             </summary>
+        </member>
+        <member name="M:IT.WPF.MonitoredProperty`1.OnValueChanged(`0)">
+            <summary>
+            Вызывается после изменения свойства
+            </summary>
+            <param name="v">Новое значение</param>
         </member>
         <member name="P:IT.WPF.MonitoredProperty`1.Value">
             <summary>
@@ -1634,17 +2726,72 @@
             </summary>
             <param name="valueChanged">Вызывается после изменения свойства</param>
         </member>
-        <member name="M:IT.WPF.MonitoredProperty`1.OnValueChanged(`0)">
-            <summary>
-            Вызывается после изменения свойства
-            </summary>
-            <param name="v">Новое значение</param>
-        </member>
         <member name="M:IT.WPF.MonitoredProperty`1.ToString">
             <summary>
             Вывод значения
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:IT.WPF.MonitoredProperty`1.op_Implicit(IT.WPF.MonitoredProperty{`0})~`0">
+            <summary>
+            Неявное преобразование данного класса в тип его значения (T Value)
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="T:IT.WPF.VM_BaseInit">
+            <summary>
+            базовый класс для ViewModel, упрощает привязку команд к целевому View
+            </summary>
+        </member>
+        <member name="P:IT.WPF.VM_BaseInit.IsDedug">
+            <summary> Позволяет скрывать, используемые для отладки, визуальные компоненты </summary>
+        </member>
+        <member name="F:IT.WPF.VM_BaseInit.CurrentWindow">
+            <summary> Окно, в котором находится привязанный View </summary>
+        </member>
+        <member name="F:IT.WPF.VM_BaseInit.CurrentUC">
+            <summary> привязанный View </summary>
+        </member>
+        <member name="M:IT.WPF.VM_BaseInit.#ctor">
+            <summary> .ctor </summary>
+        </member>
+        <member name="M:IT.WPF.VM_BaseInit.Init_Command_Core(System.Windows.Window)">
+            <summary> Запускается в момент назначения данного ViewModel в качестве View.DataContext </summary>
+            <param name="w">привязанный View</param>
+        </member>
+        <member name="M:IT.WPF.VM_BaseInit.Init_Command_Core(System.Windows.Controls.UserControl)">
+            <summary> Запускается в момент назначения данного ViewModel в качестве View.DataContext </summary>
+            <param name="uc">привязанный View</param>
+        </member>
+        <member name="M:IT.WPF.VM_BaseInit.Init_Command_Core(System.Windows.FrameworkElement)">
+            <summary> Запускается в момент назначения данного ViewModel в качестве View.DataContext </summary>
+            <param name="fe">привязанный View</param>
+        </member>
+        <member name="M:IT.WPF.VM_BaseInit.Init_Core">
+            <summary>
+            Для создания контролов. Так же запускает Init_Core_Async
+            </summary>
+        </member>
+        <member name="M:IT.WPF.VM_BaseInit.Init_Core_Async">
+            <summary>
+            Для фоновой загрузки данных
+            </summary>
+        </member>
+        <member name="M:IT.WPF.VM_BaseInit.MessageBoxShow(System.Windows.MessageBoxImage,System.String,System.Object[])">
+            <summary>
+            Облегченное использование MessageBox.Show()
+            </summary>
+            <param name="img">Иконка</param>
+            <param name="formatStr">Строка форматирования</param>
+            <param name="args">Параметры строки форматирования</param>
+        </member>
+        <member name="M:IT.WPF.VM_BaseInit.MessageBoxShow_Question(System.Windows.MessageBoxButton,System.String,System.Object[])">
+            <summary>
+            Облегченное использование MessageBox.Show()
+            </summary>
+            <param name="btn">Кнопки</param>
+            <param name="formatStr">Строка форматирования</param>
+            <param name="args">Параметры строки форматирования</param>
         </member>
         <member name="T:IT.WPF.WPF_Extentions">
             <summary>
@@ -1800,6 +2947,24 @@
             <param name="obj"></param>
             <returns></returns>
         </member>
+        <member name="M:IT.WPF.WPF_Extentions.SafeCast``1(System.Object,System.Boolean)">
+            <summary>
+            Performs a cast from object to <typeparamref name="T" />, avoiding possible null violations if <typeparamref name="T" /> is a value type.
+            </summary>
+            <typeparam name="T">The target type</typeparam>
+            <param name="o">The value.</param>
+            <param name="canReturnNull">The value.</param>
+            <returns>The value casted to <typeparamref name="T" />, or <c>default(T)</c> if value is <c>null</c>.</returns>
+        </member>
+        <member name="M:IT.WPF.WPF_Extentions.GetValue``1(System.Windows.DependencyObject,System.Windows.DependencyProperty)">
+            <summary> 
+            Gets the value of a dependency property using <see cref="M:IT.WPF.WPF_Extentions.SafeCast``1(System.Object)" />.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="dp"></param>
+            <returns></returns>
+        </member>
         <member name="M:IT.WPF.WPF_Extentions.ScrollToCenterOfView(System.Windows.Controls.ItemsControl,System.Object)">
             <summary>
             Прокрутка скрола
@@ -1915,7 +3080,7 @@
             Класс расширения методов логирования
             </summary>
         </member>
-        <member name="M:IT.LogExtentions.LogFmt(IT.ILog,System.Diagnostics.TraceLevel,System.Exception,System.String)">
+        <member name="M:IT.LogExtentions.LogFmt(IT.ILog,System.Diagnostics.TraceLevel,System.Exception,System.String,System.Object[])">
             <summary>
             Формирует сообщение
             </summary>
@@ -1923,6 +3088,7 @@
             <param name="level"></param>
             <param name="ex"></param>
             <param name="msg"></param>
+            <param name="args">Аргументы метода</param>
             <returns></returns>
         </member>
         <member name="M:IT.LogExtentions.Error(IT.ILog,System.Exception,System.String,System.Object[])">
@@ -1931,8 +3097,16 @@
             </summary>
             <param name="obj"></param>
             <param name="ex"></param>
-            <param name="formatStr"></param>
-            <param name="args"></param>
+            <param name="msg"></param>
+            <param name="args">Аргументы метода</param>
+        </member>
+        <member name="M:IT.LogExtentions.Error(IT.ILog,System.Exception,System.Object[])">
+            <summary>
+            Логирование соответствующего уровня
+            </summary>
+            <param name="obj"></param>
+            <param name="ex"></param>
+            <param name="args">Аргументы метода</param>
         </member>
         <member name="M:IT.LogExtentions.Warn(IT.ILog,System.Exception,System.String,System.Object[])">
             <summary>
@@ -1940,32 +3114,32 @@
             </summary>
             <param name="obj"></param>
             <param name="ex"></param>
-            <param name="formatStr"></param>
-            <param name="args"></param>
+            <param name="msg"></param>
+            <param name="args">Аргументы метода</param>
         </member>
         <member name="M:IT.LogExtentions.Info(IT.ILog,System.String,System.Object[])">
             <summary>
             Логирование соответствующего уровня
             </summary>
             <param name="obj"></param>
-            <param name="formatStr"></param>
-            <param name="args"></param>
+            <param name="msg"></param>
+            <param name="args">Аргументы метода</param>
         </member>
         <member name="M:IT.LogExtentions.Debug(IT.ILog,System.String,System.Object[])">
             <summary>
             Логирование соответствующего уровня
             </summary>
             <param name="obj"></param>
-            <param name="formatStr"></param>
-            <param name="args"></param>
+            <param name="msg"></param>
+            <param name="args">Аргументы метода</param>
         </member>
         <member name="M:IT.LogExtentions.Trace(IT.ILog,System.String,System.Object[])">
             <summary>
             Логирование соответствующего уровня
             </summary>
             <param name="obj"></param>
-            <param name="formatStr"></param>
-            <param name="args"></param>
+            <param name="msg"></param>
+            <param name="args">Аргументы метода</param>
         </member>
         <member name="T:IT.Contract">
             <summary>
@@ -2631,11 +3805,12 @@
             Включать название метода
             </summary>
         </member>
-        <member name="M:IT.Log.Logger.GetMsg_Ext(System.String)">
+        <member name="M:IT.Log.Logger.GetMsg_Ext(System.String,System.Object[])">
             <summary>
             Получает StackFrame и дополняет сообщение на онове информации StackFrame 
             </summary>
             <param name="msg"></param>
+            <param name="args">Аргументы метода</param>
             <returns></returns>
         </member>
         <member name="M:IT.Log.Logger.ToLogFmt(System.Object,System.Diagnostics.TraceLevel,System.Exception,System.String,System.Object[])">
@@ -2645,8 +3820,8 @@
             <param name="source">Класс-источник логирования</param>
             <param name="level"></param>
             <param name="ex"></param>
-            <param name="formatStr"></param>
-            <param name="args"></param>
+            <param name="msg"></param>
+            <param name="args">Аргументы метода</param>
         </member>
         <member name="M:IT.Log.Logger.ToLog(System.Object,System.Diagnostics.TraceLevel,System.String,System.Exception)">
             <summary>

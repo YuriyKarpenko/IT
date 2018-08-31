@@ -66,8 +66,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>..\..\Release\</OutputPath>
-    <DocumentationFile>..\..\Release\IT.XML</DocumentationFile>
+    <OutputPath>..\Release\</OutputPath>
+    <DocumentationFile>..\Release\IT.XML</DocumentationFile>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>true</Optimize>
