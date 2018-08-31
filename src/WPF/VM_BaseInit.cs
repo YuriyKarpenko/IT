@@ -13,6 +13,9 @@ namespace IT.WPF
 		void OnDataContext_Set(FrameworkElement e);
 	}
 
+	/// <summary>
+	/// базовый класс для ViewModel, упрощает привязку команд к целевому View
+	/// </summary>
 	public class VM_BaseInit : NotifyPropertyChangedBase, IDataContext, ILog//, IInvokable
 	{
 		#region static
@@ -44,12 +47,15 @@ namespace IT.WPF
 
 		#endregion
 
+		/// <summary> Позволяет скрывать, используемые для отладки, визуальные компоненты </summary>
 		public Visibility IsDedug { get; private set; }
 
+		/// <summary> Окно, в котором находится привязанный View </summary>
 		protected Window CurrentWindow = null;
+		/// <summary> привязанный View </summary>
 		protected UserControl CurrentUC = null;
 
-
+		/// <summary> .ctor </summary>
 		public VM_BaseInit()
 		{
 			this.Init();
@@ -57,8 +63,14 @@ namespace IT.WPF
 
 		#region Init
 
+		/// <summary> Запускается в момент назначения данного ViewModel в качестве View.DataContext </summary>
+		/// <param name="w">привязанный View</param>
 		protected virtual void Init_Command_Core(Window w) { }
+		/// <summary> Запускается в момент назначения данного ViewModel в качестве View.DataContext </summary>
+		/// <param name="uc">привязанный View</param>
 		protected virtual void Init_Command_Core(UserControl uc) { }
+		/// <summary> Запускается в момент назначения данного ViewModel в качестве View.DataContext </summary>
+		/// <param name="fe">привязанный View</param>
 		protected virtual void Init_Command_Core(FrameworkElement fe) { }
 
 		/// <summary>

@@ -13,7 +13,9 @@ using IT.WPF.Filters;
 
 namespace IT.WPF
 {
-
+	/// <summary>
+	/// управление поведением конкретного фильтра
+	/// </summary>
 	public interface IFilterHeaderControl
 	{
 		/// <summary> Признак активного состояния фильтра </summary>
@@ -61,6 +63,7 @@ namespace IT.WPF
 
 		/// <summary> реализация INotifyPropertyChanged </summary>
 		public event PropertyChangedEventHandler PropertyChanged;
+		/// <summary> реализация INotifyPropertyChanged </summary>
 		protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
 		#endregion
@@ -181,6 +184,7 @@ namespace IT.WPF
 		{
 			var list = (src ?? InternalSourceValues())
 				.Distinct()
+				.OrderBy(i => i)
 				.ToList();
 			list.Insert(0, NoFilterValue);
 			return list;
