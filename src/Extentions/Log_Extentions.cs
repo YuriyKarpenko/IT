@@ -40,9 +40,22 @@ namespace IT
 		/// <param name="msg"></param>
 		/// <param name="args">Аргументы метода</param>
 		[MethodImpl(MethodImplOptions.NoInlining)]
+		[Obsolete]
 		public static string Error(this ILog obj, Exception ex, string msg = null, params object[] args)
 		{
 			var s = LogFmt(obj, TraceLevel.Error, ex, msg, args);
+			return s;
+		}
+		/// <summary>
+		/// Логирование соответствующего уровня
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <param name="ex"></param>
+		/// <param name="args">Аргументы метода</param>
+		[MethodImpl(MethodImplOptions.NoInlining)]
+		public static string Error(this ILog obj, Exception ex, params object[] args)
+		{
+			var s = LogFmt(obj, TraceLevel.Error, ex, null, args);
 			return s;
 		}
 
