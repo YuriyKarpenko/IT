@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,12 +20,19 @@ namespace IT.WPF
 
 		static VM_BaseInit()
 		{
-			DependencyPropertyDescriptor propertyDescriptor = DependencyPropertyDescriptor.FromProperty(Control.DataContextProperty, typeof(ContentControl));
-			if (propertyDescriptor != null)
-				propertyDescriptor.DesignerCoerceValueCallback = new CoerceValueCallback(DataContext_CoerceValue);
+			DependencyPropertyDescriptor pd = DependencyPropertyDescriptor.FromProperty(FrameworkElement.DataContextProperty, typeof(ContentControl));
+			if (pd != null)
+			{
+				var oldSealed = UtilsReflection.GetPropertyValue(pd.Metadata, "Sealed");
+				UtilsReflection.SetPropertyValue(pd.Metadata, "Sealed", false);
 
-			var pm = new FrameworkPropertyMetadata(CallbackDataContext);
-			FrameworkElement.DataContextProperty.AddOwner(typeof(ContentControl), pm);
+				pd.Metadata.PropertyChangedCallback += CallbackDataContext;
+
+				UtilsReflection.SetPropertyValue(pd.Metadata, "Sealed", oldSealed);
+			}
+
+			//var pm = new FrameworkPropertyMetadata(CallbackDataContext);
+			//FrameworkElement.DataContextProperty.AddOwner(typeof(ContentControl), pm);
 		}
 		static void CallbackDataContext(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
@@ -35,14 +40,6 @@ namespace IT.WPF
 			{
 				vm.OnDataContext_Set(d as FrameworkElement);
 			}
-		}
-		static object DataContext_CoerceValue(DependencyObject d, object value)
-		{
-			if (value != null && value is IDataContext vm)
-			{
-				vm.OnDataContext_Set(d as FrameworkElement);
-			}
-			return value;
 		}
 
 		#endregion

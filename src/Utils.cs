@@ -596,7 +596,7 @@ namespace IT
 			if (obj != null)
 			{
 				var pName = propertyPath.Split('.')[0];
-				var pi = obj.GetType().GetProperty(pName);
+				var pi = obj.GetType().GetProperty(pName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 				if (pi != null)
 				{
 					if (pName == propertyPath)

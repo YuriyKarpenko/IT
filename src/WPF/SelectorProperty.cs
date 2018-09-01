@@ -539,9 +539,5 @@ namespace IT.WPF
 		//	});
 		//	return null;// base.GetList_Internal();
 		//}
-
-		//IEnumerator IEnumerable.GetEnumerator() => throw new NotImplementedException();	base
-
-		#endregion
 	}
 }
