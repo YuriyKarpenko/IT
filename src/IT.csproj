@@ -59,9 +59,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DebugType>full</DebugType>
-    <DocumentationFile>..\Release\IT.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">

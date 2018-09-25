@@ -477,6 +477,14 @@ namespace IT.WPF
 	public class SelectorProperty<T> : SelectorProperty<IEnumerable<T>, T>
 	{
 		/// <summary>
+		/// Упрощение использования с перечислениями
+		/// </summary>
+		/// <param name="selectedChanged"></param>
+		/// <returns></returns>
+		public static SelectorProperty<T> FromEnum(Action<T> selectedChanged = null) =>
+			new SelectorProperty<T>(() => Enum.GetValues(typeof(T)).Cast<T>(), selectedChanged);
+
+		/// <summary>
 		/// constructor
 		/// </summary>
 		/// <param name="getList"></param>

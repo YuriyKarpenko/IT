@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace IT.WPF
 {
@@ -13,7 +12,6 @@ namespace IT.WPF
 	/// Класс-обертка для свойств, которай отслеживает изменение свойства
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	[DebuggerDisplay("Value = {Value}")]
 	public class MonitoredProperty<T> : NotifyPropertyChangedBase, IMonitoredProperty<T>
 	{
 		/// <summary>
@@ -56,15 +54,33 @@ namespace IT.WPF
 			if (valueChanged != null)
 				this.ValueChanged += valueChanged;
 		}
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="value">Начальное значение</param>
+		/// <param name="valueChanged">Вызывается после изменения свойства</param>
+		public MonitoredProperty(T value, EventHandler<EventArgs<T>> valueChanged = null) : this(valueChanged)
+		{
+			_value = value;
+		}
 
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="valueChanged">Вызывается после изменения свойства</param>
-		public MonitoredProperty(Action<T> valueChanged)
+		public MonitoredProperty(Action<T> valueChanged = null)
 		{
 			if (valueChanged != null)
 				this.ValueChanged += (s, e) => valueChanged(e.Value);
+		}
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="value">Начальное значение</param>
+		/// <param name="valueChanged">Вызывается после изменения свойства</param>
+		public MonitoredProperty(T value, Action<T> valueChanged) : this(valueChanged)
+		{
+			_value = value;
 		}
 
 
@@ -77,10 +93,12 @@ namespace IT.WPF
 			return string.Format("MonitoredProperty<{0}> (Value = {1})", typeof(T).Name, this.Value);
 		}
 
-		/// <summary>
-		/// Неявное преобразование данного класса в тип его значения (T Value)
-		/// </summary>
+		/// <summary>Неявное преобразование данного класса в тип его значения (T Value)</summary>
 		/// <param name="v"></param>
-		public static implicit operator T (MonitoredProperty<T> v) => v.Value;
+		public static implicit operator T(MonitoredProperty<T> v) => v.Value;
+
+		///// <summary>Явное преобразование значения в данный класс(T Value)</summary>
+		///// <param name="v"></param>
+		//public static explicit operator MonitoredProperty<T>(T v) => new MonitoredProperty<T>(v);
 	}
 }

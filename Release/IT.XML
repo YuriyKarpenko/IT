@@ -2657,6 +2657,13 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="M:IT.WPF.SelectorProperty`1.FromEnum(System.Action{`0})">
+            <summary>
+            Упрощение использования с перечислениями
+            </summary>
+            <param name="selectedChanged"></param>
+            <returns></returns>
+        </member>
         <member name="M:IT.WPF.SelectorProperty`1.#ctor(System.Func{System.Collections.Generic.IEnumerable{`0}},System.Action{`0})">
             <summary>
             constructor
@@ -2720,10 +2727,24 @@
             </summary>
             <param name="valueChanged">Вызывается после изменения свойства</param>
         </member>
+        <member name="M:IT.WPF.MonitoredProperty`1.#ctor(`0,System.EventHandler{IT.EventArgs{`0}})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="value">Начальное значение</param>
+            <param name="valueChanged">Вызывается после изменения свойства</param>
+        </member>
         <member name="M:IT.WPF.MonitoredProperty`1.#ctor(System.Action{`0})">
             <summary>
             Конструктор
             </summary>
+            <param name="valueChanged">Вызывается после изменения свойства</param>
+        </member>
+        <member name="M:IT.WPF.MonitoredProperty`1.#ctor(`0,System.Action{`0})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="value">Начальное значение</param>
             <param name="valueChanged">Вызывается после изменения свойства</param>
         </member>
         <member name="M:IT.WPF.MonitoredProperty`1.ToString">
@@ -2733,9 +2754,7 @@
             <returns></returns>
         </member>
         <member name="M:IT.WPF.MonitoredProperty`1.op_Implicit(IT.WPF.MonitoredProperty{`0})~`0">
-            <summary>
-            Неявное преобразование данного класса в тип его значения (T Value)
-            </summary>
+            <summary>Неявное преобразование данного класса в тип его значения (T Value)</summary>
             <param name="v"></param>
         </member>
         <member name="T:IT.WPF.VM_BaseInit">
@@ -3920,6 +3939,36 @@
             </summary>
             <param name="index"></param>
             <param name="count"></param>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
         </member>
     </members>
 </doc>
